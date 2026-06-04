@@ -77,14 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Pi Billboard — AI Advertising for Live Venues" },
+      { name: "description", content: "Prepare and deploy AI-generated ads across stadiums and live venues worldwide. Powered by the Pi ecosystem." },
+      { name: "author", content: "Pi Billboard" },
+      { property: "og:title", content: "Pi Billboard — AI Advertising for Live Venues" },
+      { property: "og:description", content: "AI-prepared advertising across sports and live venues, paid in Pi." },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
       {

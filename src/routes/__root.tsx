@@ -81,9 +81,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "Prepare and deploy AI-generated ads across stadiums and live venues worldwide. Powered by the Pi ecosystem." },
       { name: "author", content: "Pi Billboard" },
       { property: "og:title", content: "Pi Billboard — AI Advertising for Live Venues" },
-      { property: "og:description", content: "AI-prepared advertising across sports and live venues, paid in Pi." },
+      { property: "og:description", content: "Prepare and deploy AI-generated ads across stadiums and live venues worldwide. Powered by the Pi ecosystem." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Pi Billboard — AI Advertising for Live Venues" },
+      { name: "twitter:description", content: "Prepare and deploy AI-generated ads across stadiums and live venues worldwide. Powered by the Pi ecosystem." },
     ],
     links: [
       {

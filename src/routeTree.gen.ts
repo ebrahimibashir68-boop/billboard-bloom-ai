@@ -13,6 +13,8 @@ import { Route as StudioRouteImport } from './routes/studio'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
+import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
 
 const StudioRoute = StudioRouteImport.update({
   id: '/studio',
@@ -34,18 +36,32 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
+  id: '/api/public/pi-complete',
+  path: '/api/public/pi-complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
+  id: '/api/public/pi-approve',
+  path: '/api/public/pi-approve',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
   '/studio': typeof StudioRoute
+  '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
+  '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
   '/studio': typeof StudioRoute
+  '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
+  '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +69,34 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
   '/studio': typeof StudioRoute
+  '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
+  '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analytics' | '/campaigns' | '/studio'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/campaigns'
+    | '/studio'
+    | '/api/public/pi-approve'
+    | '/api/public/pi-complete'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analytics' | '/campaigns' | '/studio'
-  id: '__root__' | '/' | '/analytics' | '/campaigns' | '/studio'
+  to:
+    | '/'
+    | '/analytics'
+    | '/campaigns'
+    | '/studio'
+    | '/api/public/pi-approve'
+    | '/api/public/pi-complete'
+  id:
+    | '__root__'
+    | '/'
+    | '/analytics'
+    | '/campaigns'
+    | '/studio'
+    | '/api/public/pi-approve'
+    | '/api/public/pi-complete'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +104,8 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   CampaignsRoute: typeof CampaignsRoute
   StudioRoute: typeof StudioRoute
+  ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
+  ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +138,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-complete': {
+      id: '/api/public/pi-complete'
+      path: '/api/public/pi-complete'
+      fullPath: '/api/public/pi-complete'
+      preLoaderRoute: typeof ApiPublicPiCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-approve': {
+      id: '/api/public/pi-approve'
+      path: '/api/public/pi-approve'
+      fullPath: '/api/public/pi-approve'
+      preLoaderRoute: typeof ApiPublicPiApproveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +160,8 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   CampaignsRoute: CampaignsRoute,
   StudioRoute: StudioRoute,
+  ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
+  ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

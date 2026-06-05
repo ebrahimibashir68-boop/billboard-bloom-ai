@@ -1,4 +1,7 @@
 import { Plus } from "lucide-react";
+import { useState } from "react";
+import { DepositPiDialog } from "./DepositPiDialog";
+import { useBalance } from "@/lib/pi/BalanceContext";
 
 export function TopBar({
   title,
@@ -7,6 +10,9 @@ export function TopBar({
   title: string;
   status?: { label: string; tone?: "live" | "neutral" };
 }) {
+  const [open, setOpen] = useState(false);
+  const { balance } = useBalance();
+
   return (
     <header className="h-16 border-b border-border flex items-center justify-between px-6 bg-background/60 backdrop-blur-md z-10 shrink-0">
       <div className="flex items-center gap-4 min-w-0">
@@ -26,13 +32,20 @@ export function TopBar({
           <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">
             Available Balance
           </span>
-          <span className="text-sm font-semibold text-brand">4,290.50 π</span>
+          <span className="text-sm font-semibold text-brand tabular-nums">
+            {balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} π
+          </span>
         </div>
-        <button className="bg-brand text-brand-foreground text-sm font-semibold py-2 px-3 flex items-center gap-2 rounded-lg ring-1 ring-brand/30 hover:brightness-110 transition">
+        <button
+          onClick={() => setOpen(true)}
+          className="bg-brand text-brand-foreground text-sm font-semibold py-2 px-3 flex items-center gap-2 rounded-lg ring-1 ring-brand/30 hover:brightness-110 transition"
+        >
           <Plus className="size-4" />
           Deposit Pi
         </button>
       </div>
+
+      <DepositPiDialog open={open} onClose={() => setOpen(false)} />
     </header>
   );
 }

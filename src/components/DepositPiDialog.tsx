@@ -29,11 +29,10 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
   const handleDeposit = async () => {
     if (amount <= 0) return;
     try {
-      // 1. Authenticate
-      if (!user) {
-        setStage({ kind: "auth" });
-        await authenticate();
-      }
+      // 1. Authenticate (always get a fresh access token for server calls)
+      setStage({ kind: "auth" });
+      const auth = await authenticate();
+      const accessToken = auth.accessToken;
 
       // 2. Create payment via SDK
       setStage({ kind: "creating" });
@@ -50,22 +49,31 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
             setStage({ kind: "approving", paymentId });
             const res = await fetch("/api/public/pi-approve", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
               body: JSON.stringify({ paymentId }),
             });
-            if (!res.ok) throw new Error(`Approval failed (${res.status})`);
+            if (!res.ok) throw new Error("Approval failed");
           },
           onReadyForServerCompletion: async (paymentId, txid) => {
             setStage({ kind: "completing", paymentId, txid });
             const res = await fetch("/api/public/pi-complete", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
               body: JSON.stringify({ paymentId, txid }),
             });
-            if (!res.ok) throw new Error(`Completion failed (${res.status})`);
-            add(amount);
-            setStage({ kind: "done", amount });
-            toast.success(`Deposited ${amount} π`, { description: `Tx ${txid.slice(0, 10)}…` });
+            if (!res.ok) throw new Error("Completion failed");
+            const data = (await res.json()) as { amount?: number };
+            // Credit only the server-verified amount — never the user input.
+            const verified = typeof data.amount === "number" ? data.amount : 0;
+            add(verified);
+            setStage({ kind: "done", amount: verified });
+            toast.success(`Deposited ${verified} π`, { description: `Tx ${txid.slice(0, 10)}…` });
           },
           onCancel: () => {
             setStage({ kind: "error", message: "Payment cancelled." });

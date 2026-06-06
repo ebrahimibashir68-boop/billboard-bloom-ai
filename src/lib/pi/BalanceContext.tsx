@@ -1,38 +1,24 @@
-import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
 
 interface BalanceCtx {
-  balance: number;
-  add: (amount: number) => void;
+  /** Server-verified Pi balance. `null` until the user authenticates and we fetch it. */
+  balance: number | null;
+  /** Update with an authoritative server value (e.g. from /api/public/pi-balance or /pi-complete). */
+  setBalance: (next: number) => void;
 }
 
 const Ctx = createContext<BalanceCtx | null>(null);
-const KEY = "pi_billboard_balance";
 
 export function BalanceProvider({ children }: { children: ReactNode }) {
-  const [balance, setBalance] = useState<number>(4290.5);
+  // Balance is server-owned. We do NOT persist or seed from localStorage —
+  // the client must never be the source of truth for credit balance.
+  const [balance, setBalanceState] = useState<number | null>(null);
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) setBalance(parseFloat(raw));
-    } catch {
-      // ignore
-    }
+  const setBalance = useCallback((next: number) => {
+    setBalanceState(Number.isFinite(next) ? next : 0);
   }, []);
 
-  const add = useCallback((amount: number) => {
-    setBalance((prev) => {
-      const next = prev + amount;
-      try {
-        localStorage.setItem(KEY, String(next));
-      } catch {
-        // ignore
-      }
-      return next;
-    });
-  }, []);
-
-  return <Ctx.Provider value={{ balance, add }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ balance, setBalance }}>{children}</Ctx.Provider>;
 }
 
 export function useBalance() {

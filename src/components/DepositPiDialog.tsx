@@ -34,6 +34,19 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
       const auth = await authenticate();
       const accessToken = auth.accessToken;
 
+      // Fetch current server-side balance so the UI reflects truth immediately.
+      void fetch("/api/public/pi-balance", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data: { balance?: number } | null) => {
+          if (data && typeof data.balance === "number") setBalance(data.balance);
+        })
+        .catch(() => {
+          // Non-fatal — balance will update after deposit completes.
+        });
+
       // 2. Create payment via SDK
       setStage({ kind: "creating" });
       const Pi = await loadPiSdk();

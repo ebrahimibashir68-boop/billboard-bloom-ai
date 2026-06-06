@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 const PI_API_BASE = "https://api.minepi.com/v2";
 
@@ -47,7 +48,7 @@ export const Route = createFileRoute("/api/public/pi-complete")({
             return Response.json({ error: "Payment service unavailable" }, { status: 503 });
           }
 
-          // Verify the payment belongs to the caller before completing.
+          // Look up the payment from Pi API to get authoritative amount + owner.
           const lookup = await fetch(`${PI_API_BASE}/payments/${paymentId}`, {
             headers: { Authorization: `Key ${key}` },
           });
@@ -56,13 +57,25 @@ export const Route = createFileRoute("/api/public/pi-complete")({
             console.error("[pi-complete] payment lookup failed", lookup.status, detail);
             return Response.json({ error: "Payment completion failed" }, { status: 400 });
           }
-          const payment = (await lookup.json()) as { user_uid?: string; amount?: number };
+          const payment = (await lookup.json()) as {
+            user_uid?: string;
+            amount?: number;
+            memo?: string;
+          };
           if (payment.user_uid !== user.uid) {
-            console.warn("[pi-complete] uid mismatch", { caller: user.uid, payment: payment.user_uid });
+            console.warn("[pi-complete] uid mismatch", {
+              caller: user.uid,
+              payment: payment.user_uid,
+            });
             return Response.json({ error: "Forbidden" }, { status: 403 });
           }
+          const verifiedAmount = typeof payment.amount === "number" ? payment.amount : 0;
+          if (verifiedAmount <= 0) {
+            return Response.json({ error: "Invalid payment amount" }, { status: 400 });
+          }
 
-          const res = await fetch(`${PI_API_BASE}/payments/${paymentId}/complete`, {
+          // Tell the Pi API we observed the txid and completed the payment.
+          const complete = await fetch(`${PI_API_BASE}/payments/${paymentId}/complete`, {
             method: "POST",
             headers: {
               Authorization: `Key ${key}`,
@@ -70,15 +83,75 @@ export const Route = createFileRoute("/api/public/pi-complete")({
             },
             body: JSON.stringify({ txid }),
           });
-          if (!res.ok) {
-            const detail = await res.text();
-            console.error("[pi-complete] complete failed", res.status, detail);
+          if (!complete.ok) {
+            const detail = await complete.text();
+            console.error("[pi-complete] complete failed", complete.status, detail);
             return Response.json({ error: "Payment completion failed" }, { status: 400 });
           }
 
-          // Return ONLY the server-verified amount from the Pi API — clients must
-          // credit balance from this, never from their own input.
-          return Response.json({ ok: true, amount: payment.amount ?? 0 });
+          // Idempotently record the payment. Conflict on payment_id means we've
+          // already credited this deposit — do not credit twice.
+          const { error: insertErr } = await supabaseAdmin
+            .from("pi_payments")
+            .insert({
+              payment_id: paymentId,
+              pi_uid: user.uid,
+              txid,
+              amount: verifiedAmount,
+              memo: payment.memo ?? null,
+            });
+
+          let alreadyCredited = false;
+          if (insertErr) {
+            // Postgres unique_violation
+            if ((insertErr as { code?: string }).code === "23505") {
+              alreadyCredited = true;
+            } else {
+              console.error("[pi-complete] payment insert failed", insertErr);
+              return Response.json({ error: "Internal error" }, { status: 500 });
+            }
+          }
+
+          // Upsert + increment the balance only if this was a new payment.
+          if (!alreadyCredited) {
+            const { data: current, error: readErr } = await supabaseAdmin
+              .from("pi_balances")
+              .select("balance")
+              .eq("pi_uid", user.uid)
+              .maybeSingle();
+            if (readErr) {
+              console.error("[pi-complete] balance read failed", readErr);
+              return Response.json({ error: "Internal error" }, { status: 500 });
+            }
+            const next = Number(current?.balance ?? 0) + verifiedAmount;
+            const { error: upsertErr } = await supabaseAdmin
+              .from("pi_balances")
+              .upsert(
+                {
+                  pi_uid: user.uid,
+                  pi_username: user.username,
+                  balance: next,
+                },
+                { onConflict: "pi_uid" },
+              );
+            if (upsertErr) {
+              console.error("[pi-complete] balance upsert failed", upsertErr);
+              return Response.json({ error: "Internal error" }, { status: 500 });
+            }
+          }
+
+          // Return the authoritative new balance for the client to display.
+          const { data: latest } = await supabaseAdmin
+            .from("pi_balances")
+            .select("balance")
+            .eq("pi_uid", user.uid)
+            .maybeSingle();
+          return Response.json({
+            ok: true,
+            amount: verifiedAmount,
+            balance: Number(latest?.balance ?? 0),
+            alreadyCredited,
+          });
         } catch (err) {
           console.error("[pi-complete] unexpected error", err);
           return Response.json({ error: "Internal error" }, { status: 500 });

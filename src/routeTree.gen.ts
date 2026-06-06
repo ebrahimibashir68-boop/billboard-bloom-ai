@@ -14,6 +14,7 @@ import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
+import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
 
 const StudioRoute = StudioRouteImport.update({
@@ -41,6 +42,11 @@ const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
   path: '/api/public/pi-complete',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiBalanceRoute = ApiPublicPiBalanceRouteImport.update({
+  id: '/api/public/pi-balance',
+  path: '/api/public/pi-balance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
   id: '/api/public/pi-approve',
   path: '/api/public/pi-approve',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/campaigns': typeof CampaignsRoute
   '/studio': typeof StudioRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
+  '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/campaigns': typeof CampaignsRoute
   '/studio': typeof StudioRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
+  '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/campaigns': typeof CampaignsRoute
   '/studio': typeof StudioRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
+  '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRouteTypes {
@@ -80,6 +89,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/studio'
     | '/api/public/pi-approve'
+    | '/api/public/pi-balance'
     | '/api/public/pi-complete'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -88,6 +98,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/studio'
     | '/api/public/pi-approve'
+    | '/api/public/pi-balance'
     | '/api/public/pi-complete'
   id:
     | '__root__'
@@ -96,6 +107,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/studio'
     | '/api/public/pi-approve'
+    | '/api/public/pi-balance'
     | '/api/public/pi-complete'
   fileRoutesById: FileRoutesById
 }
@@ -105,6 +117,7 @@ export interface RootRouteChildren {
   CampaignsRoute: typeof CampaignsRoute
   StudioRoute: typeof StudioRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
+  ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
 }
 
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiCompleteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-balance': {
+      id: '/api/public/pi-balance'
+      path: '/api/public/pi-balance'
+      fullPath: '/api/public/pi-balance'
+      preLoaderRoute: typeof ApiPublicPiBalanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-approve': {
       id: '/api/public/pi-approve'
       path: '/api/public/pi-approve'
@@ -161,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   CampaignsRoute: CampaignsRoute,
   StudioRoute: StudioRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
+  ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
 }
 export const routeTree = rootRouteImport

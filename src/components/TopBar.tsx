@@ -33,7 +33,9 @@ export function TopBar({
             Available Balance
           </span>
           <span className="text-sm font-semibold text-brand tabular-nums">
-            {balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} π
+            {balance === null
+              ? "— π"
+              : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} π`}
           </span>
         </div>
         <button

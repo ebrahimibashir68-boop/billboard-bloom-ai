@@ -17,7 +17,7 @@ type Stage =
 
 export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { status, user, authenticate, loadPiSdk } = usePi();
-  const { add } = useBalance();
+  const { setBalance } = useBalance();
   const [amount, setAmount] = useState<number>(50);
   const [memo, setMemo] = useState("Pi Billboard ad credit");
   const [stage, setStage] = useState<Stage>({ kind: "idle" });
@@ -33,6 +33,19 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
       setStage({ kind: "auth" });
       const auth = await authenticate();
       const accessToken = auth.accessToken;
+
+      // Fetch current server-side balance so the UI reflects truth immediately.
+      void fetch("/api/public/pi-balance", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+        .then((r) => (r.ok ? r.json() : null))
+        .then((data: { balance?: number } | null) => {
+          if (data && typeof data.balance === "number") setBalance(data.balance);
+        })
+        .catch(() => {
+          // Non-fatal — balance will update after deposit completes.
+        });
 
       // 2. Create payment via SDK
       setStage({ kind: "creating" });
@@ -68,10 +81,10 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
               body: JSON.stringify({ paymentId, txid }),
             });
             if (!res.ok) throw new Error("Completion failed");
-            const data = (await res.json()) as { amount?: number };
-            // Credit only the server-verified amount — never the user input.
+            const data = (await res.json()) as { amount?: number; balance?: number };
+            // Use ONLY the server-verified amount + balance. Never the client input.
             const verified = typeof data.amount === "number" ? data.amount : 0;
-            add(verified);
+            if (typeof data.balance === "number") setBalance(data.balance);
             setStage({ kind: "done", amount: verified });
             toast.success(`Deposited ${verified} π`, { description: `Tx ${txid.slice(0, 10)}…` });
           },

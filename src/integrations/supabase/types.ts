@@ -14,7 +14,57 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      pi_balances: {
+        Row: {
+          balance: number
+          created_at: string
+          pi_uid: string
+          pi_username: string
+          updated_at: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          pi_uid: string
+          pi_username: string
+          updated_at?: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          pi_uid?: string
+          pi_username?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      pi_payments: {
+        Row: {
+          amount: number
+          created_at: string
+          memo: string | null
+          payment_id: string
+          pi_uid: string
+          txid: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          memo?: string | null
+          payment_id: string
+          pi_uid: string
+          txid: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          memo?: string | null
+          payment_id?: string
+          pi_uid?: string
+          txid?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

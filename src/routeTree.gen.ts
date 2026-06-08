@@ -14,6 +14,7 @@ import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
+import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
 
@@ -42,6 +43,11 @@ const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
   path: '/api/public/pi-complete',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiCampaignsRoute = ApiPublicPiCampaignsRouteImport.update({
+  id: '/api/public/pi-campaigns',
+  path: '/api/public/pi-campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiBalanceRoute = ApiPublicPiBalanceRouteImport.update({
   id: '/api/public/pi-balance',
   path: '/api/public/pi-balance',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/studio': typeof StudioRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/studio': typeof StudioRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/api/public/pi-approve'
     | '/api/public/pi-balance'
+    | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/api/public/pi-approve'
     | '/api/public/pi-balance'
+    | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/studio'
     | '/api/public/pi-approve'
     | '/api/public/pi-balance'
+    | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   StudioRoute: typeof StudioRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
+  ApiPublicPiCampaignsRoute: typeof ApiPublicPiCampaignsRoute
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
 }
 
@@ -158,6 +171,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiCompleteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-campaigns': {
+      id: '/api/public/pi-campaigns'
+      path: '/api/public/pi-campaigns'
+      fullPath: '/api/public/pi-campaigns'
+      preLoaderRoute: typeof ApiPublicPiCampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-balance': {
       id: '/api/public/pi-balance'
       path: '/api/public/pi-balance'
@@ -182,18 +202,9 @@ const rootRouteChildren: RootRouteChildren = {
   StudioRoute: StudioRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,
+  ApiPublicPiCampaignsRoute: ApiPublicPiCampaignsRoute,
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

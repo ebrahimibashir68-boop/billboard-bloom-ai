@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      ad_campaigns: {
+        Row: {
+          cost_pi: number
+          created_at: string
+          duration_days: number
+          ends_at: string
+          id: string
+          pi_uid: string
+          pi_username: string
+          placement: string
+          starts_at: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          cost_pi: number
+          created_at?: string
+          duration_days: number
+          ends_at: string
+          id?: string
+          pi_uid: string
+          pi_username: string
+          placement: string
+          starts_at?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          cost_pi?: number
+          created_at?: string
+          duration_days?: number
+          ends_at?: string
+          id?: string
+          pi_uid?: string
+          pi_username?: string
+          placement?: string
+          starts_at?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       pi_balances: {
         Row: {
           balance: number
@@ -70,7 +115,20 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      purchase_ad_campaign: {
+        Args: {
+          p_cost_pi: number
+          p_duration_days: number
+          p_pi_uid: string
+          p_pi_username: string
+          p_placement: string
+          p_title: string
+        }
+        Returns: {
+          campaign_id: string
+          new_balance: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

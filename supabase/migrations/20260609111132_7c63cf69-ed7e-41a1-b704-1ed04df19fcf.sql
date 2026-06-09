@@ -1,0 +1,2 @@
+REVOKE EXECUTE ON FUNCTION public.credit_pi_balance(text, text, numeric) FROM PUBLIC, anon, authenticated;
+REVOKE EXECUTE ON FUNCTION public.purchase_ad_campaign(text, text, text, text, integer, numeric) FROM PUBLIC, anon, authenticated;

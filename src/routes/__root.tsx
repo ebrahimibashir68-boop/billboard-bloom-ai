@@ -88,6 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Pi Billboard — AI Advertising for Live Venues" },
       { name: "twitter:description", content: "Prepare and deploy AI-generated ads across stadiums and live venues worldwide. Powered by the Pi ecosystem." },
+      { name: "google-site-verification", content: "XPIwI92E0qc6n1t0heXo1wFtDKitHDE6v0-SuUtmKNA" },
     ],
     links: [
       {

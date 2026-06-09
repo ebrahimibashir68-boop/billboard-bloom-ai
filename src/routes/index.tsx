@@ -51,7 +51,7 @@ function Dashboard() {
     <AppShell>
       <TopBar title="Global Node Network" status={{ label: "1,402 Active Venues" }} />
 
-      <div className="flex-1 flex flex-col lg:flex-row relative lg:overflow-hidden">
+      <div className="flex-1 flex flex-col lg:flex-row relative lg:overflow-auto overflow-x-auto touch-pan-x touch-pan-y [touch-action:pinch-zoom_pan-x_pan-y]">
         <div className="absolute inset-0 z-0 pointer-events-none">
           <img
             src={worldMap}

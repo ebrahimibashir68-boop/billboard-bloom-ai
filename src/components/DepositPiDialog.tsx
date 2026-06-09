@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { Loader2, X, ShieldCheck, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { usePi } from "@/lib/pi/usePi";
@@ -21,6 +21,8 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
   const [amount, setAmount] = useState<number>(50);
   const [memo, setMemo] = useState("Pi Billboard ad credit");
   const [stage, setStage] = useState<Stage>({ kind: "idle" });
+  const amountId = useId();
+  const memoId = useId();
 
   if (!open) return null;
 
@@ -122,7 +124,7 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
             <div className="size-7 rounded-full bg-brand flex items-center justify-center text-brand-foreground font-bold">π</div>
             <h2 className="text-base font-semibold">Deposit Pi</h2>
           </div>
-          <button onClick={close} disabled={busy} className="text-muted-foreground hover:text-foreground disabled:opacity-30">
+          <button onClick={close} disabled={busy} aria-label="Close deposit dialog" className="text-muted-foreground hover:text-foreground disabled:opacity-30">
             <X className="size-4" />
           </button>
         </div>
@@ -145,9 +147,10 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
           )}
 
           <div>
-            <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount</label>
+            <label htmlFor={amountId} className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount</label>
             <div className="mt-2 flex items-center gap-2 p-3 bg-background border border-border rounded-xl">
               <input
+                id={amountId}
                 type="number"
                 min={0.1}
                 step={0.1}
@@ -175,8 +178,9 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
           </div>
 
           <div>
-            <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Memo</label>
+            <label htmlFor={memoId} className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Memo</label>
             <input
+              id={memoId}
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
               maxLength={28}

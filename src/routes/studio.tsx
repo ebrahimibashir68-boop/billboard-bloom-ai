@@ -10,6 +10,12 @@ export const Route = createFileRoute("/studio")({
     meta: [
       { title: "AI Creative Studio — Pi Billboard" },
       { name: "description", content: "Compose ad creatives with AI and preview them on real stadium billboard mockups." },
+      { property: "og:title", content: "AI Creative Studio — Pi Billboard" },
+      { property: "og:description", content: "Prompt the AI engine, choose tone and ratio, and preview stadium-ready ads in seconds." },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/studio" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/studio" },
     ],
   }),
   component: Studio,

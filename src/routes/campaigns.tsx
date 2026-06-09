@@ -12,6 +12,12 @@ export const Route = createFileRoute("/campaigns")({
     meta: [
       { title: "Campaigns — Pi Billboard" },
       { name: "description", content: "Live and scheduled advertising campaigns across the Pi Billboard network." },
+      { property: "og:title", content: "Campaigns — Pi Billboard" },
+      { property: "og:description", content: "Launch, monitor, and manage paid Pi ad campaigns running on stadium billboards worldwide." },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/campaigns" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/campaigns" },
     ],
   }),
   component: Campaigns,

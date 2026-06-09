@@ -8,6 +8,12 @@ export const Route = createFileRoute("/analytics")({
     meta: [
       { title: "Analytics — Pi Billboard" },
       { name: "description", content: "Network-wide performance, spend, and reach for Pi Billboard campaigns." },
+      { property: "og:title", content: "Analytics — Pi Billboard" },
+      { property: "og:description", content: "Live telemetry: impressions, spend, and reach across every venue on the Pi Billboard network." },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/analytics" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/analytics" },
     ],
   }),
   component: Analytics,

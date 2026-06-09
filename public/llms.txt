@@ -1,0 +1,12 @@
+# Pi Billboard
+
+> AI-powered advertising network for stadiums and live venues worldwide, paid in Pi.
+
+Pi Billboard lets advertisers generate stadium-ready creative with AI and deploy campaigns across a global network of live sports and entertainment venues, all settled in Pi cryptocurrency.
+
+## Pages
+
+- [Dashboard](/): Global node network overview, AI Creative Engine, live venue inventory.
+- [AI Creative Studio](/studio): Compose ad creatives with AI and preview them on real stadium billboard mockups.
+- [Campaigns](/campaigns): Live and scheduled ad campaigns running on the network.
+- [Analytics](/analytics): Network-wide impressions, spend, reach, and venue performance.

@@ -19,6 +19,11 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "AI-prepared advertising across sports and live venues, paid in Pi.",
       },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/" },
+    ],
+    links: [
+      { rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/" },
+      { rel: "preload", as: "image", href: worldMap, fetchpriority: "high" },
     ],
   }),
   component: Dashboard,
@@ -58,6 +63,7 @@ function Dashboard() {
             alt="World map of active billboard venues"
             width={1920}
             height={1088}
+            fetchPriority="high"
             className="w-full h-full object-cover opacity-50"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-background/80" />

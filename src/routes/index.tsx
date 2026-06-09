@@ -151,8 +151,8 @@ function Dashboard() {
         </div>
 
         {/* Right floating column */}
-        <div className="relative z-10 flex-1 flex flex-col p-6 items-end justify-end pointer-events-none">
-          <div className="w-80 flex flex-col gap-4 pointer-events-auto">
+        <div className="relative z-10 flex-1 flex flex-col p-4 sm:p-6 items-stretch lg:items-end justify-end lg:h-[calc(100vh-4rem)] lg:overflow-y-auto">
+          <div className="w-full lg:w-80 flex flex-col gap-4 lg:mt-auto">
             <div className="bg-surface border border-border p-4 rounded-2xl ring-1 ring-white/5">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">

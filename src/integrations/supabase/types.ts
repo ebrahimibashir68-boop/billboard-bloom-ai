@@ -115,6 +115,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      credit_pi_balance: {
+        Args: { p_amount: number; p_pi_uid: string; p_pi_username: string }
+        Returns: number
+      }
       purchase_ad_campaign: {
         Args: {
           p_cost_pi: number

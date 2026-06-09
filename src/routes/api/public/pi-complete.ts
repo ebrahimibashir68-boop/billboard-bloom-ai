@@ -112,30 +112,17 @@ export const Route = createFileRoute("/api/public/pi-complete")({
             }
           }
 
-          // Upsert + increment the balance only if this was a new payment.
+          // Atomically increment the balance only if this was a new payment.
+          // Using a SECURITY DEFINER RPC ensures concurrent deposits for the
+          // same pi_uid cannot race on a read-modify-write and silently lose Pi.
           if (!alreadyCredited) {
-            const { data: current, error: readErr } = await supabaseAdmin
-              .from("pi_balances")
-              .select("balance")
-              .eq("pi_uid", user.uid)
-              .maybeSingle();
-            if (readErr) {
-              console.error("[pi-complete] balance read failed", readErr);
-              return Response.json({ error: "Internal error" }, { status: 500 });
-            }
-            const next = Number(current?.balance ?? 0) + verifiedAmount;
-            const { error: upsertErr } = await supabaseAdmin
-              .from("pi_balances")
-              .upsert(
-                {
-                  pi_uid: user.uid,
-                  pi_username: user.username,
-                  balance: next,
-                },
-                { onConflict: "pi_uid" },
-              );
-            if (upsertErr) {
-              console.error("[pi-complete] balance upsert failed", upsertErr);
+            const { error: rpcErr } = await supabaseAdmin.rpc("credit_pi_balance", {
+              p_pi_uid: user.uid,
+              p_pi_username: user.username,
+              p_amount: verifiedAmount,
+            });
+            if (rpcErr) {
+              console.error("[pi-complete] balance credit failed", rpcErr);
               return Response.json({ error: "Internal error" }, { status: 500 });
             }
           }

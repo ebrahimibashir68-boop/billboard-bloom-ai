@@ -51,8 +51,8 @@ function Dashboard() {
     <AppShell>
       <TopBar title="Global Node Network" status={{ label: "1,402 Active Venues" }} />
 
-      <div className="flex-1 flex relative overflow-hidden">
-        <div className="absolute inset-0 z-0">
+      <div className="flex-1 flex flex-col lg:flex-row relative lg:overflow-hidden">
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <img
             src={worldMap}
             alt="World map of active billboard venues"
@@ -64,7 +64,7 @@ function Dashboard() {
         </div>
 
         {/* Left panel: AI Creator + Venues */}
-        <div className="relative z-10 w-[26rem] p-6 flex flex-col gap-6 h-full overflow-y-auto shrink-0">
+        <div className="relative z-10 w-full lg:w-[26rem] p-4 sm:p-6 flex flex-col gap-6 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto shrink-0">
           <section className="bg-surface/80 backdrop-blur-md rounded-2xl ring-1 ring-white/5 border border-border p-5 flex flex-col gap-4">
             <div className="flex flex-col gap-1">
               <h2 className="text-sm font-medium flex items-center gap-2">
@@ -151,8 +151,8 @@ function Dashboard() {
         </div>
 
         {/* Right floating column */}
-        <div className="relative z-10 flex-1 flex flex-col p-6 items-end justify-end pointer-events-none">
-          <div className="w-80 flex flex-col gap-4 pointer-events-auto">
+        <div className="relative z-10 flex-1 flex flex-col p-4 sm:p-6 items-stretch lg:items-end justify-end lg:h-[calc(100vh-4rem)] lg:overflow-y-auto">
+          <div className="w-full lg:w-80 flex flex-col gap-4 lg:mt-auto">
             <div className="bg-surface border border-border p-4 rounded-2xl ring-1 ring-white/5">
               <div className="flex items-center justify-between mb-4">
                 <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">

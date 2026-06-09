@@ -13,8 +13,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="flex h-screen w-full bg-background text-foreground overflow-hidden">
-      <nav className="w-16 flex flex-col items-center py-6 border-r border-border bg-background gap-8 shrink-0">
+    <div className="flex min-h-screen w-full bg-background text-foreground">
+      <nav className="w-16 flex flex-col items-center py-6 border-r border-border bg-background gap-8 shrink-0 sticky top-0 h-screen">
         <Link to="/" className="size-10 rounded-xl bg-brand flex items-center justify-center shadow-[0_0_24px_-4px_var(--color-brand)]">
           <div className="size-6 border-2 border-background rounded-full flex items-center justify-center font-bold text-brand-foreground text-xs">π</div>
         </Link>

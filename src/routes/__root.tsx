@@ -95,6 +95,28 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "Organization",
+              name: "Pi Billboard",
+              url: "https://billboard-bloom-ai.lovable.app",
+            },
+            {
+              "@type": "WebSite",
+              name: "Pi Billboard",
+              url: "https://billboard-bloom-ai.lovable.app",
+              description:
+                "AI-powered advertising network for stadiums and live venues worldwide, paid in Pi.",
+            },
+          ],
+        }),
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,

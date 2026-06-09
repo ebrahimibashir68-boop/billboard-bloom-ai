@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import { Loader2, X, ShieldCheck, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { usePi } from "@/lib/pi/usePi";
@@ -27,6 +27,8 @@ export function PurchaseCampaignDialog({
   const [placement, setPlacement] = useState<Placement>("stadium");
   const [days, setDays] = useState(7);
   const [stage, setStage] = useState<Stage>({ kind: "idle" });
+  const titleId = useId();
+  const daysId = useId();
 
   const cost = useMemo(() => computeCost(placement, days), [placement, days]);
   const busy = stage.kind === "auth" || stage.kind === "charging";
@@ -76,7 +78,7 @@ export function PurchaseCampaignDialog({
       >
         <div className="flex items-center justify-between p-5 border-b border-border">
           <h2 className="text-base font-semibold">New Campaign</h2>
-          <button onClick={close} disabled={busy} className="text-muted-foreground hover:text-foreground disabled:opacity-30">
+          <button onClick={close} disabled={busy} aria-label="Close new campaign dialog" className="text-muted-foreground hover:text-foreground disabled:opacity-30">
             <X className="size-4" />
           </button>
         </div>
@@ -90,8 +92,9 @@ export function PurchaseCampaignDialog({
           )}
 
           <div>
-            <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Campaign name</label>
+            <label htmlFor={titleId} className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Campaign name</label>
             <input
+              id={titleId}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               maxLength={80}
@@ -124,10 +127,11 @@ export function PurchaseCampaignDialog({
           </div>
 
           <div>
-            <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
+            <label htmlFor={daysId} className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
               Duration · {days} day{days === 1 ? "" : "s"}
             </label>
             <input
+              id={daysId}
               type="range"
               min={1}
               max={30}

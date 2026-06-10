@@ -139,7 +139,13 @@ function Dashboard() {
             </div>
             <div className="divide-y divide-border/60 mt-3">
               {filtered.map((v) => (
-                <div key={v.code} className="p-4 flex items-center gap-3 hover:bg-white/5 cursor-pointer">
+                <div
+                  key={v.code}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`${v.name} — ${v.next} at ${v.rate}`}
+                  className="p-4 flex items-center gap-3 hover:bg-white/5 cursor-pointer"
+                >
                   <div className="size-10 bg-surface-elevated rounded-lg shrink-0 flex items-center justify-center text-xs font-semibold">
                     {v.code}
                   </div>

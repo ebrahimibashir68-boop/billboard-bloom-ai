@@ -14,6 +14,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
 import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
@@ -44,6 +45,12 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GuideStadiumAdvertisingCostsRoute =
+  GuideStadiumAdvertisingCostsRouteImport.update({
+    id: '/guide/stadium-advertising-costs',
+    path: '/guide/stadium-advertising-costs',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
   id: '/api/public/pi-complete',
   path: '/api/public/pi-complete',
@@ -71,6 +78,7 @@ export interface FileRoutesByFullPath {
   '/campaigns': typeof CampaignsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
   '/campaigns': typeof CampaignsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
@@ -94,6 +103,7 @@ export interface FileRoutesById {
   '/campaigns': typeof CampaignsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/sitemap.xml'
     | '/studio'
+    | '/guide/stadium-advertising-costs'
     | '/api/public/pi-approve'
     | '/api/public/pi-balance'
     | '/api/public/pi-campaigns'
@@ -118,6 +129,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/sitemap.xml'
     | '/studio'
+    | '/guide/stadium-advertising-costs'
     | '/api/public/pi-approve'
     | '/api/public/pi-balance'
     | '/api/public/pi-campaigns'
@@ -129,6 +141,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/sitemap.xml'
     | '/studio'
+    | '/guide/stadium-advertising-costs'
     | '/api/public/pi-approve'
     | '/api/public/pi-balance'
     | '/api/public/pi-campaigns'
@@ -141,6 +154,7 @@ export interface RootRouteChildren {
   CampaignsRoute: typeof CampaignsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
+  GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
   ApiPublicPiCampaignsRoute: typeof ApiPublicPiCampaignsRoute
@@ -184,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/guide/stadium-advertising-costs': {
+      id: '/guide/stadium-advertising-costs'
+      path: '/guide/stadium-advertising-costs'
+      fullPath: '/guide/stadium-advertising-costs'
+      preLoaderRoute: typeof GuideStadiumAdvertisingCostsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-complete': {
       id: '/api/public/pi-complete'
       path: '/api/public/pi-complete'
@@ -221,6 +242,7 @@ const rootRouteChildren: RootRouteChildren = {
   CampaignsRoute: CampaignsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
+  GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,
   ApiPublicPiCampaignsRoute: ApiPublicPiCampaignsRoute,

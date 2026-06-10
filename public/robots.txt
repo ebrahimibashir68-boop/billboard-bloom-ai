@@ -3,4 +3,4 @@ Allow: /
 Disallow: /api/
 Disallow: /lovable/
 
-Sitemap: https://billboard-bloom-ai.lovable.app/sitemap.xml
+Sitemap: https://hezha.com/sitemap.xml

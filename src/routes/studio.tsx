@@ -124,7 +124,7 @@ function Studio() {
               <div key={i} className="bg-surface border border-border rounded-xl overflow-hidden">
                 <img
                   src={billboardPreview}
-                  alt={`Variant ${i}`}
+                  alt={`Stadium billboard creative variant ${i} — AI-generated ad mockup`}
                   width={1024}
                   height={576}
                   loading="lazy"

@@ -33,7 +33,8 @@ export const Route = createFileRoute("/api/public/pi-complete")({
           const body = (await request.json()) as { paymentId?: string; txid?: string };
           const paymentId = body.paymentId?.trim();
           const txid = body.txid?.trim();
-          if (!paymentId || !txid || paymentId.length > 128 || txid.length > 128) {
+          const SAFE_ID = /^[a-zA-Z0-9_-]{1,128}$/;
+          if (!paymentId || !txid || !SAFE_ID.test(paymentId) || !SAFE_ID.test(txid)) {
             return Response.json({ error: "Invalid request" }, { status: 400 });
           }
 

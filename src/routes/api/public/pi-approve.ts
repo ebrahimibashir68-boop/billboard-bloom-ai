@@ -31,7 +31,8 @@ export const Route = createFileRoute("/api/public/pi-approve")({
 
           const body = (await request.json()) as { paymentId?: string };
           const paymentId = body.paymentId?.trim();
-          if (!paymentId || paymentId.length > 128) {
+          const SAFE_ID = /^[a-zA-Z0-9_-]{1,128}$/;
+          if (!paymentId || !SAFE_ID.test(paymentId)) {
             return Response.json({ error: "Invalid request" }, { status: 400 });
           }
 

@@ -38,25 +38,15 @@ function loadPiSdk(): Promise<PiSDK> {
 
 export type PiStatus = "idle" | "loading" | "ready" | "unavailable";
 
+const AUTO_LOGIN_KEY = "pi:auto-login";
+
 export function usePi() {
   const [status, setStatus] = useState<PiStatus>("idle");
   const [user, setUser] = useState<PiAuthResult["user"] | null>(null);
 
-  useEffect(() => {
-    let cancelled = false;
-    setStatus("loading");
-    loadPiSdk()
-      .then(() => !cancelled && setStatus("ready"))
-      .catch(() => !cancelled && setStatus("unavailable"));
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   const authenticate = useCallback(async () => {
     const Pi = await loadPiSdk();
     const result = await Pi.authenticate(["username", "payments"], (incomplete) => {
-      // Best-effort: ask server to complete a leftover payment.
       if (incomplete.transaction?.txid) {
         void fetch("/api/public/pi-complete", {
           method: "POST",
@@ -69,10 +59,52 @@ export function usePi() {
       }
     });
     setUser(result.user);
+    try {
+      localStorage.setItem(AUTO_LOGIN_KEY, "1");
+    } catch {
+      // ignore
+    }
     return result;
   }, []);
 
-  return { status, user, authenticate, loadPiSdk };
+  useEffect(() => {
+    let cancelled = false;
+    setStatus("loading");
+    loadPiSdk()
+      .then(async () => {
+        if (cancelled) return;
+        setStatus("ready");
+        // Automatic Pi login — runs silently inside the Pi Browser. We skip the
+        // attempt only if the user explicitly signed out (flag === "0").
+        let shouldAuto = true;
+        try {
+          shouldAuto = localStorage.getItem(AUTO_LOGIN_KEY) !== "0";
+        } catch {
+          // ignore
+        }
+        if (!shouldAuto) return;
+        try {
+          await authenticate();
+        } catch {
+          // User cancelled or SDK error — stay signed out, keep auto-login enabled.
+        }
+      })
+      .catch(() => !cancelled && setStatus("unavailable"));
+    return () => {
+      cancelled = true;
+    };
+  }, [authenticate]);
+
+  const signOut = useCallback(() => {
+    setUser(null);
+    try {
+      localStorage.setItem(AUTO_LOGIN_KEY, "0");
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  return { status, user, authenticate, signOut, loadPiSdk };
 }
 
 export type { PiPaymentDTO };

@@ -39,7 +39,7 @@ export interface PiPaymentCallbacks {
 }
 
 export interface PiSDK {
-  init: (config: { version: "2.0"; sandbox?: boolean }) => void;
+  init: (config: { version: "2.0"; sandbox?: boolean }) => Promise<void> | void;
   authenticate: (
     scopes: PiScope[],
     onIncompletePaymentFound: (payment: PiPaymentDTO) => void,

@@ -12,23 +12,28 @@ function loadPiSdk(): Promise<PiSDK> {
 
   sdkPromise = new Promise<PiSDK>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(`script[src="${SDK_URL}"]`);
-    const handle = () => {
-      if (window.Pi) {
-        window.Pi.init({ version: "2.0", sandbox: true });
-        resolve(window.Pi);
-      } else {
+    const handle = async () => {
+      if (!window.Pi) {
         reject(new Error("Pi SDK failed to load"));
+        return;
+      }
+      try {
+        // Pi.init may return a Promise — await it fully before any authenticate call.
+        await Promise.resolve(window.Pi.init({ version: "2.0", sandbox: true }));
+        resolve(window.Pi);
+      } catch (err) {
+        reject(err instanceof Error ? err : new Error("Pi.init failed"));
       }
     };
     if (existing) {
-      if (window.Pi) handle();
-      else existing.addEventListener("load", handle, { once: true });
+      if (window.Pi) void handle();
+      else existing.addEventListener("load", () => void handle(), { once: true });
       return;
     }
     const s = document.createElement("script");
     s.src = SDK_URL;
     s.async = true;
-    s.onload = handle;
+    s.onload = () => void handle();
     s.onerror = () => reject(new Error("Failed to load Pi SDK"));
     document.head.appendChild(s);
   });
@@ -46,7 +51,7 @@ export function usePi() {
 
   const authenticate = useCallback(async () => {
     const Pi = await loadPiSdk();
-    const result = await Pi.authenticate(["username", "payments"], (incomplete) => {
+    const result = await Pi.authenticate(["username"], (incomplete) => {
       if (incomplete.transaction?.txid) {
         void fetch("/api/public/pi-complete", {
           method: "POST",
@@ -58,13 +63,28 @@ export function usePi() {
         });
       }
     });
-    setUser(result.user);
+
+    // Server-side validation: backend calls GET https://api.minepi.com/v2/me
+    // with the access token before establishing a session.
+    const res = await fetch("/api/public/pi-auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ accessToken: result.accessToken }),
+    });
+    if (!res.ok) {
+      throw new Error("Pi access token rejected by server");
+    }
+    const verified = (await res.json()) as {
+      user: { uid: string; username: string };
+    };
+
+    setUser(verified.user);
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "1");
     } catch {
       // ignore
     }
-    return result;
+    return { ...result, user: verified.user };
   }, []);
 
   useEffect(() => {

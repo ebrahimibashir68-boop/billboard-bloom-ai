@@ -1,7 +1,9 @@
-import { Plus } from "lucide-react";
+import { Plus, LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
 import { DepositPiDialog } from "./DepositPiDialog";
 import { useBalance } from "@/lib/pi/BalanceContext";
+import { usePi } from "@/lib/pi/usePi";
+import { toast } from "sonner";
 
 export function TopBar({
   title,
@@ -12,6 +14,21 @@ export function TopBar({
 }) {
   const [open, setOpen] = useState(false);
   const { balance } = useBalance();
+  // Mounting usePi here triggers automatic Pi authentication on app load.
+  const { user, status: piStatus, authenticate, signOut } = usePi();
+  const [signingIn, setSigningIn] = useState(false);
+
+  const handleSignIn = async () => {
+    setSigningIn(true);
+    try {
+      await authenticate();
+      toast.success("Signed in to Pi");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Pi sign-in failed");
+    } finally {
+      setSigningIn(false);
+    }
+  };
 
   return (
     <header className="h-16 border-b border-border flex items-center justify-between px-6 bg-background/60 backdrop-blur-md z-10 shrink-0">
@@ -38,6 +55,27 @@ export function TopBar({
               : `${balance.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })} π`}
           </span>
         </div>
+
+        {user ? (
+          <button
+            onClick={signOut}
+            className="text-xs font-medium py-2 px-3 flex items-center gap-2 rounded-lg border border-border hover:bg-accent transition"
+            title={`Signed in as @${user.username}`}
+          >
+            <LogOut className="size-3.5" />
+            @{user.username}
+          </button>
+        ) : (
+          <button
+            onClick={handleSignIn}
+            disabled={signingIn || piStatus === "unavailable"}
+            className="text-xs font-semibold py-2 px-3 flex items-center gap-2 rounded-lg border border-brand/40 text-brand hover:bg-brand/10 transition disabled:opacity-50"
+          >
+            <LogIn className="size-3.5" />
+            {signingIn ? "Signing in…" : "Sign in with Pi"}
+          </button>
+        )}
+
         <button
           onClick={() => setOpen(true)}
           className="bg-brand text-brand-foreground text-sm font-semibold py-2 px-3 flex items-center gap-2 rounded-lg ring-1 ring-brand/30 hover:brightness-110 transition"

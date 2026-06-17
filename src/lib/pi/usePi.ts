@@ -49,9 +49,9 @@ export function usePi() {
   const [status, setStatus] = useState<PiStatus>("idle");
   const [user, setUser] = useState<PiAuthResult["user"] | null>(null);
 
-  const authenticate = useCallback(async () => {
+  const authenticate = useCallback(async (scopes: ("username" | "payments")[] = ["username"]) => {
     const Pi = await loadPiSdk();
-    const result = await Pi.authenticate(["username"], (incomplete) => {
+    const result = await Pi.authenticate(scopes, (incomplete) => {
       if (incomplete.transaction?.txid) {
         void fetch("/api/public/pi-complete", {
           method: "POST",

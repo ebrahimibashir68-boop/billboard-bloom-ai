@@ -33,7 +33,7 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
     try {
       // 1. Authenticate (always get a fresh access token for server calls)
       setStage({ kind: "auth" });
-      const auth = await authenticate();
+      const auth = await authenticate(["username", "payments"]);
       const accessToken = auth.accessToken;
 
       // Fetch current server-side balance so the UI reflects truth immediately.

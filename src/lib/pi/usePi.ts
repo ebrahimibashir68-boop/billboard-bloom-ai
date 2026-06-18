@@ -104,7 +104,7 @@ export function usePi() {
         }
         if (!shouldAuto) return;
         try {
-          await authenticate(["username", "payments"]);
+          await authenticate(["username"]);
         } catch {
           // User cancelled or SDK error — stay signed out, keep auto-login enabled.
         }

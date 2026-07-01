@@ -11,10 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as InnovateRouteImport } from './routes/innovate'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
+import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
 import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
@@ -29,6 +32,11 @@ const StudioRoute = StudioRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InnovateRoute = InnovateRouteImport.update({
+  id: '/innovate',
+  path: '/innovate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampaignsRoute = CampaignsRouteImport.update({
@@ -52,6 +60,16 @@ const GuideStadiumAdvertisingCostsRoute =
     path: '/guide/stadium-advertising-costs',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiInnovateFeedRoute = ApiInnovateFeedRouteImport.update({
+  id: '/api/innovate-feed',
+  path: '/api/innovate-feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
   id: '/api/public/pi-complete',
   path: '/api/public/pi-complete',
@@ -82,8 +100,11 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/innovate': typeof InnovateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
@@ -95,8 +116,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/innovate': typeof InnovateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
@@ -109,8 +133,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/innovate': typeof InnovateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/api/chat': typeof ApiChatRoute
+  '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
@@ -124,8 +151,11 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/innovate'
     | '/sitemap.xml'
     | '/studio'
+    | '/api/chat'
+    | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
@@ -137,8 +167,11 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/innovate'
     | '/sitemap.xml'
     | '/studio'
+    | '/api/chat'
+    | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
@@ -150,8 +183,11 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/innovate'
     | '/sitemap.xml'
     | '/studio'
+    | '/api/chat'
+    | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
@@ -164,8 +200,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   CampaignsRoute: typeof CampaignsRoute
+  InnovateRoute: typeof InnovateRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
+  ApiChatRoute: typeof ApiChatRoute
+  ApiInnovateFeedRoute: typeof ApiInnovateFeedRoute
   GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiAuthRoute: typeof ApiPublicPiAuthRoute
@@ -188,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/innovate': {
+      id: '/innovate'
+      path: '/innovate'
+      fullPath: '/innovate'
+      preLoaderRoute: typeof InnovateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campaigns': {
@@ -216,6 +262,20 @@ declare module '@tanstack/react-router' {
       path: '/guide/stadium-advertising-costs'
       fullPath: '/guide/stadium-advertising-costs'
       preLoaderRoute: typeof GuideStadiumAdvertisingCostsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/innovate-feed': {
+      id: '/api/innovate-feed'
+      path: '/api/innovate-feed'
+      fullPath: '/api/innovate-feed'
+      preLoaderRoute: typeof ApiInnovateFeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/pi-complete': {
@@ -260,8 +320,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   CampaignsRoute: CampaignsRoute,
+  InnovateRoute: InnovateRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
+  ApiChatRoute: ApiChatRoute,
+  ApiInnovateFeedRoute: ApiInnovateFeedRoute,
   GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiAuthRoute: ApiPublicPiAuthRoute,
@@ -272,13 +335,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

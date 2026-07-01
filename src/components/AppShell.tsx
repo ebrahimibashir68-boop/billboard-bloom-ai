@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Globe2, Sparkles, Megaphone, BarChart3, Settings, type LucideIcon } from "lucide-react";
+import { Globe2, Sparkles, Megaphone, BarChart3, Bot, Settings, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 
 const nav: { to: string; label: string; icon: LucideIcon }[] = [
@@ -7,6 +7,7 @@ const nav: { to: string; label: string; icon: LucideIcon }[] = [
   { to: "/studio", label: "AI Creative", icon: Sparkles },
   { to: "/campaigns", label: "Campaigns", icon: Megaphone },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
+  { to: "/innovate", label: "Innovation Bot", icon: Bot },
 ];
 
 export function AppShell({ children }: { children: ReactNode }) {

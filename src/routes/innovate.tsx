@@ -172,9 +172,9 @@ function InnovatePage() {
                     key={i}
                     className="rounded-lg border border-border bg-surface p-4"
                   >
-                    <Shimmer className="h-4 w-40 mb-3" />
-                    <Shimmer className="h-3 w-full mb-2" />
-                    <Shimmer className="h-3 w-4/5" />
+                    <div className="h-4 w-40 mb-3 rounded bg-surface-elevated animate-pulse" />
+                    <div className="h-3 w-full mb-2 rounded bg-surface-elevated animate-pulse" />
+                    <div className="h-3 w-4/5 rounded bg-surface-elevated animate-pulse" />
                   </div>
                 ))
               : feed?.map((item, i) => (
@@ -266,7 +266,7 @@ function InnovatePage() {
               )}
               {status === "submitted" && (
                 <div className="px-4">
-                  <Shimmer className="h-3 w-40" />
+                  <Shimmer>Thinking…</Shimmer>
                 </div>
               )}
             </ConversationContent>

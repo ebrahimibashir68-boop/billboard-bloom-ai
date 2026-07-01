@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as InnovateRouteImport } from './routes/innovate'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
@@ -31,6 +32,11 @@ const StudioRoute = StudioRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InnovateRoute = InnovateRouteImport.update({
+  id: '/innovate',
+  path: '/innovate',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampaignsRoute = CampaignsRouteImport.update({
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/innovate': typeof InnovateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/api/chat': typeof ApiChatRoute
@@ -109,6 +116,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/innovate': typeof InnovateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/api/chat': typeof ApiChatRoute
@@ -125,6 +133,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/innovate': typeof InnovateRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/api/chat': typeof ApiChatRoute
@@ -142,6 +151,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/innovate'
     | '/sitemap.xml'
     | '/studio'
     | '/api/chat'
@@ -157,6 +167,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/innovate'
     | '/sitemap.xml'
     | '/studio'
     | '/api/chat'
@@ -172,6 +183,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/innovate'
     | '/sitemap.xml'
     | '/studio'
     | '/api/chat'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   CampaignsRoute: typeof CampaignsRoute
+  InnovateRoute: typeof InnovateRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/innovate': {
+      id: '/innovate'
+      path: '/innovate'
+      fullPath: '/innovate'
+      preLoaderRoute: typeof InnovateRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campaigns': {
@@ -300,6 +320,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   CampaignsRoute: CampaignsRoute,
+  InnovateRoute: InnovateRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
   ApiChatRoute: ApiChatRoute,

@@ -317,3 +317,26 @@ function StageLine({ label, active, done }: { label: string; active: boolean; do
     </p>
   );
 }
+
+type RowState = "ok" | "warn" | "fail" | "pending";
+function StatusRow({ label, state, detail }: { label: string; state: RowState; detail: string }) {
+  const dot =
+    state === "ok"
+      ? "bg-success shadow-[0_0_6px_hsl(var(--success))]"
+      : state === "warn"
+      ? "bg-brand shadow-[0_0_6px_hsl(var(--brand))]"
+      : state === "fail"
+      ? "bg-destructive shadow-[0_0_6px_hsl(var(--destructive))]"
+      : "bg-muted-foreground/40 animate-pulse";
+  const Icon = state === "ok" ? Wifi : state === "fail" ? WifiOff : AlertTriangle;
+  const iconColor =
+    state === "ok" ? "text-success" : state === "fail" ? "text-destructive" : state === "warn" ? "text-brand" : "text-muted-foreground";
+  return (
+    <div className="flex items-center gap-2 text-xs">
+      <span className={`size-1.5 rounded-full ${dot}`} />
+      <Icon className={`size-3 ${iconColor}`} />
+      <span className="text-muted-foreground w-28 shrink-0">{label}</span>
+      <span className="text-foreground/90 truncate flex-1">{detail}</span>
+    </div>
+  );
+}

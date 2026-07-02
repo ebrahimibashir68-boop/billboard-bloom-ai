@@ -249,7 +249,7 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
           </button>
 
           <p className="text-[10px] text-muted-foreground text-center">
-            Powered by Pi Network SDK · Sandbox mode
+            Powered by Pi Network SDK · Mainnet
           </p>
         </div>
       </div>

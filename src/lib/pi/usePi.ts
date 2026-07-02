@@ -49,7 +49,7 @@ function loadPiSdk(): Promise<PiSDK> {
       }
       try {
         // Pi.init may return a Promise — await it fully before any authenticate call.
-        await Promise.resolve(window.Pi.init({ version: "2.0", sandbox: true }));
+        await Promise.resolve(window.Pi.init({ version: "2.0", sandbox: false }));
         resolve(window.Pi);
       } catch (err) {
         reject(err instanceof Error ? err : new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));

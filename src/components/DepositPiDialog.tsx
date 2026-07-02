@@ -1,7 +1,7 @@
 import { useId, useState } from "react";
 import { Loader2, X, ShieldCheck, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
-import { usePi } from "@/lib/pi/usePi";
+import { PI_BROWSER_UNAVAILABLE_MESSAGE, PI_PAYMENT_SCOPE_MESSAGE, usePi } from "@/lib/pi/usePi";
 import { useBalance } from "@/lib/pi/BalanceContext";
 
 const PRESETS = [10, 50, 100, 500];
@@ -9,6 +9,7 @@ const PRESETS = [10, 50, 100, 500];
 type Stage =
   | { kind: "idle" }
   | { kind: "auth" }
+  | { kind: "scope" }
   | { kind: "creating" }
   | { kind: "approving"; paymentId: string }
   | { kind: "completing"; paymentId: string; txid: string }
@@ -16,7 +17,7 @@ type Stage =
   | { kind: "error"; message: string };
 
 export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const { status, user, authenticate, loadPiSdk } = usePi();
+  const { status, user, hasScope, authenticate, loadPiSdk, forgetScope } = usePi();
   const { setBalance } = useBalance();
   const [amount, setAmount] = useState<number>(50);
   const [memo, setMemo] = useState("Pi Billboard ad credit");
@@ -31,9 +32,22 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
   const handleDeposit = async () => {
     if (amount <= 0) return;
     try {
+      if (status !== "ready") {
+        setStage({ kind: "error", message: PI_BROWSER_UNAVAILABLE_MESSAGE });
+        return;
+      }
+
+      if (user && !hasScope("payments")) {
+        setStage({ kind: "scope" });
+      }
+
       // 1. Authenticate (always get a fresh access token for server calls)
       setStage({ kind: "auth" });
       const auth = await authenticate(["username", "payments"]);
+      if (!auth.scopes.includes("payments")) {
+        setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+        return;
+      }
       const accessToken = auth.accessToken;
 
       // Fetch current server-side balance so the UI reflects truth immediately.
@@ -94,12 +108,23 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
             setStage({ kind: "error", message: "Payment cancelled." });
           },
           onError: (err) => {
-            setStage({ kind: "error", message: err.message || "Unknown Pi error" });
+            const message = err.message || "Unknown Pi error";
+            if (message.toLowerCase().includes("payments") && message.toLowerCase().includes("scope")) {
+              forgetScope("payments");
+              setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+              return;
+            }
+            setStage({ kind: "error", message });
           },
         },
       );
     } catch (err) {
       const message = err instanceof Error ? err.message : "Deposit failed";
+      if (message.toLowerCase().includes("payments") && message.toLowerCase().includes("scope")) {
+        forgetScope("payments");
+        setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+        return;
+      }
       setStage({ kind: "error", message });
     }
   };
@@ -142,6 +167,16 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
                   </a>{" "}
                   and revisit this page.
                 </p>
+              </div>
+            </div>
+          )}
+
+          {status === "ready" && user && !hasScope("payments") && (
+            <div className="flex gap-3 p-3 rounded-lg bg-brand/10 border border-brand/30 text-xs">
+              <AlertTriangle className="size-4 shrink-0 mt-0.5 text-brand" />
+              <div>
+                <p className="font-semibold text-brand">Payments permission required</p>
+                <p className="text-muted-foreground mt-1">Re-sign with Pi and approve the payments scope before creating a deposit.</p>
               </div>
             </div>
           )}
@@ -190,7 +225,8 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
 
           {stage.kind !== "idle" && (
             <div className="text-xs space-y-1 p-3 bg-background rounded-xl border border-border font-mono">
-              <StageLine label="Authenticate" active={stage.kind === "auth"} done={!!user && stage.kind !== "auth"} />
+              <StageLine label="Authenticate" active={stage.kind === "auth"} done={!!user && !["auth", "scope"].includes(stage.kind)} />
+              <StageLine label="Payment scope" active={stage.kind === "scope"} done={hasScope("payments") && !["auth", "scope"].includes(stage.kind)} />
               <StageLine label="Create payment" active={stage.kind === "creating"} done={["approving", "completing", "done"].includes(stage.kind)} />
               <StageLine label="Server approval" active={stage.kind === "approving"} done={["completing", "done"].includes(stage.kind)} />
               <StageLine label="Blockchain settle" active={stage.kind === "completing"} done={stage.kind === "done"} />

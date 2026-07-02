@@ -1,5 +1,5 @@
 import { useId, useState } from "react";
-import { Loader2, X, ShieldCheck, AlertTriangle } from "lucide-react";
+import { Loader2, X, ShieldCheck, AlertTriangle, Wifi, WifiOff, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { PI_BROWSER_UNAVAILABLE_MESSAGE, PI_PAYMENT_SCOPE_MESSAGE, usePi } from "@/lib/pi/usePi";
 import { useBalance } from "@/lib/pi/BalanceContext";
@@ -155,18 +155,67 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
         </div>
 
         <div className="p-5 space-y-5">
+          {/* Connection status panel */}
+          <div className="rounded-xl border border-border bg-background p-3 space-y-2">
+            <div className="flex items-center justify-between">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Connection status</p>
+              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                status === "ready"
+                  ? "text-success border-success/40 bg-success/10"
+                  : status === "loading"
+                  ? "text-brand border-brand/40 bg-brand/10"
+                  : "text-destructive border-destructive/40 bg-destructive/10"
+              }`}>
+                {status === "ready" ? "ONLINE" : status === "loading" ? "CONNECTING" : "OFFLINE"}
+              </span>
+            </div>
+            <StatusRow
+              label="Pi SDK"
+              state={status === "ready" ? "ok" : status === "loading" ? "pending" : "fail"}
+              detail={status === "ready" ? "Loaded from sdk.minepi.com" : status === "loading" ? "Loading…" : "Not available"}
+            />
+            <StatusRow
+              label="Wallet / account"
+              state={user ? "ok" : status === "ready" ? "warn" : "pending"}
+              detail={user ? `Signed in as @${user.username}` : status === "ready" ? "Not signed in — click Deposit to authenticate" : "Waiting for SDK"}
+            />
+            <StatusRow
+              label="Payments scope"
+              state={hasScope("payments") ? "ok" : user ? "warn" : "pending"}
+              detail={hasScope("payments") ? "Granted" : user ? "Missing — re-sign required" : "Requested on sign-in"}
+            />
+            <StatusRow
+              label="Network"
+              state="ok"
+              detail="Pi Mainnet"
+            />
+          </div>
+
           {status === "unavailable" && (
-            <div className="flex gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-xs text-destructive-foreground">
-              <AlertTriangle className="size-4 shrink-0 mt-0.5 text-destructive" />
-              <div>
-                <p className="font-semibold text-destructive">Open in Pi Browser</p>
-                <p className="text-muted-foreground mt-1">
-                  Pi payments only work inside the Pi Browser app. Download it from{" "}
-                  <a href="https://minepi.com/download" className="underline" target="_blank" rel="noreferrer">
-                    minepi.com
-                  </a>{" "}
-                  and revisit this page.
+            <div className="flex gap-3 p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-xs">
+              <WifiOff className="size-4 shrink-0 mt-0.5 text-destructive" />
+              <div className="space-y-2">
+                <p className="font-semibold text-destructive">Wallet not reachable</p>
+                <p className="text-muted-foreground">
+                  The Pi SDK could not load. This app must run inside the Pi Browser to connect to your wallet.
                 </p>
+                <ol className="text-muted-foreground list-decimal ml-4 space-y-1">
+                  <li>
+                    Install Pi Browser from{" "}
+                    <a href="https://minepi.com/download" className="underline text-brand" target="_blank" rel="noreferrer">
+                      minepi.com/download
+                    </a>
+                  </li>
+                  <li>Open Pi Browser and sign in to your Pi account</li>
+                  <li>Navigate to this app's URL inside Pi Browser</li>
+                </ol>
+                <button
+                  type="button"
+                  onClick={() => window.location.reload()}
+                  className="inline-flex items-center gap-1.5 mt-1 text-brand hover:brightness-110 font-medium"
+                >
+                  <RefreshCw className="size-3" /> Retry connection
+                </button>
               </div>
             </div>
           )}
@@ -178,6 +227,7 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
                 <p className="font-semibold text-brand">Payments permission required</p>
                 <p className="text-muted-foreground mt-1">Re-sign with Pi and approve the payments scope before creating a deposit.</p>
               </div>
+
             </div>
           )}
 

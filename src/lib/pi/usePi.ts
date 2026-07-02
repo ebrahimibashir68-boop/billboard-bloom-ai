@@ -1,12 +1,42 @@
 import { useCallback, useEffect, useState } from "react";
-import type { PiAuthResult, PiPaymentDTO, PiSDK } from "./types";
+import type { PiAuthResult, PiPaymentDTO, PiSDK, PiScope } from "./types";
 
 const SDK_URL = "https://sdk.minepi.com/pi-sdk.js";
+export const PI_BROWSER_UNAVAILABLE_MESSAGE = "Pi SDK not available. Open this app inside Pi Browser to sign in.";
+export const PI_PAYMENT_SCOPE_MESSAGE = "Payments permission is missing. Re-sign with Pi and approve the payments scope to continue.";
+const DEFAULT_SCOPES: PiScope[] = ["username", "payments"];
 
 let sdkPromise: Promise<PiSDK> | null = null;
+let piSession: { user: PiAuthResult["user"] | null; scopes: PiScope[] } = { user: null, scopes: [] };
+const sessionListeners = new Set<() => void>();
+
+function publishSession(next: typeof piSession) {
+  piSession = next;
+  sessionListeners.forEach((listener) => listener());
+}
+
+function uniqueScopes(scopes: PiScope[]) {
+  return Array.from(new Set(scopes));
+}
+
+function scopesFromAuthResult(result: PiAuthResult, requested: PiScope[]): PiScope[] {
+  const unknownResult = result as PiAuthResult & {
+    scopes?: PiScope[] | string;
+    scope?: PiScope[] | string;
+    user?: PiAuthResult["user"] & { scopes?: PiScope[] | string; scope?: PiScope[] | string };
+  };
+  const raw = unknownResult.scopes ?? unknownResult.scope ?? unknownResult.user?.scopes ?? unknownResult.user?.scope;
+  if (Array.isArray(raw)) return raw.filter((scope): scope is PiScope => scope === "username" || scope === "payments" || scope === "wallet_address");
+  if (typeof raw === "string") {
+    return raw
+      .split(/[\s,]+/)
+      .filter((scope): scope is PiScope => scope === "username" || scope === "payments" || scope === "wallet_address");
+  }
+  return requested;
+}
 
 function loadPiSdk(): Promise<PiSDK> {
-  if (typeof window === "undefined") return Promise.reject(new Error("SSR"));
+  if (typeof window === "undefined") return Promise.reject(new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
   if (window.Pi) return Promise.resolve(window.Pi);
   if (sdkPromise) return sdkPromise;
 
@@ -14,7 +44,7 @@ function loadPiSdk(): Promise<PiSDK> {
     const existing = document.querySelector<HTMLScriptElement>(`script[src="${SDK_URL}"]`);
     const handle = async () => {
       if (!window.Pi) {
-        reject(new Error("Pi SDK failed to load"));
+        reject(new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
         return;
       }
       try {
@@ -22,7 +52,7 @@ function loadPiSdk(): Promise<PiSDK> {
         await Promise.resolve(window.Pi.init({ version: "2.0", sandbox: true }));
         resolve(window.Pi);
       } catch (err) {
-        reject(err instanceof Error ? err : new Error("Pi.init failed"));
+        reject(err instanceof Error ? err : new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
       }
     };
     if (existing) {
@@ -34,7 +64,7 @@ function loadPiSdk(): Promise<PiSDK> {
     s.src = SDK_URL;
     s.async = true;
     s.onload = () => void handle();
-    s.onerror = () => reject(new Error("Failed to load Pi SDK"));
+    s.onerror = () => reject(new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
     document.head.appendChild(s);
   });
 
@@ -47,11 +77,20 @@ const AUTO_LOGIN_KEY = "pi:auto-login";
 
 export function usePi() {
   const [status, setStatus] = useState<PiStatus>("idle");
-  const [user, setUser] = useState<PiAuthResult["user"] | null>(null);
+  const [session, setSession] = useState(piSession);
 
-  const authenticate = useCallback(async (scopes: ("username" | "payments")[] = ["username"]) => {
+  useEffect(() => {
+    const sync = () => setSession(piSession);
+    sessionListeners.add(sync);
+    return () => {
+      sessionListeners.delete(sync);
+    };
+  }, []);
+
+  const authenticate = useCallback(async (scopes: PiScope[] = DEFAULT_SCOPES) => {
+    const requestedScopes = uniqueScopes(scopes);
     const Pi = await loadPiSdk();
-    const result = await Pi.authenticate(scopes, (incomplete) => {
+    const result = await Pi.authenticate(requestedScopes, (incomplete) => {
       if (incomplete.transaction?.txid) {
         void fetch("/api/public/pi-complete", {
           method: "POST",
@@ -78,13 +117,15 @@ export function usePi() {
       user: { uid: string; username: string };
     };
 
-    setUser(verified.user);
+    const grantedScopes = scopesFromAuthResult(result, requestedScopes);
+    const nextScopes = uniqueScopes([...piSession.scopes, ...grantedScopes]);
+    publishSession({ user: verified.user, scopes: nextScopes });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "1");
     } catch {
       // ignore
     }
-    return { ...result, user: verified.user };
+    return { ...result, user: verified.user, scopes: nextScopes };
   }, []);
 
   useEffect(() => {
@@ -104,7 +145,7 @@ export function usePi() {
         }
         if (!shouldAuto) return;
         try {
-          await authenticate(["username"]);
+          await authenticate(DEFAULT_SCOPES);
         } catch {
           // User cancelled or SDK error — stay signed out, keep auto-login enabled.
         }
@@ -116,7 +157,7 @@ export function usePi() {
   }, [authenticate]);
 
   const signOut = useCallback(() => {
-    setUser(null);
+    publishSession({ user: null, scopes: [] });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "0");
     } catch {
@@ -124,7 +165,12 @@ export function usePi() {
     }
   }, []);
 
-  return { status, user, authenticate, signOut, loadPiSdk };
+  const hasScope = useCallback((scope: PiScope) => piSession.scopes.includes(scope), []);
+  const forgetScope = useCallback((scope: PiScope) => {
+    publishSession({ ...piSession, scopes: piSession.scopes.filter((current) => current !== scope) });
+  }, []);
+
+  return { status, user: session.user, scopes: session.scopes, hasScope, authenticate, signOut, loadPiSdk, forgetScope };
 }
 
-export type { PiPaymentDTO };
+export type { PiPaymentDTO, PiScope };

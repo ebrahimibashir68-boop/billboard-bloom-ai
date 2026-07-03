@@ -179,7 +179,7 @@ export function usePi() {
   }, [authenticate]);
 
   const signOut = useCallback(() => {
-    publishSession({ user: null, scopes: [] });
+    publishSession({ user: null, scopes: [], walletAddress: null });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "0");
     } catch {
@@ -192,7 +192,24 @@ export function usePi() {
     publishSession({ ...piSession, scopes: piSession.scopes.filter((current) => current !== scope) });
   }, []);
 
-  return { status, user: session.user, scopes: session.scopes, hasScope, authenticate, signOut, loadPiSdk, forgetScope };
+  const connectWallet = useCallback(
+    () => authenticate(["username", "payments", "wallet_address"]),
+    [authenticate],
+  );
+
+  return {
+    status,
+    user: session.user,
+    scopes: session.scopes,
+    walletAddress: session.walletAddress,
+    hasScope,
+    authenticate,
+    connectWallet,
+    signOut,
+    loadPiSdk,
+    forgetScope,
+  };
 }
+
 
 export type { PiPaymentDTO, PiScope };

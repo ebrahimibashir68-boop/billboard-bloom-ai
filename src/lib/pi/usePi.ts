@@ -7,7 +7,11 @@ export const PI_PAYMENT_SCOPE_MESSAGE = "Payments permission is missing. Re-sign
 const DEFAULT_SCOPES: PiScope[] = ["username", "payments"];
 
 let sdkPromise: Promise<PiSDK> | null = null;
-let piSession: { user: PiAuthResult["user"] | null; scopes: PiScope[] } = { user: null, scopes: [] };
+let piSession: {
+  user: PiAuthResult["user"] | null;
+  scopes: PiScope[];
+  walletAddress: string | null;
+} = { user: null, scopes: [], walletAddress: null };
 const sessionListeners = new Set<() => void>();
 
 function publishSession(next: typeof piSession) {
@@ -17,6 +21,21 @@ function publishSession(next: typeof piSession) {
 
 function uniqueScopes(scopes: PiScope[]) {
   return Array.from(new Set(scopes));
+}
+
+function walletAddressFromAuthResult(result: PiAuthResult): string | null {
+  const unknown = result as PiAuthResult & {
+    wallet_address?: string;
+    walletAddress?: string;
+    user?: PiAuthResult["user"] & { wallet_address?: string; walletAddress?: string };
+  };
+  return (
+    unknown.wallet_address ??
+    unknown.walletAddress ??
+    unknown.user?.wallet_address ??
+    unknown.user?.walletAddress ??
+    null
+  );
 }
 
 function scopesFromAuthResult(result: PiAuthResult, requested: PiScope[]): PiScope[] {
@@ -34,6 +53,7 @@ function scopesFromAuthResult(result: PiAuthResult, requested: PiScope[]): PiSco
   }
   return requested;
 }
+
 
 function loadPiSdk(): Promise<PiSDK> {
   if (typeof window === "undefined") return Promise.reject(new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));

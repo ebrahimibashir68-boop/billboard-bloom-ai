@@ -1,9 +1,11 @@
 import { Plus, LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
 import { DepositPiDialog } from "./DepositPiDialog";
+import { WalletConnectButton } from "./WalletConnectButton";
 import { useBalance } from "@/lib/pi/BalanceContext";
 import { usePi } from "@/lib/pi/usePi";
 import { toast } from "sonner";
+
 
 export function TopBar({
   title,

@@ -45,14 +45,14 @@ export function AppShell({ children }: { children: ReactNode }) {
         </div>
 
         <div className="mt-auto flex flex-col gap-4 items-center">
-          <button className="size-10 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-surface" aria-label="Settings">
-            <Settings className="size-4" />
-          </button>
+          <SettingsMenu />
           <div className="size-8 rounded-full bg-surface border border-border" />
         </div>
       </nav>
 
       <main className="flex-1 flex flex-col relative min-w-0">{children}</main>
+      <ScrollControls />
     </div>
   );
 }
+

@@ -78,6 +78,9 @@ export function TopBar({
           </button>
         )}
 
+        <WalletConnectButton />
+
+
         <button
           onClick={() => setOpen(true)}
           className="bg-brand text-brand-foreground text-sm font-semibold py-2 px-3 flex items-center gap-2 rounded-lg ring-1 ring-brand/30 hover:brightness-110 transition"

@@ -92,3 +92,23 @@
     font-family: var(--font-sans);
   }
 }
+
+/* App settings toggles (SettingsMenu) */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+html.high-contrast {
+  --border: oklch(0.55 0 0);
+  --muted-foreground: oklch(0.85 0 0);
+  --foreground: oklch(1 0 0);
+}
+
+html.compact-density {
+  font-size: 14px;
+}

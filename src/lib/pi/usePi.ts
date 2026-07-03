@@ -139,13 +139,15 @@ export function usePi() {
 
     const grantedScopes = scopesFromAuthResult(result, requestedScopes);
     const nextScopes = uniqueScopes([...piSession.scopes, ...grantedScopes]);
-    publishSession({ user: verified.user, scopes: nextScopes });
+    const nextWallet = walletAddressFromAuthResult(result) ?? piSession.walletAddress;
+    publishSession({ user: verified.user, scopes: nextScopes, walletAddress: nextWallet });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "1");
     } catch {
       // ignore
     }
-    return { ...result, user: verified.user, scopes: nextScopes };
+    return { ...result, user: verified.user, scopes: nextScopes, walletAddress: nextWallet };
+
   }, []);
 
   useEffect(() => {

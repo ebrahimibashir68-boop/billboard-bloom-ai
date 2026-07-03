@@ -1,6 +1,9 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Globe2, Sparkles, Megaphone, BarChart3, Bot, Settings, type LucideIcon } from "lucide-react";
+import { Globe2, Sparkles, Megaphone, BarChart3, Bot, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import { SettingsMenu } from "./SettingsMenu";
+import { ScrollControls } from "./ScrollControls";
+
 
 const nav: { to: string; label: string; icon: LucideIcon }[] = [
   { to: "/", label: "Global Network", icon: Globe2 },

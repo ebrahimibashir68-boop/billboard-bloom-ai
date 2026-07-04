@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as InnovateRouteImport } from './routes/innovate'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
@@ -18,11 +19,14 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
 import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
 import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
 import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 
 const StudioRoute = StudioRouteImport.update({
   id: '/studio',
@@ -32,6 +36,11 @@ const StudioRoute = StudioRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InnovateRoute = InnovateRouteImport.update({
@@ -70,6 +79,18 @@ const ApiChatRoute = ApiChatRouteImport.update({
   path: '/api/chat',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
   id: '/api/public/pi-complete',
   path: '/api/public/pi-complete',
@@ -95,17 +116,27 @@ const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
   path: '/api/public/pi-approve',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotmcpChar93InvokeToolToolRoute =
+  Char91DotmcpChar93InvokeToolToolRouteImport.update({
+    id: '/.mcp/invoke-tool/$tool',
+    path: '/.mcp/invoke-tool/$tool',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
   '/innovate': typeof InnovateRoute
+  '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/chat': typeof ApiChatRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -117,11 +148,15 @@ export interface FileRoutesByTo {
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
   '/innovate': typeof InnovateRoute
+  '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/chat': typeof ApiChatRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -134,11 +169,15 @@ export interface FileRoutesById {
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
   '/innovate': typeof InnovateRoute
+  '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
+  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/api/chat': typeof ApiChatRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -152,11 +191,15 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/campaigns'
     | '/innovate'
+    | '/mcp'
     | '/sitemap.xml'
     | '/studio'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/api/chat'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -168,11 +211,15 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/campaigns'
     | '/innovate'
+    | '/mcp'
     | '/sitemap.xml'
     | '/studio'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/api/chat'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -184,11 +231,15 @@ export interface FileRouteTypes {
     | '/analytics'
     | '/campaigns'
     | '/innovate'
+    | '/mcp'
     | '/sitemap.xml'
     | '/studio'
+    | '/.mcp/list-tools'
+    | '/.well-known/oauth-protected-resource'
     | '/api/chat'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -201,11 +252,15 @@ export interface RootRouteChildren {
   AnalyticsRoute: typeof AnalyticsRoute
   CampaignsRoute: typeof CampaignsRoute
   InnovateRoute: typeof InnovateRoute
+  McpRoute: typeof McpRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
+  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   ApiChatRoute: typeof ApiChatRoute
   ApiInnovateFeedRoute: typeof ApiInnovateFeedRoute
   GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
+  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiAuthRoute: typeof ApiPublicPiAuthRoute
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
@@ -227,6 +282,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/innovate': {
@@ -278,6 +340,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/.mcp/list-tools': {
+      id: '/.mcp/list-tools'
+      path: '/.mcp/list-tools'
+      fullPath: '/.mcp/list-tools'
+      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-complete': {
       id: '/api/public/pi-complete'
       path: '/api/public/pi-complete'
@@ -313,6 +389,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiApproveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.mcp/invoke-tool/$tool': {
+      id: '/.mcp/invoke-tool/$tool'
+      path: '/.mcp/invoke-tool/$tool'
+      fullPath: '/.mcp/invoke-tool/$tool'
+      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -321,11 +404,16 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyticsRoute: AnalyticsRoute,
   CampaignsRoute: CampaignsRoute,
   InnovateRoute: InnovateRoute,
+  McpRoute: McpRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
+  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
   ApiChatRoute: ApiChatRoute,
   ApiInnovateFeedRoute: ApiInnovateFeedRoute,
   GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
+  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiAuthRoute: ApiPublicPiAuthRoute,
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,

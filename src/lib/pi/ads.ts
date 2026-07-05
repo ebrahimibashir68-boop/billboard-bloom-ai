@@ -2,12 +2,15 @@
 // Handles native-feature detection, retries a request when the ad isn't ready,
 // and returns a normalized outcome so callers don't need to know SDK internals.
 import type { PiAdType, PiSDK, PiShowAdResponse } from "./types";
-import { loadPiSdkExternal } from "./loader";
-
 
 export type ShowAdOutcome =
   | { ok: true; type: PiAdType; rewarded: boolean; adId?: string }
   | { ok: false; reason: "unsupported" | "unavailable" | "network" | "display_error" | "closed" };
+
+function getPi(): PiSDK | null {
+  if (typeof window === "undefined") return null;
+  return window.Pi ?? null;
+}
 
 async function isAdsSupported(Pi: PiSDK): Promise<boolean> {
   try {
@@ -19,10 +22,10 @@ async function isAdsSupported(Pi: PiSDK): Promise<boolean> {
   }
 }
 
-
 export async function showPiAd(adType: PiAdType): Promise<ShowAdOutcome> {
-  if (!(await isAdsSupported())) return { ok: false, reason: "unsupported" };
-  const Pi = await loadPi();
+  const Pi = getPi();
+  if (!Pi) return { ok: false, reason: "unsupported" };
+  if (!(await isAdsSupported(Pi))) return { ok: false, reason: "unsupported" };
   const ads = Pi.Ads!;
 
   // Interstitial ads can be shown directly; rewarded ads must be pre-loaded.
@@ -31,7 +34,10 @@ export async function showPiAd(adType: PiAdType): Promise<ShowAdOutcome> {
     if (!ready.ready) {
       const req = await ads.requestAd("rewarded");
       if (req.result !== "AD_LOADED") {
-        return { ok: false, reason: req.result === "AD_NOT_AVAILABLE" ? "unavailable" : "network" };
+        return {
+          ok: false,
+          reason: req.result === "AD_NOT_AVAILABLE" ? "unavailable" : "network",
+        };
       }
     }
   }

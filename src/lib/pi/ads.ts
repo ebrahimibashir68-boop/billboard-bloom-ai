@@ -2,6 +2,8 @@
 // Handles native-feature detection, retries a request when the ad isn't ready,
 // and returns a normalized outcome so callers don't need to know SDK internals.
 import type { PiAdType, PiSDK, PiShowAdResponse } from "./types";
+import { loadPiSdkExternal } from "./loader";
+
 
 export type ShowAdOutcome =
   | { ok: true; type: PiAdType; rewarded: boolean; adId?: string }

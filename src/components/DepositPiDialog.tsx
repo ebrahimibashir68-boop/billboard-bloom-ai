@@ -38,8 +38,12 @@ export function DepositPiDialog({ open, onClose }: { open: boolean; onClose: () 
       }
 
       if (user && !hasScope("payments")) {
-        setStage({ kind: "scope" });
+        // Missing payments scope — clear the stale scope claim so the SDK
+        // prompts the user to re-approve. Do not return; fall through to
+        // authenticate() which requests payments again.
+        forgetScope("payments");
       }
+
 
       // 1. Authenticate (always get a fresh access token for server calls)
       setStage({ kind: "auth" });

@@ -1,16 +1,14 @@
 // Pi Ads helper — wraps the Pi SDK Ads surface documented in ads.md.
 // Handles native-feature detection, retries a request when the ad isn't ready,
 // and returns a normalized outcome so callers don't need to know SDK internals.
-import type { PiAdType, PiShowAdResponse } from "./types";
-import { loadPi } from "./sdk-loader";
+import type { PiAdType, PiSDK, PiShowAdResponse } from "./types";
 
 export type ShowAdOutcome =
   | { ok: true; type: PiAdType; rewarded: boolean; adId?: string }
   | { ok: false; reason: "unsupported" | "unavailable" | "network" | "display_error" | "closed" };
 
-async function isAdsSupported(): Promise<boolean> {
+async function isAdsSupported(Pi: PiSDK): Promise<boolean> {
   try {
-    const Pi = await loadPi();
     if (!Pi.Ads || typeof Pi.nativeFeaturesList !== "function") return false;
     const features = await Pi.nativeFeaturesList();
     return features.includes("ad_network");
@@ -18,6 +16,7 @@ async function isAdsSupported(): Promise<boolean> {
     return false;
   }
 }
+
 
 export async function showPiAd(adType: PiAdType): Promise<ShowAdOutcome> {
   if (!(await isAdsSupported())) return { ok: false, reason: "unsupported" };

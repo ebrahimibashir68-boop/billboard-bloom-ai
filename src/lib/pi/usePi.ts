@@ -60,6 +60,12 @@ function loadPiSdk(): Promise<PiSDK> {
   if (window.Pi) return Promise.resolve(window.Pi);
   if (sdkPromise) return sdkPromise;
 
+  // Sandbox mode is opt-in via VITE_PI_SANDBOX="true". Production Pi Browser
+  // sessions require sandbox: false (default). Never hardcode true — that
+  // makes real Pi Browser users see "Sandbox mode" and blocks live payments.
+  const sandbox = String(import.meta.env.VITE_PI_SANDBOX ?? "").toLowerCase() === "true";
+
+
   sdkPromise = new Promise<PiSDK>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(`script[src="${SDK_URL}"]`);
     const handle = async () => {
@@ -69,7 +75,7 @@ function loadPiSdk(): Promise<PiSDK> {
       }
       try {
         // Pi.init may return a Promise — await it fully before any authenticate call.
-        await Promise.resolve(window.Pi.init({ version: "2.0", sandbox: false }));
+        await Promise.resolve(window.Pi.init({ version: "2.0", sandbox }));
         resolve(window.Pi);
       } catch (err) {
         reject(err instanceof Error ? err : new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
@@ -110,16 +116,16 @@ export function usePi() {
   const authenticate = useCallback(async (scopes: PiScope[] = DEFAULT_SCOPES) => {
     const requestedScopes = uniqueScopes(scopes);
     const Pi = await loadPiSdk();
+    // Capture any incomplete payment surfaced by the SDK so we can complete it
+    // AFTER we have a verified access token. Firing the completion fetch
+    // without Authorization would 401 and leave the payment stuck.
+    let pendingIncomplete: { paymentId: string; txid: string } | null = null;
     const result = await Pi.authenticate(requestedScopes, (incomplete) => {
       if (incomplete.transaction?.txid) {
-        void fetch("/api/public/pi-complete", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            paymentId: incomplete.identifier,
-            txid: incomplete.transaction.txid,
-          }),
-        });
+        pendingIncomplete = {
+          paymentId: incomplete.identifier,
+          txid: incomplete.transaction.txid,
+        };
       }
     });
 
@@ -136,6 +142,21 @@ export function usePi() {
     const verified = (await res.json()) as {
       user: { uid: string; username: string };
     };
+
+    if (pendingIncomplete) {
+      // Fire-and-forget — the Pi SDK requires we acknowledge stuck payments
+      // before creating a new one. Errors are logged server-side.
+      void fetch("/api/public/pi-complete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${result.accessToken}`,
+        },
+        body: JSON.stringify(pendingIncomplete),
+      });
+    }
+
+
 
     const grantedScopes = scopesFromAuthResult(result, requestedScopes);
     const nextScopes = uniqueScopes([...piSession.scopes, ...grantedScopes]);

@@ -116,16 +116,16 @@ export function usePi() {
   const authenticate = useCallback(async (scopes: PiScope[] = DEFAULT_SCOPES) => {
     const requestedScopes = uniqueScopes(scopes);
     const Pi = await loadPiSdk();
+    // Capture any incomplete payment surfaced by the SDK so we can complete it
+    // AFTER we have a verified access token. Firing the completion fetch
+    // without Authorization would 401 and leave the payment stuck.
+    let pendingIncomplete: { paymentId: string; txid: string } | null = null;
     const result = await Pi.authenticate(requestedScopes, (incomplete) => {
       if (incomplete.transaction?.txid) {
-        void fetch("/api/public/pi-complete", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            paymentId: incomplete.identifier,
-            txid: incomplete.transaction.txid,
-          }),
-        });
+        pendingIncomplete = {
+          paymentId: incomplete.identifier,
+          txid: incomplete.transaction.txid,
+        };
       }
     });
 
@@ -142,6 +142,21 @@ export function usePi() {
     const verified = (await res.json()) as {
       user: { uid: string; username: string };
     };
+
+    if (pendingIncomplete) {
+      // Fire-and-forget — the Pi SDK requires we acknowledge stuck payments
+      // before creating a new one. Errors are logged server-side.
+      void fetch("/api/public/pi-complete", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${result.accessToken}`,
+        },
+        body: JSON.stringify(pendingIncomplete),
+      });
+    }
+
+
 
     const grantedScopes = scopesFromAuthResult(result, requestedScopes);
     const nextScopes = uniqueScopes([...piSession.scopes, ...grantedScopes]);

@@ -38,6 +38,32 @@ export interface PiPaymentCallbacks {
   onError: (error: Error, payment?: PiPaymentDTO) => void;
 }
 
+export type PiAdType = "interstitial" | "rewarded";
+
+export interface PiShowAdResponse {
+  type: PiAdType;
+  result: "AD_CLOSED" | "AD_REWARDED" | "AD_DISPLAY_ERROR" | "AD_NETWORK_ERROR" | "AD_NOT_AVAILABLE";
+  adId?: string;
+}
+
+export interface PiIsAdReadyResponse {
+  type: PiAdType;
+  ready: boolean;
+}
+
+export interface PiRequestAdResponse {
+  type: PiAdType;
+  result: "AD_LOADED" | "AD_FAILED_TO_LOAD" | "AD_NOT_AVAILABLE";
+}
+
+export interface PiNativeFeaturesList extends Array<string> {}
+
+export interface PiAdsAPI {
+  showAd: (adType: PiAdType) => Promise<PiShowAdResponse>;
+  isAdReady: (adType: PiAdType) => Promise<PiIsAdReadyResponse>;
+  requestAd: (adType: PiAdType) => Promise<PiRequestAdResponse>;
+}
+
 export interface PiSDK {
   init: (config: { version: "2.0"; sandbox?: boolean }) => Promise<void> | void;
   authenticate: (
@@ -48,7 +74,11 @@ export interface PiSDK {
     payment: PiPaymentData,
     callbacks: PiPaymentCallbacks,
   ) => Promise<PiPaymentDTO>;
+  // Native feature detection — required before calling Ads on older Pi Browsers.
+  nativeFeaturesList: () => Promise<PiNativeFeaturesList>;
+  Ads?: PiAdsAPI;
 }
+
 
 declare global {
   interface Window {

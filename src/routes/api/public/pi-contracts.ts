@@ -200,7 +200,7 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
               target_venues: draft.targetVenues,
               cost_pi: cost,
               contract_hash,
-              contract_json: canonical as unknown as Record<string, unknown>,
+              contract_json: JSON.parse(JSON.stringify(canonical)),
 
               status: "active",
               activated_at: new Date().toISOString(),

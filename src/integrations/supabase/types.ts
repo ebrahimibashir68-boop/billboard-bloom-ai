@@ -59,6 +59,154 @@ export type Database = {
         }
         Relationships: []
       }
+      ad_contracts: {
+        Row: {
+          activated_at: string | null
+          advertiser_pi_uid: string
+          advertiser_pi_username: string
+          body_text: string
+          contract_hash: string
+          contract_json: Json
+          cost_pi: number
+          created_at: string
+          duration_days: number
+          ends_at: string | null
+          id: string
+          image_url: string | null
+          pi_payment_id: string | null
+          pi_txid: string | null
+          placements: string[]
+          status: string
+          target_venues: number
+          tier: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          activated_at?: string | null
+          advertiser_pi_uid: string
+          advertiser_pi_username: string
+          body_text: string
+          contract_hash: string
+          contract_json: Json
+          cost_pi: number
+          created_at?: string
+          duration_days: number
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          pi_payment_id?: string | null
+          pi_txid?: string | null
+          placements: string[]
+          status?: string
+          target_venues: number
+          tier: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          activated_at?: string | null
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string
+          body_text?: string
+          contract_hash?: string
+          contract_json?: Json
+          cost_pi?: number
+          created_at?: string
+          duration_days?: number
+          ends_at?: string | null
+          id?: string
+          image_url?: string | null
+          pi_payment_id?: string | null
+          pi_txid?: string | null
+          placements?: string[]
+          status?: string
+          target_venues?: number
+          tier?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ad_placements: {
+        Row: {
+          ai_match_score: number
+          ai_reasoning: string | null
+          contract_id: string
+          created_at: string
+          id: string
+          scheduled_end: string
+          scheduled_start: string
+          sport: string
+          status: string
+          venue_code: string
+          venue_name: string
+        }
+        Insert: {
+          ai_match_score: number
+          ai_reasoning?: string | null
+          contract_id: string
+          created_at?: string
+          id?: string
+          scheduled_end: string
+          scheduled_start: string
+          sport: string
+          status?: string
+          venue_code: string
+          venue_name: string
+        }
+        Update: {
+          ai_match_score?: number
+          ai_reasoning?: string | null
+          contract_id?: string
+          created_at?: string
+          id?: string
+          scheduled_end?: string
+          scheduled_start?: string
+          sport?: string
+          status?: string
+          venue_code?: string
+          venue_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_placements_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ad_plays: {
+        Row: {
+          id: string
+          impressions: number
+          placement_id: string
+          played_at: string
+        }
+        Insert: {
+          id?: string
+          impressions?: number
+          placement_id: string
+          played_at?: string
+        }
+        Update: {
+          id?: string
+          impressions?: number
+          placement_id?: string
+          played_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_plays_placement_id_fkey"
+            columns: ["placement_id"]
+            isOneToOne: false
+            referencedRelation: "ad_placements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pi_balances: {
         Row: {
           balance: number

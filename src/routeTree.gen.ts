@@ -13,6 +13,7 @@ import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as InnovateRouteImport } from './routes/innovate'
+import { Route as ContractsRouteImport } from './routes/contracts'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
@@ -21,6 +22,7 @@ import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
 import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
@@ -46,6 +48,11 @@ const McpRoute = McpRouteImport.update({
 const InnovateRoute = InnovateRouteImport.update({
   id: '/innovate',
   path: '/innovate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContractsRoute = ContractsRouteImport.update({
+  id: '/contracts',
+  path: '/contracts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CampaignsRoute = CampaignsRouteImport.update({
@@ -91,6 +98,11 @@ const Char91DotmcpChar93ListToolsRoute =
     path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPiContractsRoute = ApiPublicPiContractsRouteImport.update({
+  id: '/api/public/pi-contracts',
+  path: '/api/public/pi-contracts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
   id: '/api/public/pi-complete',
   path: '/api/public/pi-complete',
@@ -127,6 +139,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -142,11 +155,13 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
+  '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -162,12 +177,14 @@ export interface FileRoutesByTo {
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
+  '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
   '/campaigns': typeof CampaignsRoute
+  '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -183,6 +200,7 @@ export interface FileRoutesById {
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
+  '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -190,6 +208,7 @@ export interface FileRouteTypes {
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/contracts'
     | '/innovate'
     | '/mcp'
     | '/sitemap.xml'
@@ -205,11 +224,13 @@ export interface FileRouteTypes {
     | '/api/public/pi-balance'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
+    | '/api/public/pi-contracts'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/contracts'
     | '/innovate'
     | '/mcp'
     | '/sitemap.xml'
@@ -225,11 +246,13 @@ export interface FileRouteTypes {
     | '/api/public/pi-balance'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
+    | '/api/public/pi-contracts'
   id:
     | '__root__'
     | '/'
     | '/analytics'
     | '/campaigns'
+    | '/contracts'
     | '/innovate'
     | '/mcp'
     | '/sitemap.xml'
@@ -245,12 +268,14 @@ export interface FileRouteTypes {
     | '/api/public/pi-balance'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
+    | '/api/public/pi-contracts'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
   CampaignsRoute: typeof CampaignsRoute
+  ContractsRoute: typeof ContractsRoute
   InnovateRoute: typeof InnovateRoute
   McpRoute: typeof McpRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -266,6 +291,7 @@ export interface RootRouteChildren {
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
   ApiPublicPiCampaignsRoute: typeof ApiPublicPiCampaignsRoute
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
+  ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -296,6 +322,13 @@ declare module '@tanstack/react-router' {
       path: '/innovate'
       fullPath: '/innovate'
       preLoaderRoute: typeof InnovateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contracts': {
+      id: '/contracts'
+      path: '/contracts'
+      fullPath: '/contracts'
+      preLoaderRoute: typeof ContractsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/campaigns': {
@@ -354,6 +387,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-contracts': {
+      id: '/api/public/pi-contracts'
+      path: '/api/public/pi-contracts'
+      fullPath: '/api/public/pi-contracts'
+      preLoaderRoute: typeof ApiPublicPiContractsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-complete': {
       id: '/api/public/pi-complete'
       path: '/api/public/pi-complete'
@@ -403,6 +443,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   CampaignsRoute: CampaignsRoute,
+  ContractsRoute: ContractsRoute,
   InnovateRoute: InnovateRoute,
   McpRoute: McpRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -419,6 +460,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,
   ApiPublicPiCampaignsRoute: ApiPublicPiCampaignsRoute,
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
+  ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

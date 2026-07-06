@@ -149,23 +149,9 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
           );
           const contract_hash = await hashContract(canonical);
 
-          // Atomically debit the Pi balance. Single UPDATE with WHERE clause
-          // ensures concurrent contract creations for the same UID cannot
-          // overdraw the balance.
-          const { data: debited, error: debitErr } = await supabaseAdmin
-            .from("pi_balances")
-            .update({ balance: (0 as unknown as number) })
-            .eq("pi_uid", user.uid)
-            .select("balance")
-            .maybeSingle();
-          // ^ placeholder — we actually need a decrement. Use rpc-like raw SQL.
-          void debited;
-          void debitErr;
-
-          // Use a SQL expression via update chain — postgrest supports
-          // `balance = balance - N` only through RPC or update with a raw expr.
-          // We reuse the pattern of a direct read-modify-write guarded by
-          // updated_at optimistic concurrency. On conflict we retry once.
+          // Atomically debit the Pi balance using optimistic concurrency on
+          // updated_at. Concurrent contract creations for the same UID cannot
+          // both succeed — the losing writer retries once.
           const debitAtomic = async (): Promise<
             { ok: true; newBalance: number } | { ok: false; reason: "insufficient" | "not_found" | "conflict" }
           > => {
@@ -214,7 +200,8 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
               target_venues: draft.targetVenues,
               cost_pi: cost,
               contract_hash,
-              contract_json: canonical,
+              contract_json: canonical as unknown as Record<string, unknown>,
+
               status: "active",
               activated_at: new Date().toISOString(),
               ends_at: endsAt.toISOString(),

@@ -72,7 +72,7 @@ interface Venue {
 function PartnerPage() {
   return (
     <AppShell>
-      <TopBar />
+      <TopBar title="Partner Console" />
       <PartnerDashboard />
     </AppShell>
   );

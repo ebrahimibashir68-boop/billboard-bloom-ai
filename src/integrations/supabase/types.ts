@@ -195,6 +195,8 @@ export type Database = {
           country: string
           created_at: string
           id: string
+          owner_pi_uid: string | null
+          owner_pi_username: string | null
           owner_user_id: string | null
           revenue_share_pct: number
           status: string
@@ -208,6 +210,8 @@ export type Database = {
           country: string
           created_at?: string
           id?: string
+          owner_pi_uid?: string | null
+          owner_pi_username?: string | null
           owner_user_id?: string | null
           revenue_share_pct?: number
           status?: string
@@ -221,6 +225,8 @@ export type Database = {
           country?: string
           created_at?: string
           id?: string
+          owner_pi_uid?: string | null
+          owner_pi_username?: string | null
           owner_user_id?: string | null
           revenue_share_pct?: number
           status?: string

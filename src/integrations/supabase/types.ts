@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      ad_approval_requests: {
+        Row: {
+          contract_id: string
+          created_at: string
+          id: string
+          partner_id: string
+          reviewed_at: string | null
+          reviewer_notes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          contract_id: string
+          created_at?: string
+          id?: string
+          partner_id: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          contract_id?: string
+          created_at?: string
+          id?: string
+          partner_id?: string
+          reviewed_at?: string | null
+          reviewer_notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_approval_requests_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_approval_requests_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       ad_campaigns: {
         Row: {
           cost_pi: number
@@ -69,6 +117,7 @@ export type Database = {
           contract_json: Json
           cost_pi: number
           created_at: string
+          creative_id: string | null
           duration_days: number
           ends_at: string | null
           id: string
@@ -91,6 +140,7 @@ export type Database = {
           contract_json: Json
           cost_pi: number
           created_at?: string
+          creative_id?: string | null
           duration_days: number
           ends_at?: string | null
           id?: string
@@ -113,6 +163,7 @@ export type Database = {
           contract_json?: Json
           cost_pi?: number
           created_at?: string
+          creative_id?: string | null
           duration_days?: number
           ends_at?: string | null
           id?: string
@@ -126,15 +177,73 @@ export type Database = {
           title?: string
           updated_at?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "ad_contracts_creative_id_fkey"
+            columns: ["creative_id"]
+            isOneToOne: false
+            referencedRelation: "creatives"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ad_partners: {
+        Row: {
+          billboards_summary: string | null
+          company_name: string
+          contact_email: string
+          country: string
+          created_at: string
+          id: string
+          owner_pi_uid: string | null
+          owner_pi_username: string | null
+          owner_user_id: string | null
+          revenue_share_pct: number
+          status: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          billboards_summary?: string | null
+          company_name: string
+          contact_email: string
+          country: string
+          created_at?: string
+          id?: string
+          owner_pi_uid?: string | null
+          owner_pi_username?: string | null
+          owner_user_id?: string | null
+          revenue_share_pct?: number
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          billboards_summary?: string | null
+          company_name?: string
+          contact_email?: string
+          country?: string
+          created_at?: string
+          id?: string
+          owner_pi_uid?: string | null
+          owner_pi_username?: string | null
+          owner_user_id?: string | null
+          revenue_share_pct?: number
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
         Relationships: []
       }
       ad_placements: {
         Row: {
           ai_match_score: number
           ai_reasoning: string | null
+          approval_request_id: string | null
           contract_id: string
           created_at: string
           id: string
+          partner_id: string | null
           scheduled_end: string
           scheduled_start: string
           sport: string
@@ -145,9 +254,11 @@ export type Database = {
         Insert: {
           ai_match_score: number
           ai_reasoning?: string | null
+          approval_request_id?: string | null
           contract_id: string
           created_at?: string
           id?: string
+          partner_id?: string | null
           scheduled_end: string
           scheduled_start: string
           sport: string
@@ -158,9 +269,11 @@ export type Database = {
         Update: {
           ai_match_score?: number
           ai_reasoning?: string | null
+          approval_request_id?: string | null
           contract_id?: string
           created_at?: string
           id?: string
+          partner_id?: string | null
           scheduled_end?: string
           scheduled_start?: string
           sport?: string
@@ -170,10 +283,24 @@ export type Database = {
         }
         Relationships: [
           {
+            foreignKeyName: "ad_placements_approval_request_id_fkey"
+            columns: ["approval_request_id"]
+            isOneToOne: false
+            referencedRelation: "ad_approval_requests"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "ad_placements_contract_id_fkey"
             columns: ["contract_id"]
             isOneToOne: false
             referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_placements_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
             referencedColumns: ["id"]
           },
         ]
@@ -206,6 +333,81 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      brand_presets: {
+        Row: {
+          created_at: string
+          font_family: string | null
+          logo_url: string | null
+          pi_uid: string
+          pi_username: string
+          primary_color: string | null
+          secondary_color: string | null
+          tagline: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          font_family?: string | null
+          logo_url?: string | null
+          pi_uid: string
+          pi_username: string
+          primary_color?: string | null
+          secondary_color?: string | null
+          tagline?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          font_family?: string | null
+          logo_url?: string | null
+          pi_uid?: string
+          pi_username?: string
+          primary_color?: string | null
+          secondary_color?: string | null
+          tagline?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      creatives: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          name: string
+          pi_uid: string
+          pi_username: string
+          preview_url: string | null
+          spec: Json
+          thumbnail_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          name: string
+          pi_uid: string
+          pi_username: string
+          preview_url?: string | null
+          spec: Json
+          thumbnail_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          name?: string
+          pi_uid?: string
+          pi_username?: string
+          preview_url?: string | null
+          spec?: Json
+          thumbnail_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       pi_balances: {
         Row: {
@@ -258,6 +460,86 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
+      venues: {
+        Row: {
+          active: boolean
+          base_rate_pi: number
+          city: string | null
+          code: string
+          country: string | null
+          created_at: string
+          daily_impressions: number
+          id: string
+          name: string
+          partner_id: string | null
+          placement: string
+          region: string | null
+          sport: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          base_rate_pi?: number
+          city?: string | null
+          code: string
+          country?: string | null
+          created_at?: string
+          daily_impressions?: number
+          id?: string
+          name: string
+          partner_id?: string | null
+          placement: string
+          region?: string | null
+          sport: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          base_rate_pi?: number
+          city?: string | null
+          code?: string
+          country?: string | null
+          created_at?: string
+          daily_impressions?: number
+          id?: string
+          name?: string
+          partner_id?: string | null
+          placement?: string
+          region?: string | null
+          sport?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venues_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -266,6 +548,13 @@ export type Database = {
       credit_pi_balance: {
         Args: { p_amount: number; p_pi_uid: string; p_pi_username: string }
         Returns: number
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
       }
       purchase_ad_campaign: {
         Args: {
@@ -283,7 +572,7 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "partner" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -410,6 +699,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "partner", "user"],
+    },
   },
 } as const

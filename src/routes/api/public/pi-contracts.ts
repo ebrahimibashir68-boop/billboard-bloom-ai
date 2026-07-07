@@ -219,7 +219,9 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
             return Response.json({ error: "Contract creation failed" }, { status: 500 });
           }
 
-          // AI venue matching + schedule seed.
+          // AI venue matching → group by owning partner → create one
+          // approval request per partner. Placements start as
+          // pending_approval and become scheduled once the partner approves.
           const matches = await matchVenues({
             bodyText: draft.bodyText,
             placements: draft.placements as Placement[],
@@ -231,6 +233,28 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
             (draft.durationDays * 24 * 60 * 60 * 1000) / Math.max(matches.length, 1),
             60 * 60 * 1000,
           );
+
+          // Group matches by partner_id.
+          const byPartner = new Map<string, typeof matches>();
+          for (const m of matches) {
+            const key = m.partner_id ?? "orphan";
+            const arr = byPartner.get(key) ?? [];
+            arr.push(m);
+            byPartner.set(key, arr);
+          }
+
+          // Create one approval request per real partner.
+          const approvalByPartner = new Map<string, string>();
+          for (const [partnerKey] of byPartner) {
+            if (partnerKey === "orphan") continue;
+            const { data: appReq } = await supabaseAdmin
+              .from("ad_approval_requests")
+              .insert({ contract_id: inserted.id, partner_id: partnerKey, status: "pending" })
+              .select("id")
+              .single();
+            if (appReq) approvalByPartner.set(partnerKey, appReq.id);
+          }
+
           const placementRows = matches.map((m, i) => ({
             contract_id: inserted.id,
             venue_code: m.code,
@@ -240,7 +264,9 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
             ai_reasoning: m.reasoning,
             scheduled_start: new Date(start + i * slotMs).toISOString(),
             scheduled_end: new Date(start + (i + 1) * slotMs).toISOString(),
-            status: i === 0 ? "playing" : "scheduled",
+            status: m.partner_id ? "pending_approval" : "scheduled",
+            partner_id: m.partner_id,
+            approval_request_id: m.partner_id ? approvalByPartner.get(m.partner_id) ?? null : null,
           }));
           if (placementRows.length) {
             const { error: pErr } = await supabaseAdmin.from("ad_placements").insert(placementRows);

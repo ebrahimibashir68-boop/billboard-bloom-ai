@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as InnovateRouteImport } from './routes/innovate'
@@ -51,6 +52,11 @@ const StudioRoute = StudioRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfpsRoute = RfpsRouteImport.update({
+  id: '/rfps',
+  path: '/rfps',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnerRoute = PartnerRouteImport.update({
@@ -192,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
+  '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -222,6 +229,7 @@ export interface FileRoutesByTo {
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
+  '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -253,6 +261,7 @@ export interface FileRoutesById {
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
+  '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -285,6 +294,7 @@ export interface FileRouteTypes {
     | '/innovate'
     | '/mcp'
     | '/partner'
+    | '/rfps'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -315,6 +325,7 @@ export interface FileRouteTypes {
     | '/innovate'
     | '/mcp'
     | '/partner'
+    | '/rfps'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -345,6 +356,7 @@ export interface FileRouteTypes {
     | '/innovate'
     | '/mcp'
     | '/partner'
+    | '/rfps'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -376,6 +388,7 @@ export interface RootRouteChildren {
   InnovateRoute: typeof InnovateRoute
   McpRoute: typeof McpRoute
   PartnerRoute: typeof PartnerRoute
+  RfpsRoute: typeof RfpsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
   StudioDesignRoute: typeof StudioDesignRoute
@@ -420,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfps': {
+      id: '/rfps'
+      path: '/rfps'
+      fullPath: '/rfps'
+      preLoaderRoute: typeof RfpsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partner': {
@@ -608,6 +628,7 @@ const rootRouteChildren: RootRouteChildren = {
   InnovateRoute: InnovateRoute,
   McpRoute: McpRoute,
   PartnerRoute: PartnerRoute,
+  RfpsRoute: RfpsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
   StudioDesignRoute: StudioDesignRoute,

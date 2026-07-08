@@ -348,6 +348,147 @@ export type Database = {
           },
         ]
       }
+      ad_proposals: {
+        Row: {
+          created_at: string
+          discount_pct: number
+          estimated_impressions: number
+          id: string
+          notes: string | null
+          partner_id: string
+          price_pi: number
+          proposed_end: string
+          proposed_start: string
+          rfp_id: string
+          status: string
+          updated_at: string
+          valid_until: string | null
+          venue_ids: string[]
+        }
+        Insert: {
+          created_at?: string
+          discount_pct?: number
+          estimated_impressions: number
+          id?: string
+          notes?: string | null
+          partner_id: string
+          price_pi: number
+          proposed_end: string
+          proposed_start: string
+          rfp_id: string
+          status?: string
+          updated_at?: string
+          valid_until?: string | null
+          venue_ids: string[]
+        }
+        Update: {
+          created_at?: string
+          discount_pct?: number
+          estimated_impressions?: number
+          id?: string
+          notes?: string | null
+          partner_id?: string
+          price_pi?: number
+          proposed_end?: string
+          proposed_start?: string
+          rfp_id?: string
+          status?: string
+          updated_at?: string
+          valid_until?: string | null
+          venue_ids?: string[]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_proposals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_proposals_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ad_proposals_rfp_id_fkey"
+            columns: ["rfp_id"]
+            isOneToOne: false
+            referencedRelation: "ad_rfps"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ad_rfps: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          brief: string
+          budget_pi: number
+          campaign_name: string
+          created_at: string
+          creative_id: string | null
+          end_date: string
+          id: string
+          objective: string | null
+          preferred_formats: string[] | null
+          start_date: string
+          status: string
+          target_audience: string | null
+          target_cities: string[] | null
+          target_countries: string[] | null
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          brief: string
+          budget_pi: number
+          campaign_name: string
+          created_at?: string
+          creative_id?: string | null
+          end_date: string
+          id?: string
+          objective?: string | null
+          preferred_formats?: string[] | null
+          start_date: string
+          status?: string
+          target_audience?: string | null
+          target_cities?: string[] | null
+          target_countries?: string[] | null
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          brief?: string
+          budget_pi?: number
+          campaign_name?: string
+          created_at?: string
+          creative_id?: string | null
+          end_date?: string
+          id?: string
+          objective?: string | null
+          preferred_formats?: string[] | null
+          start_date?: string
+          status?: string
+          target_audience?: string | null
+          target_cities?: string[] | null
+          target_countries?: string[] | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ad_rfps_creative_id_fkey"
+            columns: ["creative_id"]
+            isOneToOne: false
+            referencedRelation: "creatives"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       brand_presets: {
         Row: {
           created_at: string
@@ -423,6 +564,277 @@ export type Database = {
         }
         Relationships: []
       }
+      insertion_orders: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          agency_commission_pct: number
+          campaign_name: string
+          contract_id: string | null
+          created_at: string
+          flight_end: string
+          flight_start: string
+          gross_pi: number
+          id: string
+          io_number: string
+          net_pi: number
+          partner_id: string
+          payment_terms: string
+          proposal_id: string | null
+          signed_by_advertiser_at: string | null
+          signed_by_partner_at: string | null
+          status: string
+          terms_json: Json
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          agency_commission_pct?: number
+          campaign_name: string
+          contract_id?: string | null
+          created_at?: string
+          flight_end: string
+          flight_start: string
+          gross_pi: number
+          id?: string
+          io_number: string
+          net_pi: number
+          partner_id: string
+          payment_terms?: string
+          proposal_id?: string | null
+          signed_by_advertiser_at?: string | null
+          signed_by_partner_at?: string | null
+          status?: string
+          terms_json?: Json
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          agency_commission_pct?: number
+          campaign_name?: string
+          contract_id?: string | null
+          created_at?: string
+          flight_end?: string
+          flight_start?: string
+          gross_pi?: number
+          id?: string
+          io_number?: string
+          net_pi?: number
+          partner_id?: string
+          payment_terms?: string
+          proposal_id?: string | null
+          signed_by_advertiser_at?: string | null
+          signed_by_partner_at?: string | null
+          status?: string
+          terms_json?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "insertion_orders_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insertion_orders_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insertion_orders_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "insertion_orders_proposal_id_fkey"
+            columns: ["proposal_id"]
+            isOneToOne: false
+            referencedRelation: "ad_proposals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          contract_id: string | null
+          created_at: string
+          due_at: string
+          id: string
+          insertion_order_id: string | null
+          invoice_number: string
+          issued_at: string
+          line_items: Json
+          paid_at: string | null
+          partner_id: string | null
+          pi_txid: string | null
+          status: string
+          subtotal_pi: number
+          tax_pi: number
+          total_pi: number
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          contract_id?: string | null
+          created_at?: string
+          due_at: string
+          id?: string
+          insertion_order_id?: string | null
+          invoice_number: string
+          issued_at?: string
+          line_items?: Json
+          paid_at?: string | null
+          partner_id?: string | null
+          pi_txid?: string | null
+          status?: string
+          subtotal_pi: number
+          tax_pi?: number
+          total_pi: number
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          contract_id?: string | null
+          created_at?: string
+          due_at?: string
+          id?: string
+          insertion_order_id?: string | null
+          invoice_number?: string
+          issued_at?: string
+          line_items?: Json
+          paid_at?: string | null
+          partner_id?: string | null
+          pi_txid?: string | null
+          status?: string
+          subtotal_pi?: number
+          tax_pi?: number
+          total_pi?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_insertion_order_id_fkey"
+            columns: ["insertion_order_id"]
+            isOneToOne: false
+            referencedRelation: "insertion_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      make_goods: {
+        Row: {
+          compensation_type: string
+          compensation_value: number
+          contract_id: string | null
+          created_at: string
+          id: string
+          original_placement_id: string
+          partner_id: string | null
+          reason: string
+          replacement_placement_id: string | null
+          shortfall_impressions: number
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          compensation_type?: string
+          compensation_value: number
+          contract_id?: string | null
+          created_at?: string
+          id?: string
+          original_placement_id: string
+          partner_id?: string | null
+          reason: string
+          replacement_placement_id?: string | null
+          shortfall_impressions?: number
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          compensation_type?: string
+          compensation_value?: number
+          contract_id?: string | null
+          created_at?: string
+          id?: string
+          original_placement_id?: string
+          partner_id?: string | null
+          reason?: string
+          replacement_placement_id?: string | null
+          shortfall_impressions?: number
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "make_goods_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "make_goods_original_placement_id_fkey"
+            columns: ["original_placement_id"]
+            isOneToOne: false
+            referencedRelation: "ad_placements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "make_goods_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "make_goods_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "make_goods_replacement_placement_id_fkey"
+            columns: ["replacement_placement_id"]
+            isOneToOne: false
+            referencedRelation: "ad_placements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pi_balances: {
         Row: {
           balance: number
@@ -474,6 +886,70 @@ export type Database = {
         }
         Relationships: []
       }
+      proof_of_plays: {
+        Row: {
+          contract_id: string | null
+          created_at: string
+          device_id: string | null
+          duration_sec: number
+          id: string
+          impressions: number
+          photo_url: string | null
+          placement_id: string
+          played_at: string
+          signature: string | null
+          venue_id: string | null
+        }
+        Insert: {
+          contract_id?: string | null
+          created_at?: string
+          device_id?: string | null
+          duration_sec: number
+          id?: string
+          impressions?: number
+          photo_url?: string | null
+          placement_id: string
+          played_at?: string
+          signature?: string | null
+          venue_id?: string | null
+        }
+        Update: {
+          contract_id?: string | null
+          created_at?: string
+          device_id?: string | null
+          duration_sec?: number
+          id?: string
+          impressions?: number
+          photo_url?: string | null
+          placement_id?: string
+          played_at?: string
+          signature?: string | null
+          venue_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "proof_of_plays_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proof_of_plays_placement_id_fkey"
+            columns: ["placement_id"]
+            isOneToOne: false
+            referencedRelation: "ad_placements"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "proof_of_plays_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -494,6 +970,138 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      venue_creative_specs: {
+        Row: {
+          accepted_mime_types: string[]
+          aspect_ratio: string
+          color_profile: string | null
+          created_at: string
+          format: string
+          height_px: number
+          id: string
+          max_duration_sec: number | null
+          max_file_size_mb: number
+          notes: string | null
+          updated_at: string
+          venue_id: string
+          width_px: number
+        }
+        Insert: {
+          accepted_mime_types?: string[]
+          aspect_ratio: string
+          color_profile?: string | null
+          created_at?: string
+          format: string
+          height_px: number
+          id?: string
+          max_duration_sec?: number | null
+          max_file_size_mb?: number
+          notes?: string | null
+          updated_at?: string
+          venue_id: string
+          width_px: number
+        }
+        Update: {
+          accepted_mime_types?: string[]
+          aspect_ratio?: string
+          color_profile?: string | null
+          created_at?: string
+          format?: string
+          height_px?: number
+          id?: string
+          max_duration_sec?: number | null
+          max_file_size_mb?: number
+          notes?: string | null
+          updated_at?: string
+          venue_id?: string
+          width_px?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_creative_specs_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      venue_rate_cards: {
+        Row: {
+          active: boolean
+          cpm_pi: number
+          created_at: string
+          daily_rate_pi: number | null
+          effective_from: string
+          effective_to: string | null
+          id: string
+          label: string
+          min_booking_days: number
+          monthly_rate_pi: number | null
+          partner_id: string
+          season_multiplier: number
+          updated_at: string
+          venue_id: string
+          weekly_rate_pi: number | null
+        }
+        Insert: {
+          active?: boolean
+          cpm_pi: number
+          created_at?: string
+          daily_rate_pi?: number | null
+          effective_from?: string
+          effective_to?: string | null
+          id?: string
+          label: string
+          min_booking_days?: number
+          monthly_rate_pi?: number | null
+          partner_id: string
+          season_multiplier?: number
+          updated_at?: string
+          venue_id: string
+          weekly_rate_pi?: number | null
+        }
+        Update: {
+          active?: boolean
+          cpm_pi?: number
+          created_at?: string
+          daily_rate_pi?: number | null
+          effective_from?: string
+          effective_to?: string | null
+          id?: string
+          label?: string
+          min_booking_days?: number
+          monthly_rate_pi?: number | null
+          partner_id?: string
+          season_multiplier?: number
+          updated_at?: string
+          venue_id?: string
+          weekly_rate_pi?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_rate_cards_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venue_rate_cards_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venue_rate_cards_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       venues: {
         Row: {

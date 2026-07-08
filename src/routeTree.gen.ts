@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as InnovateRouteImport } from './routes/innovate'
@@ -27,6 +28,7 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
 import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
 import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
@@ -50,6 +52,11 @@ const StudioRoute = StudioRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfpsRoute = RfpsRouteImport.update({
+  id: '/rfps',
+  path: '/rfps',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnerRoute = PartnerRouteImport.update({
@@ -131,6 +138,11 @@ const Char91DotmcpChar93ListToolsRoute =
     path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPiRfpsRoute = ApiPublicPiRfpsRouteImport.update({
+  id: '/api/public/pi-rfps',
+  path: '/api/public/pi-rfps',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiPartnersRoute = ApiPublicPiPartnersRouteImport.update({
   id: '/api/public/pi-partners',
   path: '/api/public/pi-partners',
@@ -186,6 +198,7 @@ export interface FileRoutesByFullPath {
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
+  '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -206,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -215,6 +229,7 @@ export interface FileRoutesByTo {
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
+  '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -235,6 +250,7 @@ export interface FileRoutesByTo {
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -245,6 +261,7 @@ export interface FileRoutesById {
   '/innovate': typeof InnovateRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
+  '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -265,6 +282,7 @@ export interface FileRoutesById {
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -276,6 +294,7 @@ export interface FileRouteTypes {
     | '/innovate'
     | '/mcp'
     | '/partner'
+    | '/rfps'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -296,6 +315,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
     | '/api/public/pi-partners'
+    | '/api/public/pi-rfps'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -305,6 +325,7 @@ export interface FileRouteTypes {
     | '/innovate'
     | '/mcp'
     | '/partner'
+    | '/rfps'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -325,6 +346,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
     | '/api/public/pi-partners'
+    | '/api/public/pi-rfps'
   id:
     | '__root__'
     | '/'
@@ -334,6 +356,7 @@ export interface FileRouteTypes {
     | '/innovate'
     | '/mcp'
     | '/partner'
+    | '/rfps'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -354,6 +377,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
     | '/api/public/pi-partners'
+    | '/api/public/pi-rfps'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -364,6 +388,7 @@ export interface RootRouteChildren {
   InnovateRoute: typeof InnovateRoute
   McpRoute: typeof McpRoute
   PartnerRoute: typeof PartnerRoute
+  RfpsRoute: typeof RfpsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
   StudioDesignRoute: typeof StudioDesignRoute
@@ -384,6 +409,7 @@ export interface RootRouteChildren {
   ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
   ApiPublicPiCreativesRoute: typeof ApiPublicPiCreativesRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
+  ApiPublicPiRfpsRoute: typeof ApiPublicPiRfpsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -407,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfps': {
+      id: '/rfps'
+      path: '/rfps'
+      fullPath: '/rfps'
+      preLoaderRoute: typeof RfpsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partner': {
@@ -514,6 +547,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-rfps': {
+      id: '/api/public/pi-rfps'
+      path: '/api/public/pi-rfps'
+      fullPath: '/api/public/pi-rfps'
+      preLoaderRoute: typeof ApiPublicPiRfpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-partners': {
       id: '/api/public/pi-partners'
       path: '/api/public/pi-partners'
@@ -588,6 +628,7 @@ const rootRouteChildren: RootRouteChildren = {
   InnovateRoute: InnovateRoute,
   McpRoute: McpRoute,
   PartnerRoute: PartnerRoute,
+  RfpsRoute: RfpsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
   StudioDesignRoute: StudioDesignRoute,
@@ -609,6 +650,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,
   ApiPublicPiCreativesRoute: ApiPublicPiCreativesRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
+  ApiPublicPiRfpsRoute: ApiPublicPiRfpsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

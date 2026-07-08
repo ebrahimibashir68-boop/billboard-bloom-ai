@@ -60,6 +60,13 @@ export type Database = {
             referencedRelation: "ad_partners"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "ad_approval_requests_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
         ]
       }
       ad_campaigns: {
@@ -303,6 +310,13 @@ export type Database = {
             referencedRelation: "ad_partners"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "ad_placements_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
         ]
       }
       ad_plays: {
@@ -538,11 +552,50 @@ export type Database = {
             referencedRelation: "ad_partners"
             referencedColumns: ["id"]
           },
+          {
+            foreignKeyName: "venues_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      public_ad_partners: {
+        Row: {
+          billboards_summary: string | null
+          company_name: string | null
+          country: string | null
+          created_at: string | null
+          id: string | null
+          revenue_share_pct: number | null
+          status: string | null
+          website: string | null
+        }
+        Insert: {
+          billboards_summary?: string | null
+          company_name?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string | null
+          revenue_share_pct?: number | null
+          status?: string | null
+          website?: string | null
+        }
+        Update: {
+          billboards_summary?: string | null
+          company_name?: string | null
+          country?: string | null
+          created_at?: string | null
+          id?: string | null
+          revenue_share_pct?: number | null
+          status?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       credit_pi_balance: {

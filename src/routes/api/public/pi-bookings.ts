@@ -49,7 +49,7 @@ export const Route = createFileRoute("/api/public/pi-bookings")({
           const { data, error } = await supabaseAdmin.rpc("create_booking", {
             p_pi_uid: user.uid,
             p_pi_username: user.username,
-            p_campaign_id: parsed.data.campaign_id ?? null,
+            p_campaign_id: (parsed.data.campaign_id ?? null) as string,
             p_location_id: parsed.data.location_id,
             p_starts_at: parsed.data.starts_at,
             p_hours: parsed.data.hours,

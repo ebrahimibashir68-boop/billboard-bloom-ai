@@ -19,6 +19,7 @@ import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as InnovateRouteImport } from './routes/innovate'
 import { Route as ContractsRouteImport } from './routes/contracts'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as BookingsRouteImport } from './routes/bookings'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
@@ -90,6 +91,11 @@ const ContractsRoute = ContractsRouteImport.update({
 const CampaignsRoute = CampaignsRouteImport.update({
   id: '/campaigns',
   path: '/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsRoute = BookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -211,6 +217,7 @@ const Char91DotmcpChar93InvokeToolToolRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
@@ -280,6 +288,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
@@ -316,6 +325,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analytics'
+    | '/bookings'
     | '/campaigns'
     | '/contracts'
     | '/innovate'
@@ -350,6 +360,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/analytics'
+    | '/bookings'
     | '/campaigns'
     | '/contracts'
     | '/innovate'
@@ -384,6 +395,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/analytics'
+    | '/bookings'
     | '/campaigns'
     | '/contracts'
     | '/innovate'
@@ -419,6 +431,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  BookingsRoute: typeof BookingsRoute
   CampaignsRoute: typeof CampaignsRoute
   ContractsRoute: typeof ContractsRoute
   InnovateRoute: typeof InnovateRoute
@@ -520,6 +533,13 @@ declare module '@tanstack/react-router' {
       path: '/campaigns'
       fullPath: '/campaigns'
       preLoaderRoute: typeof CampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings': {
+      id: '/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof BookingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -694,6 +714,7 @@ const LocationsRouteWithChildren = LocationsRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  BookingsRoute: BookingsRoute,
   CampaignsRoute: CampaignsRoute,
   ContractsRoute: ContractsRoute,
   InnovateRoute: InnovateRoute,

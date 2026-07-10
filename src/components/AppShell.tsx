@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, type LucideIcon } from "lucide-react";
+import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
@@ -7,6 +7,8 @@ import { ScrollControls } from "./ScrollControls";
 
 const nav: { to: string; label: string; icon: LucideIcon }[] = [
   { to: "/", label: "Global Network", icon: Globe2 },
+  { to: "/locations", label: "Billboards", icon: MapPin },
+  { to: "/bookings", label: "Bookings", icon: Receipt },
   { to: "/studio-design", label: "Design Studio", icon: Palette },
   { to: "/studio", label: "AI Creative", icon: Sparkles },
   { to: "/rfps", label: "RFP Marketplace", icon: FileText },

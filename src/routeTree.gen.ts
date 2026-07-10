@@ -22,6 +22,7 @@ import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
+import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
 import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
 import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
 import { Route as ApiGenerateBillboardImageRouteImport } from './routes/api/generate-billboard-image'
@@ -105,6 +106,11 @@ const PartnersRegisterRoute = PartnersRegisterRouteImport.update({
   id: '/partners/register',
   path: '/partners/register',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsSlugRoute = LocationsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LocationsRoute,
 } as any)
 const GuideStadiumAdvertisingCostsRoute =
   GuideStadiumAdvertisingCostsRouteImport.update({
@@ -208,7 +214,7 @@ export interface FileRoutesByFullPath {
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
-  '/locations': typeof LocationsRoute
+  '/locations': typeof LocationsRouteWithChildren
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -222,6 +228,7 @@ export interface FileRoutesByFullPath {
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -241,7 +248,7 @@ export interface FileRoutesByTo {
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
-  '/locations': typeof LocationsRoute
+  '/locations': typeof LocationsRouteWithChildren
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -255,6 +262,7 @@ export interface FileRoutesByTo {
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -275,7 +283,7 @@ export interface FileRoutesById {
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
-  '/locations': typeof LocationsRoute
+  '/locations': typeof LocationsRouteWithChildren
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -324,6 +333,7 @@ export interface FileRouteTypes {
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/locations/$slug'
     | '/partners/register'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -357,6 +367,7 @@ export interface FileRouteTypes {
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/locations/$slug'
     | '/partners/register'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -390,6 +401,7 @@ export interface FileRouteTypes {
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/locations/$slug'
     | '/partners/register'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -410,7 +422,7 @@ export interface RootRouteChildren {
   CampaignsRoute: typeof CampaignsRoute
   ContractsRoute: typeof ContractsRoute
   InnovateRoute: typeof InnovateRoute
-  LocationsRoute: typeof LocationsRoute
+  LocationsRoute: typeof LocationsRouteWithChildren
   McpRoute: typeof McpRoute
   PartnerRoute: typeof PartnerRoute
   RfpsRoute: typeof RfpsRoute
@@ -530,6 +542,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/partners/register'
       preLoaderRoute: typeof PartnersRegisterRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/locations/$slug': {
+      id: '/locations/$slug'
+      path: '/$slug'
+      fullPath: '/locations/$slug'
+      preLoaderRoute: typeof LocationsSlugRouteImport
+      parentRoute: typeof LocationsRoute
     }
     '/guide/stadium-advertising-costs': {
       id: '/guide/stadium-advertising-costs'
@@ -660,13 +679,25 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LocationsRouteChildren {
+  LocationsSlugRoute: typeof LocationsSlugRoute
+}
+
+const LocationsRouteChildren: LocationsRouteChildren = {
+  LocationsSlugRoute: LocationsSlugRoute,
+}
+
+const LocationsRouteWithChildren = LocationsRoute._addFileChildren(
+  LocationsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
   CampaignsRoute: CampaignsRoute,
   ContractsRoute: ContractsRoute,
   InnovateRoute: InnovateRoute,
-  LocationsRoute: LocationsRoute,
+  LocationsRoute: LocationsRouteWithChildren,
   McpRoute: McpRoute,
   PartnerRoute: PartnerRoute,
   RfpsRoute: RfpsRoute,

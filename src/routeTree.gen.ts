@@ -34,6 +34,7 @@ import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi
 import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
 import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
+import { Route as ApiPublicPiBookingsRouteImport } from './routes/api/public/pi-bookings'
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
 import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
@@ -168,6 +169,11 @@ const ApiPublicPiCampaignsRoute = ApiPublicPiCampaignsRouteImport.update({
   path: '/api/public/pi-campaigns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiBookingsRoute = ApiPublicPiBookingsRouteImport.update({
+  id: '/api/public/pi-bookings',
+  path: '/api/public/pi-bookings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiBalanceRoute = ApiPublicPiBalanceRouteImport.update({
   id: '/api/public/pi-balance',
   path: '/api/public/pi-balance',
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-bookings': typeof ApiPublicPiBookingsRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
@@ -245,6 +252,7 @@ export interface FileRoutesByTo {
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-bookings': typeof ApiPublicPiBookingsRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
@@ -277,6 +285,7 @@ export interface FileRoutesById {
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-bookings': typeof ApiPublicPiBookingsRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
@@ -310,6 +319,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
+    | '/api/public/pi-bookings'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
+    | '/api/public/pi-bookings'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
@@ -372,6 +383,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
+    | '/api/public/pi-bookings'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
@@ -404,6 +416,7 @@ export interface RootRouteChildren {
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiAuthRoute: typeof ApiPublicPiAuthRoute
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
+  ApiPublicPiBookingsRoute: typeof ApiPublicPiBookingsRoute
   ApiPublicPiCampaignsRoute: typeof ApiPublicPiCampaignsRoute
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
   ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
@@ -589,6 +602,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiCampaignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-bookings': {
+      id: '/api/public/pi-bookings'
+      path: '/api/public/pi-bookings'
+      fullPath: '/api/public/pi-bookings'
+      preLoaderRoute: typeof ApiPublicPiBookingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-balance': {
       id: '/api/public/pi-balance'
       path: '/api/public/pi-balance'
@@ -645,6 +665,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiAuthRoute: ApiPublicPiAuthRoute,
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,
+  ApiPublicPiBookingsRoute: ApiPublicPiBookingsRoute,
   ApiPublicPiCampaignsRoute: ApiPublicPiCampaignsRoute,
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
   ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,

@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as InnovateRouteImport } from './routes/innovate'
 import { Route as ContractsRouteImport } from './routes/contracts'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
@@ -68,6 +69,11 @@ const PartnerRoute = PartnerRouteImport.update({
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsRoute = LocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InnovateRoute = InnovateRouteImport.update({
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
+  '/locations': typeof LocationsRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -234,6 +241,7 @@ export interface FileRoutesByTo {
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
+  '/locations': typeof LocationsRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -267,6 +275,7 @@ export interface FileRoutesById {
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
+  '/locations': typeof LocationsRoute
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -301,6 +310,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/contracts'
     | '/innovate'
+    | '/locations'
     | '/mcp'
     | '/partner'
     | '/rfps'
@@ -333,6 +343,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/contracts'
     | '/innovate'
+    | '/locations'
     | '/mcp'
     | '/partner'
     | '/rfps'
@@ -365,6 +376,7 @@ export interface FileRouteTypes {
     | '/campaigns'
     | '/contracts'
     | '/innovate'
+    | '/locations'
     | '/mcp'
     | '/partner'
     | '/rfps'
@@ -398,6 +410,7 @@ export interface RootRouteChildren {
   CampaignsRoute: typeof CampaignsRoute
   ContractsRoute: typeof ContractsRoute
   InnovateRoute: typeof InnovateRoute
+  LocationsRoute: typeof LocationsRoute
   McpRoute: typeof McpRoute
   PartnerRoute: typeof PartnerRoute
   RfpsRoute: typeof RfpsRoute
@@ -467,6 +480,13 @@ declare module '@tanstack/react-router' {
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/locations': {
+      id: '/locations'
+      path: '/locations'
+      fullPath: '/locations'
+      preLoaderRoute: typeof LocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/innovate': {
@@ -646,6 +666,7 @@ const rootRouteChildren: RootRouteChildren = {
   CampaignsRoute: CampaignsRoute,
   ContractsRoute: ContractsRoute,
   InnovateRoute: InnovateRoute,
+  LocationsRoute: LocationsRoute,
   McpRoute: McpRoute,
   PartnerRoute: PartnerRoute,
   RfpsRoute: RfpsRoute,

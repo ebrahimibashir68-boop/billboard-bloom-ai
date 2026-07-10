@@ -489,6 +489,160 @@ export type Database = {
           },
         ]
       }
+      billboard_locations: {
+        Row: {
+          active: boolean
+          city: string
+          country: string
+          created_at: string
+          daily_impressions: number
+          hourly_pi_rate: number
+          id: string
+          image_url: string | null
+          is_programmatic: boolean
+          lat: number | null
+          lng: number | null
+          name: string
+          partner_id: string | null
+          resolution: string | null
+          size_meters: string | null
+          slot_seconds: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          city: string
+          country: string
+          created_at?: string
+          daily_impressions?: number
+          hourly_pi_rate?: number
+          id?: string
+          image_url?: string | null
+          is_programmatic?: boolean
+          lat?: number | null
+          lng?: number | null
+          name: string
+          partner_id?: string | null
+          resolution?: string | null
+          size_meters?: string | null
+          slot_seconds?: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          city?: string
+          country?: string
+          created_at?: string
+          daily_impressions?: number
+          hourly_pi_rate?: number
+          id?: string
+          image_url?: string | null
+          is_programmatic?: boolean
+          lat?: number | null
+          lng?: number | null
+          name?: string
+          partner_id?: string | null
+          resolution?: string | null
+          size_meters?: string | null
+          slot_seconds?: number
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billboard_locations_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "billboard_locations_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          campaign_id: string | null
+          created_at: string
+          hours: number
+          id: string
+          invoice_id: string | null
+          location_id: string
+          notes: string | null
+          platform_fee_pi: number
+          quoted_pi: number
+          starts_at: string
+          status: string
+          total_pi: number
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          campaign_id?: string | null
+          created_at?: string
+          hours: number
+          id?: string
+          invoice_id?: string | null
+          location_id: string
+          notes?: string | null
+          platform_fee_pi: number
+          quoted_pi: number
+          starts_at: string
+          status?: string
+          total_pi: number
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          campaign_id?: string | null
+          created_at?: string
+          hours?: number
+          id?: string
+          invoice_id?: string | null
+          location_id?: string
+          notes?: string | null
+          platform_fee_pi?: number
+          quoted_pi?: number
+          starts_at?: string
+          status?: string
+          total_pi?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "ad_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       brand_presets: {
         Row: {
           created_at: string
@@ -666,6 +820,7 @@ export type Database = {
         Row: {
           advertiser_pi_uid: string
           advertiser_pi_username: string | null
+          booking_id: string | null
           contract_id: string | null
           created_at: string
           due_at: string
@@ -686,6 +841,7 @@ export type Database = {
         Insert: {
           advertiser_pi_uid: string
           advertiser_pi_username?: string | null
+          booking_id?: string | null
           contract_id?: string | null
           created_at?: string
           due_at: string
@@ -706,6 +862,7 @@ export type Database = {
         Update: {
           advertiser_pi_uid?: string
           advertiser_pi_username?: string | null
+          booking_id?: string | null
           contract_id?: string | null
           created_at?: string
           due_at?: string
@@ -835,6 +992,45 @@ export type Database = {
           },
         ]
       }
+      partner_admin_assignments: {
+        Row: {
+          created_at: string
+          id: string
+          partner_id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          partner_id: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          partner_id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "partner_admin_assignments_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "partner_admin_assignments_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pi_balances: {
         Row: {
           balance: number
@@ -885,6 +1081,48 @@ export type Database = {
           txid?: string
         }
         Relationships: []
+      }
+      plays: {
+        Row: {
+          booking_id: string
+          created_at: string
+          id: string
+          impressions: number
+          location_id: string
+          played_at: string
+        }
+        Insert: {
+          booking_id: string
+          created_at?: string
+          id?: string
+          impressions?: number
+          location_id: string
+          played_at: string
+        }
+        Update: {
+          booking_id?: string
+          created_at?: string
+          id?: string
+          impressions?: number
+          location_id?: string
+          played_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "plays_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "plays_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       proof_of_plays: {
         Row: {
@@ -1206,6 +1444,21 @@ export type Database = {
       }
     }
     Functions: {
+      create_booking: {
+        Args: {
+          p_campaign_id: string
+          p_hours: number
+          p_location_id: string
+          p_pi_uid: string
+          p_pi_username: string
+          p_starts_at: string
+        }
+        Returns: {
+          booking_id: string
+          invoice_id: string
+          total_pi: number
+        }[]
+      }
       credit_pi_balance: {
         Args: { p_amount: number; p_pi_uid: string; p_pi_username: string }
         Returns: number
@@ -1216,6 +1469,17 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      is_partner_staff: {
+        Args: { _partner: string; _user: string }
+        Returns: boolean
+      }
+      pay_booking_invoice: {
+        Args: { p_invoice_id: string; p_pi_uid: string }
+        Returns: {
+          new_balance: number
+          plays_created: number
+        }[]
       }
       purchase_ad_campaign: {
         Args: {

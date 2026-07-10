@@ -15,12 +15,15 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as InnovateRouteImport } from './routes/innovate'
 import { Route as ContractsRouteImport } from './routes/contracts'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as BookingsRouteImport } from './routes/bookings'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
+import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
 import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
 import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
 import { Route as ApiGenerateBillboardImageRouteImport } from './routes/api/generate-billboard-image'
@@ -34,6 +37,7 @@ import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi
 import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
 import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
+import { Route as ApiPublicPiBookingsRouteImport } from './routes/api/public/pi-bookings'
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
 import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
@@ -69,6 +73,11 @@ const McpRoute = McpRouteImport.update({
   path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LocationsRoute = LocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InnovateRoute = InnovateRouteImport.update({
   id: '/innovate',
   path: '/innovate',
@@ -82,6 +91,11 @@ const ContractsRoute = ContractsRouteImport.update({
 const CampaignsRoute = CampaignsRouteImport.update({
   id: '/campaigns',
   path: '/campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookingsRoute = BookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -98,6 +112,11 @@ const PartnersRegisterRoute = PartnersRegisterRouteImport.update({
   id: '/partners/register',
   path: '/partners/register',
   getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsSlugRoute = LocationsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LocationsRoute,
 } as any)
 const GuideStadiumAdvertisingCostsRoute =
   GuideStadiumAdvertisingCostsRouteImport.update({
@@ -168,6 +187,11 @@ const ApiPublicPiCampaignsRoute = ApiPublicPiCampaignsRouteImport.update({
   path: '/api/public/pi-campaigns',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiBookingsRoute = ApiPublicPiBookingsRouteImport.update({
+  id: '/api/public/pi-bookings',
+  path: '/api/public/pi-bookings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiBalanceRoute = ApiPublicPiBalanceRouteImport.update({
   id: '/api/public/pi-balance',
   path: '/api/public/pi-balance',
@@ -193,9 +217,11 @@ const Char91DotmcpChar93InvokeToolToolRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
+  '/locations': typeof LocationsRouteWithChildren
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -209,11 +235,13 @@ export interface FileRoutesByFullPath {
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-bookings': typeof ApiPublicPiBookingsRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
@@ -224,9 +252,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
+  '/locations': typeof LocationsRouteWithChildren
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -240,11 +270,13 @@ export interface FileRoutesByTo {
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-bookings': typeof ApiPublicPiBookingsRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
@@ -256,9 +288,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analytics': typeof AnalyticsRoute
+  '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
   '/innovate': typeof InnovateRoute
+  '/locations': typeof LocationsRouteWithChildren
   '/mcp': typeof McpRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -272,11 +306,13 @@ export interface FileRoutesById {
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
+  '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
+  '/api/public/pi-bookings': typeof ApiPublicPiBookingsRoute
   '/api/public/pi-campaigns': typeof ApiPublicPiCampaignsRoute
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
@@ -289,9 +325,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/analytics'
+    | '/bookings'
     | '/campaigns'
     | '/contracts'
     | '/innovate'
+    | '/locations'
     | '/mcp'
     | '/partner'
     | '/rfps'
@@ -305,11 +343,13 @@ export interface FileRouteTypes {
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/locations/$slug'
     | '/partners/register'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
+    | '/api/public/pi-bookings'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
@@ -320,9 +360,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/analytics'
+    | '/bookings'
     | '/campaigns'
     | '/contracts'
     | '/innovate'
+    | '/locations'
     | '/mcp'
     | '/partner'
     | '/rfps'
@@ -336,11 +378,13 @@ export interface FileRouteTypes {
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/locations/$slug'
     | '/partners/register'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
+    | '/api/public/pi-bookings'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
@@ -351,9 +395,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/analytics'
+    | '/bookings'
     | '/campaigns'
     | '/contracts'
     | '/innovate'
+    | '/locations'
     | '/mcp'
     | '/partner'
     | '/rfps'
@@ -367,11 +413,13 @@ export interface FileRouteTypes {
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/guide/stadium-advertising-costs'
+    | '/locations/$slug'
     | '/partners/register'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
+    | '/api/public/pi-bookings'
     | '/api/public/pi-campaigns'
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
@@ -383,9 +431,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyticsRoute: typeof AnalyticsRoute
+  BookingsRoute: typeof BookingsRoute
   CampaignsRoute: typeof CampaignsRoute
   ContractsRoute: typeof ContractsRoute
   InnovateRoute: typeof InnovateRoute
+  LocationsRoute: typeof LocationsRouteWithChildren
   McpRoute: typeof McpRoute
   PartnerRoute: typeof PartnerRoute
   RfpsRoute: typeof RfpsRoute
@@ -404,6 +454,7 @@ export interface RootRouteChildren {
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiAuthRoute: typeof ApiPublicPiAuthRoute
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
+  ApiPublicPiBookingsRoute: typeof ApiPublicPiBookingsRoute
   ApiPublicPiCampaignsRoute: typeof ApiPublicPiCampaignsRoute
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
   ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
@@ -456,6 +507,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/locations': {
+      id: '/locations'
+      path: '/locations'
+      fullPath: '/locations'
+      preLoaderRoute: typeof LocationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/innovate': {
       id: '/innovate'
       path: '/innovate'
@@ -475,6 +533,13 @@ declare module '@tanstack/react-router' {
       path: '/campaigns'
       fullPath: '/campaigns'
       preLoaderRoute: typeof CampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bookings': {
+      id: '/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof BookingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -497,6 +562,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/partners/register'
       preLoaderRoute: typeof PartnersRegisterRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/locations/$slug': {
+      id: '/locations/$slug'
+      path: '/$slug'
+      fullPath: '/locations/$slug'
+      preLoaderRoute: typeof LocationsSlugRouteImport
+      parentRoute: typeof LocationsRoute
     }
     '/guide/stadium-advertising-costs': {
       id: '/guide/stadium-advertising-costs'
@@ -589,6 +661,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiCampaignsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-bookings': {
+      id: '/api/public/pi-bookings'
+      path: '/api/public/pi-bookings'
+      fullPath: '/api/public/pi-bookings'
+      preLoaderRoute: typeof ApiPublicPiBookingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-balance': {
       id: '/api/public/pi-balance'
       path: '/api/public/pi-balance'
@@ -620,12 +699,26 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface LocationsRouteChildren {
+  LocationsSlugRoute: typeof LocationsSlugRoute
+}
+
+const LocationsRouteChildren: LocationsRouteChildren = {
+  LocationsSlugRoute: LocationsSlugRoute,
+}
+
+const LocationsRouteWithChildren = LocationsRoute._addFileChildren(
+  LocationsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyticsRoute: AnalyticsRoute,
+  BookingsRoute: BookingsRoute,
   CampaignsRoute: CampaignsRoute,
   ContractsRoute: ContractsRoute,
   InnovateRoute: InnovateRoute,
+  LocationsRoute: LocationsRouteWithChildren,
   McpRoute: McpRoute,
   PartnerRoute: PartnerRoute,
   RfpsRoute: RfpsRoute,
@@ -645,6 +738,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiAuthRoute: ApiPublicPiAuthRoute,
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,
+  ApiPublicPiBookingsRoute: ApiPublicPiBookingsRoute,
   ApiPublicPiCampaignsRoute: ApiPublicPiCampaignsRoute,
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
   ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,

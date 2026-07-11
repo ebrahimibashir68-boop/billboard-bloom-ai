@@ -679,6 +679,47 @@ export type Database = {
         }
         Relationships: []
       }
+      creative_optimizations: {
+        Row: {
+          audience: Json
+          created_at: string
+          creative_id: string
+          headline_variants: Json
+          id: string
+          pi_uid: string
+          score: number | null
+          suggestions: Json
+        }
+        Insert: {
+          audience?: Json
+          created_at?: string
+          creative_id: string
+          headline_variants?: Json
+          id?: string
+          pi_uid: string
+          score?: number | null
+          suggestions?: Json
+        }
+        Update: {
+          audience?: Json
+          created_at?: string
+          creative_id?: string
+          headline_variants?: Json
+          id?: string
+          pi_uid?: string
+          score?: number | null
+          suggestions?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_optimizations_creative_id_fkey"
+            columns: ["creative_id"]
+            isOneToOne: false
+            referencedRelation: "creatives"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       creatives: {
         Row: {
           created_at: string
@@ -910,6 +951,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      ledger_entries: {
+        Row: {
+          created_at: string
+          hash: string
+          kind: string
+          payload: Json
+          pi_txid: string | null
+          prev_hash: string
+          ref_id: string | null
+          ref_table: string
+          seq: number
+        }
+        Insert: {
+          created_at?: string
+          hash: string
+          kind: string
+          payload?: Json
+          pi_txid?: string | null
+          prev_hash: string
+          ref_id?: string | null
+          ref_table: string
+          seq?: number
+        }
+        Update: {
+          created_at?: string
+          hash?: string
+          kind?: string
+          payload?: Json
+          pi_txid?: string | null
+          prev_hash?: string
+          ref_id?: string | null
+          ref_table?: string
+          seq?: number
+        }
+        Relationships: []
       }
       make_goods: {
         Row: {
@@ -1184,6 +1261,127 @@ export type Database = {
             columns: ["venue_id"]
             isOneToOne: false
             referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      screen_reports: {
+        Row: {
+          booking_id: string | null
+          created_at: string
+          id: string
+          impressions: number
+          kind: string
+          meta: Json
+          screen_id: string
+        }
+        Insert: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          impressions?: number
+          kind?: string
+          meta?: Json
+          screen_id: string
+        }
+        Update: {
+          booking_id?: string | null
+          created_at?: string
+          id?: string
+          impressions?: number
+          kind?: string
+          meta?: Json
+          screen_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "screen_reports_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "screen_reports_screen_id_fkey"
+            columns: ["screen_id"]
+            isOneToOne: false
+            referencedRelation: "screens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      screens: {
+        Row: {
+          created_at: string
+          current_booking_id: string | null
+          device_key: string
+          id: string
+          last_ping_at: string | null
+          location_id: string | null
+          name: string
+          notes: string | null
+          orientation: string
+          partner_id: string | null
+          pi_uid: string | null
+          pi_username: string | null
+          resolution: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_booking_id?: string | null
+          device_key?: string
+          id?: string
+          last_ping_at?: string | null
+          location_id?: string | null
+          name: string
+          notes?: string | null
+          orientation?: string
+          partner_id?: string | null
+          pi_uid?: string | null
+          pi_username?: string | null
+          resolution?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_booking_id?: string | null
+          device_key?: string
+          id?: string
+          last_ping_at?: string | null
+          location_id?: string | null
+          name?: string
+          notes?: string | null
+          orientation?: string
+          partner_id?: string | null
+          pi_uid?: string | null
+          pi_username?: string | null
+          resolution?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "screens_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "screens_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "screens_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
             referencedColumns: ["id"]
           },
         ]
@@ -1474,6 +1672,16 @@ export type Database = {
         Args: { _partner: string; _user: string }
         Returns: boolean
       }
+      ledger_append: {
+        Args: {
+          p_kind: string
+          p_payload: Json
+          p_pi_txid?: string
+          p_ref_id: string
+          p_table: string
+        }
+        Returns: string
+      }
       pay_booking_invoice: {
         Args: { p_invoice_id: string; p_pi_uid: string }
         Returns: {
@@ -1493,6 +1701,30 @@ export type Database = {
         Returns: {
           campaign_id: string
           new_balance: number
+        }[]
+      }
+      screen_playlist: {
+        Args: { p_device_key: string }
+        Returns: {
+          booking_id: string
+          creative_id: string
+          creative_kind: string
+          creative_spec: Json
+          ends_at: string
+          hours: number
+          location_id: string
+          location_name: string
+          screen_id: string
+          screen_name: string
+          starts_at: string
+        }[]
+      }
+      verify_ledger_integrity: {
+        Args: never
+        Returns: {
+          checked: number
+          first_bad_seq: number
+          ok: boolean
         }[]
       }
     }

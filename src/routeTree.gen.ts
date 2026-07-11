@@ -14,9 +14,13 @@ import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PartnerRouteImport } from './routes/partner'
+import { Route as OptimizeRouteImport } from './routes/optimize'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LocationsRouteImport } from './routes/locations'
+import { Route as LedgerRouteImport } from './routes/ledger'
 import { Route as InnovateRouteImport } from './routes/innovate'
+import { Route as DisplayerRouteImport } from './routes/displayer'
 import { Route as ContractsRouteImport } from './routes/contracts'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as BookingsRouteImport } from './routes/bookings'
@@ -31,8 +35,12 @@ import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
+import { Route as ApiPublicVerifyLedgerRouteImport } from './routes/api/public/verify-ledger'
+import { Route as ApiPublicScreenPlaylistRouteImport } from './routes/api/public/screen-playlist'
+import { Route as ApiPublicPiScreensRouteImport } from './routes/api/public/pi-screens'
 import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
+import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
 import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
 import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
@@ -68,9 +76,19 @@ const PartnerRoute = PartnerRouteImport.update({
   path: '/partner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OptimizeRoute = OptimizeRouteImport.update({
+  id: '/optimize',
+  path: '/optimize',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -78,9 +96,19 @@ const LocationsRoute = LocationsRouteImport.update({
   path: '/locations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LedgerRoute = LedgerRouteImport.update({
+  id: '/ledger',
+  path: '/ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InnovateRoute = InnovateRouteImport.update({
   id: '/innovate',
   path: '/innovate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisplayerRoute = DisplayerRouteImport.update({
+  id: '/displayer',
+  path: '/displayer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContractsRoute = ContractsRouteImport.update({
@@ -157,6 +185,21 @@ const Char91DotmcpChar93ListToolsRoute =
     path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicVerifyLedgerRoute = ApiPublicVerifyLedgerRouteImport.update({
+  id: '/api/public/verify-ledger',
+  path: '/api/public/verify-ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicScreenPlaylistRoute = ApiPublicScreenPlaylistRouteImport.update({
+  id: '/api/public/screen-playlist',
+  path: '/api/public/screen-playlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiScreensRoute = ApiPublicPiScreensRouteImport.update({
+  id: '/api/public/pi-screens',
+  path: '/api/public/pi-screens',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiRfpsRoute = ApiPublicPiRfpsRouteImport.update({
   id: '/api/public/pi-rfps',
   path: '/api/public/pi-rfps',
@@ -167,6 +210,12 @@ const ApiPublicPiPartnersRoute = ApiPublicPiPartnersRouteImport.update({
   path: '/api/public/pi-partners',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiOptimizeCreativeRoute =
+  ApiPublicPiOptimizeCreativeRouteImport.update({
+    id: '/api/public/pi-optimize-creative',
+    path: '/api/public/pi-optimize-creative',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicPiCreativesRoute = ApiPublicPiCreativesRouteImport.update({
   id: '/api/public/pi-creatives',
   path: '/api/public/pi-creatives',
@@ -220,9 +269,13 @@ export interface FileRoutesByFullPath {
   '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
+  '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
+  '/ledger': typeof LedgerRoute
   '/locations': typeof LocationsRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -246,8 +299,12 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
+  '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
+  '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
+  '/api/public/verify-ledger': typeof ApiPublicVerifyLedgerRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -255,9 +312,13 @@ export interface FileRoutesByTo {
   '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
+  '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
+  '/ledger': typeof LedgerRoute
   '/locations': typeof LocationsRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -281,8 +342,12 @@ export interface FileRoutesByTo {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
+  '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
+  '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
+  '/api/public/verify-ledger': typeof ApiPublicVerifyLedgerRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -291,9 +356,13 @@ export interface FileRoutesById {
   '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
+  '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
+  '/ledger': typeof LedgerRoute
   '/locations': typeof LocationsRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -317,8 +386,12 @@ export interface FileRoutesById {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
+  '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
+  '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
+  '/api/public/verify-ledger': typeof ApiPublicVerifyLedgerRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -328,9 +401,13 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/campaigns'
     | '/contracts'
+    | '/displayer'
     | '/innovate'
+    | '/ledger'
     | '/locations'
+    | '/marketplace'
     | '/mcp'
+    | '/optimize'
     | '/partner'
     | '/rfps'
     | '/sitemap.xml'
@@ -354,8 +431,12 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-rfps'
+    | '/api/public/pi-screens'
+    | '/api/public/screen-playlist'
+    | '/api/public/verify-ledger'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -363,9 +444,13 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/campaigns'
     | '/contracts'
+    | '/displayer'
     | '/innovate'
+    | '/ledger'
     | '/locations'
+    | '/marketplace'
     | '/mcp'
+    | '/optimize'
     | '/partner'
     | '/rfps'
     | '/sitemap.xml'
@@ -389,8 +474,12 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-rfps'
+    | '/api/public/pi-screens'
+    | '/api/public/screen-playlist'
+    | '/api/public/verify-ledger'
   id:
     | '__root__'
     | '/'
@@ -398,9 +487,13 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/campaigns'
     | '/contracts'
+    | '/displayer'
     | '/innovate'
+    | '/ledger'
     | '/locations'
+    | '/marketplace'
     | '/mcp'
+    | '/optimize'
     | '/partner'
     | '/rfps'
     | '/sitemap.xml'
@@ -424,8 +517,12 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-rfps'
+    | '/api/public/pi-screens'
+    | '/api/public/screen-playlist'
+    | '/api/public/verify-ledger'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -434,9 +531,13 @@ export interface RootRouteChildren {
   BookingsRoute: typeof BookingsRoute
   CampaignsRoute: typeof CampaignsRoute
   ContractsRoute: typeof ContractsRoute
+  DisplayerRoute: typeof DisplayerRoute
   InnovateRoute: typeof InnovateRoute
+  LedgerRoute: typeof LedgerRoute
   LocationsRoute: typeof LocationsRouteWithChildren
+  MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
+  OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
   RfpsRoute: typeof RfpsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -459,8 +560,12 @@ export interface RootRouteChildren {
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
   ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
   ApiPublicPiCreativesRoute: typeof ApiPublicPiCreativesRoute
+  ApiPublicPiOptimizeCreativeRoute: typeof ApiPublicPiOptimizeCreativeRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
   ApiPublicPiRfpsRoute: typeof ApiPublicPiRfpsRoute
+  ApiPublicPiScreensRoute: typeof ApiPublicPiScreensRoute
+  ApiPublicScreenPlaylistRoute: typeof ApiPublicScreenPlaylistRoute
+  ApiPublicVerifyLedgerRoute: typeof ApiPublicVerifyLedgerRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -500,11 +605,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/optimize': {
+      id: '/optimize'
+      path: '/optimize'
+      fullPath: '/optimize'
+      preLoaderRoute: typeof OptimizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -514,11 +633,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ledger': {
+      id: '/ledger'
+      path: '/ledger'
+      fullPath: '/ledger'
+      preLoaderRoute: typeof LedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/innovate': {
       id: '/innovate'
       path: '/innovate'
       fullPath: '/innovate'
       preLoaderRoute: typeof InnovateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/displayer': {
+      id: '/displayer'
+      path: '/displayer'
+      fullPath: '/displayer'
+      preLoaderRoute: typeof DisplayerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contracts': {
@@ -619,6 +752,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/verify-ledger': {
+      id: '/api/public/verify-ledger'
+      path: '/api/public/verify-ledger'
+      fullPath: '/api/public/verify-ledger'
+      preLoaderRoute: typeof ApiPublicVerifyLedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/screen-playlist': {
+      id: '/api/public/screen-playlist'
+      path: '/api/public/screen-playlist'
+      fullPath: '/api/public/screen-playlist'
+      preLoaderRoute: typeof ApiPublicScreenPlaylistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-screens': {
+      id: '/api/public/pi-screens'
+      path: '/api/public/pi-screens'
+      fullPath: '/api/public/pi-screens'
+      preLoaderRoute: typeof ApiPublicPiScreensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-rfps': {
       id: '/api/public/pi-rfps'
       path: '/api/public/pi-rfps'
@@ -631,6 +785,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/pi-partners'
       fullPath: '/api/public/pi-partners'
       preLoaderRoute: typeof ApiPublicPiPartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-optimize-creative': {
+      id: '/api/public/pi-optimize-creative'
+      path: '/api/public/pi-optimize-creative'
+      fullPath: '/api/public/pi-optimize-creative'
+      preLoaderRoute: typeof ApiPublicPiOptimizeCreativeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/pi-creatives': {
@@ -717,9 +878,13 @@ const rootRouteChildren: RootRouteChildren = {
   BookingsRoute: BookingsRoute,
   CampaignsRoute: CampaignsRoute,
   ContractsRoute: ContractsRoute,
+  DisplayerRoute: DisplayerRoute,
   InnovateRoute: InnovateRoute,
+  LedgerRoute: LedgerRoute,
   LocationsRoute: LocationsRouteWithChildren,
+  MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,
+  OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
   RfpsRoute: RfpsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -743,8 +908,12 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
   ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,
   ApiPublicPiCreativesRoute: ApiPublicPiCreativesRoute,
+  ApiPublicPiOptimizeCreativeRoute: ApiPublicPiOptimizeCreativeRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
   ApiPublicPiRfpsRoute: ApiPublicPiRfpsRoute,
+  ApiPublicPiScreensRoute: ApiPublicPiScreensRoute,
+  ApiPublicScreenPlaylistRoute: ApiPublicScreenPlaylistRoute,
+  ApiPublicVerifyLedgerRoute: ApiPublicVerifyLedgerRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, type LucideIcon } from "lucide-react";
+import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, Store, Radio, Blocks, Wand2, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
@@ -7,14 +7,18 @@ import { ScrollControls } from "./ScrollControls";
 
 const nav: { to: string; label: string; icon: LucideIcon }[] = [
   { to: "/", label: "Global Network", icon: Globe2 },
+  { to: "/marketplace", label: "Marketplace", icon: Store },
   { to: "/locations", label: "Billboards", icon: MapPin },
   { to: "/bookings", label: "Bookings", icon: Receipt },
+  { to: "/displayer", label: "Displayer Console", icon: Radio },
   { to: "/studio-design", label: "Design Studio", icon: Palette },
   { to: "/studio", label: "AI Creative", icon: Sparkles },
+  { to: "/optimize", label: "AI Optimizer", icon: Wand2 },
   { to: "/rfps", label: "RFP Marketplace", icon: FileText },
   { to: "/contracts", label: "Smart Contracts", icon: FileCheck2 },
   { to: "/campaigns", label: "Campaigns", icon: Megaphone },
   { to: "/partner", label: "Partner Console", icon: Building2 },
+  { to: "/ledger", label: "On-chain Ledger", icon: Blocks },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/innovate", label: "Innovation Bot", icon: Bot },
 ];

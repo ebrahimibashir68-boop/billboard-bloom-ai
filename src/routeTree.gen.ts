@@ -14,9 +14,13 @@ import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PartnerRouteImport } from './routes/partner'
+import { Route as OptimizeRouteImport } from './routes/optimize'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LocationsRouteImport } from './routes/locations'
+import { Route as LedgerRouteImport } from './routes/ledger'
 import { Route as InnovateRouteImport } from './routes/innovate'
+import { Route as DisplayerRouteImport } from './routes/displayer'
 import { Route as ContractsRouteImport } from './routes/contracts'
 import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as BookingsRouteImport } from './routes/bookings'
@@ -72,9 +76,19 @@ const PartnerRoute = PartnerRouteImport.update({
   path: '/partner',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OptimizeRoute = OptimizeRouteImport.update({
+  id: '/optimize',
+  path: '/optimize',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const McpRoute = McpRouteImport.update({
   id: '/mcp',
   path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -82,9 +96,19 @@ const LocationsRoute = LocationsRouteImport.update({
   path: '/locations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LedgerRoute = LedgerRouteImport.update({
+  id: '/ledger',
+  path: '/ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InnovateRoute = InnovateRouteImport.update({
   id: '/innovate',
   path: '/innovate',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisplayerRoute = DisplayerRouteImport.update({
+  id: '/displayer',
+  path: '/displayer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContractsRoute = ContractsRouteImport.update({
@@ -245,9 +269,13 @@ export interface FileRoutesByFullPath {
   '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
+  '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
+  '/ledger': typeof LedgerRoute
   '/locations': typeof LocationsRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -284,9 +312,13 @@ export interface FileRoutesByTo {
   '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
+  '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
+  '/ledger': typeof LedgerRoute
   '/locations': typeof LocationsRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -324,9 +356,13 @@ export interface FileRoutesById {
   '/bookings': typeof BookingsRoute
   '/campaigns': typeof CampaignsRoute
   '/contracts': typeof ContractsRoute
+  '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
+  '/ledger': typeof LedgerRoute
   '/locations': typeof LocationsRouteWithChildren
+  '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -365,9 +401,13 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/campaigns'
     | '/contracts'
+    | '/displayer'
     | '/innovate'
+    | '/ledger'
     | '/locations'
+    | '/marketplace'
     | '/mcp'
+    | '/optimize'
     | '/partner'
     | '/rfps'
     | '/sitemap.xml'
@@ -404,9 +444,13 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/campaigns'
     | '/contracts'
+    | '/displayer'
     | '/innovate'
+    | '/ledger'
     | '/locations'
+    | '/marketplace'
     | '/mcp'
+    | '/optimize'
     | '/partner'
     | '/rfps'
     | '/sitemap.xml'
@@ -443,9 +487,13 @@ export interface FileRouteTypes {
     | '/bookings'
     | '/campaigns'
     | '/contracts'
+    | '/displayer'
     | '/innovate'
+    | '/ledger'
     | '/locations'
+    | '/marketplace'
     | '/mcp'
+    | '/optimize'
     | '/partner'
     | '/rfps'
     | '/sitemap.xml'
@@ -483,9 +531,13 @@ export interface RootRouteChildren {
   BookingsRoute: typeof BookingsRoute
   CampaignsRoute: typeof CampaignsRoute
   ContractsRoute: typeof ContractsRoute
+  DisplayerRoute: typeof DisplayerRoute
   InnovateRoute: typeof InnovateRoute
+  LedgerRoute: typeof LedgerRoute
   LocationsRoute: typeof LocationsRouteWithChildren
+  MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
+  OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
   RfpsRoute: typeof RfpsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -553,11 +605,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/optimize': {
+      id: '/optimize'
+      path: '/optimize'
+      fullPath: '/optimize'
+      preLoaderRoute: typeof OptimizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/mcp': {
       id: '/mcp'
       path: '/mcp'
       fullPath: '/mcp'
       preLoaderRoute: typeof McpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -567,11 +633,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ledger': {
+      id: '/ledger'
+      path: '/ledger'
+      fullPath: '/ledger'
+      preLoaderRoute: typeof LedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/innovate': {
       id: '/innovate'
       path: '/innovate'
       fullPath: '/innovate'
       preLoaderRoute: typeof InnovateRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/displayer': {
+      id: '/displayer'
+      path: '/displayer'
+      fullPath: '/displayer'
+      preLoaderRoute: typeof DisplayerRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contracts': {
@@ -798,9 +878,13 @@ const rootRouteChildren: RootRouteChildren = {
   BookingsRoute: BookingsRoute,
   CampaignsRoute: CampaignsRoute,
   ContractsRoute: ContractsRoute,
+  DisplayerRoute: DisplayerRoute,
   InnovateRoute: InnovateRoute,
+  LedgerRoute: LedgerRoute,
   LocationsRoute: LocationsRouteWithChildren,
+  MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,
+  OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
   RfpsRoute: RfpsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,

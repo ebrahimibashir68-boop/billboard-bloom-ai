@@ -20,15 +20,15 @@ const CreateSchema = z.object({
 export const Route = createFileRoute("/api/public/pi-rfps")({
   server: {
     handlers: {
-      // Public marketplace: anyone can browse open RFPs.
+      // Marketplace listing requires authentication to avoid exposing advertiser identifiers publicly.
       GET: async ({ request }) => {
+        const token = bearer(request);
+        if (!token) return Response.json({ error: "Unauthorized" }, { status: 401 });
+        const user = await verifyPiUser(token);
+        if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
         const url = new URL(request.url);
         const mine = url.searchParams.get("mine") === "1";
         if (mine) {
-          const token = bearer(request);
-          if (!token) return Response.json({ error: "Unauthorized" }, { status: 401 });
-          const user = await verifyPiUser(token);
-          if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
           const { data, error } = await supabaseAdmin
             .from("ad_rfps")
             .select("*")
@@ -40,13 +40,14 @@ export const Route = createFileRoute("/api/public/pi-rfps")({
         }
         const { data, error } = await supabaseAdmin
           .from("ad_rfps")
-          .select("id, campaign_name, brief, objective, target_countries, target_cities, budget_pi, start_date, end_date, preferred_formats, status, advertiser_pi_username, created_at")
+          .select("id, campaign_name, brief, objective, target_countries, target_cities, budget_pi, start_date, end_date, preferred_formats, status, created_at")
           .in("status", ["open", "awarded"])
           .order("created_at", { ascending: false })
           .limit(100);
         if (error) return Response.json({ error: "Internal error" }, { status: 500 });
         return Response.json({ rfps: data ?? [] });
       },
+
       POST: async ({ request }) => {
         const token = bearer(request);
         if (!token) return Response.json({ error: "Unauthorized" }, { status: 401 });

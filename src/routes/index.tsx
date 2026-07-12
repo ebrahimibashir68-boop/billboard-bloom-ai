@@ -17,7 +17,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Pi Billboard — Global Network Command" },
       {
         property: "og:description",
-        content: "AI-prepared advertising across sports and live venues, paid in Pi.",
+        content: "Prepare and deploy AI-generated advertisements across stadiums and live venues worldwide, powered by the Pi ecosystem.",
       },
       { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/" },
     ],

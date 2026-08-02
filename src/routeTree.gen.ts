@@ -26,6 +26,7 @@ import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as BookingsRouteImport } from './routes/bookings'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CitiesIndexRouteImport } from './routes/cities.index'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
 import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
@@ -135,6 +136,11 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CitiesIndexRoute = CitiesIndexRouteImport.update({
+  id: '/cities/',
+  path: '/cities/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnersRegisterRoute = PartnersRegisterRouteImport.update({
@@ -296,6 +302,7 @@ export interface FileRoutesByFullPath {
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/cities/': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -340,6 +347,7 @@ export interface FileRoutesByTo {
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/cities': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -385,6 +393,7 @@ export interface FileRoutesById {
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/cities/': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -431,6 +440,7 @@ export interface FileRouteTypes {
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/cities/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -475,6 +485,7 @@ export interface FileRouteTypes {
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/cities'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -519,6 +530,7 @@ export interface FileRouteTypes {
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/cities/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -563,6 +575,7 @@ export interface RootRouteChildren {
   ApiInnovateFeedRoute: typeof ApiInnovateFeedRoute
   GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
   PartnersRegisterRoute: typeof PartnersRegisterRoute
+  CitiesIndexRoute: typeof CitiesIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
@@ -700,6 +713,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cities/': {
+      id: '/cities/'
+      path: '/cities'
+      fullPath: '/cities/'
+      preLoaderRoute: typeof CitiesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partners/register': {
@@ -919,6 +939,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInnovateFeedRoute: ApiInnovateFeedRoute,
   GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
   PartnersRegisterRoute: PartnersRegisterRoute,
+  CitiesIndexRoute: CitiesIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,

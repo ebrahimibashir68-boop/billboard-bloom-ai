@@ -9,6 +9,8 @@ const nav: { to: string; label: string; icon: LucideIcon }[] = [
   { to: "/", label: "Global Network", icon: Globe2 },
   { to: "/marketplace", label: "Marketplace", icon: Store },
   { to: "/locations", label: "Billboards", icon: MapPin },
+  { to: "/cities", label: "Cities", icon: Building2 },
+
   { to: "/bookings", label: "Bookings", icon: Receipt },
   { to: "/displayer", label: "Displayer Console", icon: Radio },
   { to: "/studio-design", label: "Design Studio", icon: Palette },

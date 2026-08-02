@@ -50,6 +50,7 @@ import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-b
 import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
 const StudioDesignRoute = StudioDesignRouteImport.update({
   id: '/studio-design',
@@ -262,6 +263,11 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -290,6 +296,7 @@ export interface FileRoutesByFullPath {
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
@@ -333,6 +340,7 @@ export interface FileRoutesByTo {
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
@@ -377,6 +385,7 @@ export interface FileRoutesById {
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
@@ -422,6 +431,7 @@ export interface FileRouteTypes {
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
@@ -465,6 +475,7 @@ export interface FileRouteTypes {
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
@@ -508,6 +519,7 @@ export interface FileRouteTypes {
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
@@ -551,6 +563,7 @@ export interface RootRouteChildren {
   ApiInnovateFeedRoute: typeof ApiInnovateFeedRoute
   GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
   PartnersRegisterRoute: typeof PartnersRegisterRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiAuthRoute: typeof ApiPublicPiAuthRoute
@@ -857,6 +870,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -899,6 +919,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiInnovateFeedRoute: ApiInnovateFeedRoute,
   GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
   PartnersRegisterRoute: PartnersRegisterRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiAuthRoute: ApiPublicPiAuthRoute,

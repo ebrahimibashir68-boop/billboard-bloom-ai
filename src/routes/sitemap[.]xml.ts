@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { CITIES } from "@/lib/cities";
+
 
 const BASE_URL = "https://billboard-bloom-ai.lovable.app";
 

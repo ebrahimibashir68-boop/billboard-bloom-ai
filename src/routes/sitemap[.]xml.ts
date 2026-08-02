@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { CITIES } from "@/lib/cities";
+
 
 const BASE_URL = "https://billboard-bloom-ai.lovable.app";
 
@@ -18,8 +20,16 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/studio", changefreq: "weekly", priority: "0.8" },
           { path: "/campaigns", changefreq: "daily", priority: "0.8" },
           { path: "/analytics", changefreq: "daily", priority: "0.7" },
+          { path: "/locations", changefreq: "daily", priority: "0.8" },
+          { path: "/cities", changefreq: "weekly", priority: "0.8" },
+          ...CITIES.map((c) => ({
+            path: `/cities/${c.slug}`,
+            changefreq: "weekly" as const,
+            priority: "0.7",
+          })),
           { path: "/guide/stadium-advertising-costs", changefreq: "monthly", priority: "0.6" },
         ];
+
 
         const urls = entries.map((e) =>
           [

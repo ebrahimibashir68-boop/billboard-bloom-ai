@@ -26,9 +26,11 @@ import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as BookingsRouteImport } from './routes/bookings'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CitiesIndexRouteImport } from './routes/cities.index'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
 import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
+import { Route as CitiesCityRouteImport } from './routes/cities.$city'
 import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
 import { Route as ApiGenerateBillboardImageRouteImport } from './routes/api/generate-billboard-image'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -137,6 +139,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CitiesIndexRoute = CitiesIndexRouteImport.update({
+  id: '/cities/',
+  path: '/cities/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PartnersRegisterRoute = PartnersRegisterRouteImport.update({
   id: '/partners/register',
   path: '/partners/register',
@@ -153,6 +160,11 @@ const GuideStadiumAdvertisingCostsRoute =
     path: '/guide/stadium-advertising-costs',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CitiesCityRoute = CitiesCityRouteImport.update({
+  id: '/cities/$city',
+  path: '/cities/$city',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInnovateFeedRoute = ApiInnovateFeedRouteImport.update({
   id: '/api/innovate-feed',
   path: '/api/innovate-feed',
@@ -293,9 +305,11 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
+  '/cities/$city': typeof CitiesCityRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/cities/': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -337,9 +351,11 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
+  '/cities/$city': typeof CitiesCityRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/cities': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -382,9 +398,11 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
+  '/cities/$city': typeof CitiesCityRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
+  '/cities/': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -428,9 +446,11 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
+    | '/cities/$city'
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/cities/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -472,9 +492,11 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
+    | '/cities/$city'
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/cities'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -516,9 +538,11 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
+    | '/cities/$city'
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
+    | '/cities/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/pi-approve'
@@ -561,8 +585,10 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiGenerateBillboardImageRoute: typeof ApiGenerateBillboardImageRoute
   ApiInnovateFeedRoute: typeof ApiInnovateFeedRoute
+  CitiesCityRoute: typeof CitiesCityRoute
   GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
   PartnersRegisterRoute: typeof PartnersRegisterRoute
+  CitiesIndexRoute: typeof CitiesIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
@@ -702,6 +728,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cities/': {
+      id: '/cities/'
+      path: '/cities'
+      fullPath: '/cities/'
+      preLoaderRoute: typeof CitiesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/partners/register': {
       id: '/partners/register'
       path: '/partners/register'
@@ -721,6 +754,13 @@ declare module '@tanstack/react-router' {
       path: '/guide/stadium-advertising-costs'
       fullPath: '/guide/stadium-advertising-costs'
       preLoaderRoute: typeof GuideStadiumAdvertisingCostsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cities/$city': {
+      id: '/cities/$city'
+      path: '/cities/$city'
+      fullPath: '/cities/$city'
+      preLoaderRoute: typeof CitiesCityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/innovate-feed': {
@@ -917,8 +957,10 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiGenerateBillboardImageRoute: ApiGenerateBillboardImageRoute,
   ApiInnovateFeedRoute: ApiInnovateFeedRoute,
+  CitiesCityRoute: CitiesCityRoute,
   GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
   PartnersRegisterRoute: PartnersRegisterRoute,
+  CitiesIndexRoute: CitiesIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,

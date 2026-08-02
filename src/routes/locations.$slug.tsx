@@ -31,12 +31,33 @@ interface Campaign {
 }
 
 export const Route = createFileRoute("/locations/$slug")({
-  head: ({ params }) => ({
-    meta: [
-      { title: `Book ${params.slug.replace(/-/g, " ")} · Pi Billboard` },
-      { name: "description", content: "Book this billboard with Pi." },
-    ],
-  }),
+  head: ({ params }) => {
+    const name = params.slug.replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+    const url = `https://billboard-bloom-ai.lovable.app/locations/${params.slug}`;
+    const description = `Book the ${name} digital billboard by the hour and pay in Pi, with live impressions and on-chain proof-of-play.`;
+    return {
+      meta: [
+        { title: `Book ${name} — Pi Billboard` },
+        { name: "description", content: description },
+        { property: "og:title", content: `Book ${name} — Pi Billboard` },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+      ],
+      links: [{ rel: "canonical", href: url }],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Place",
+            name: `${name} digital billboard`,
+            description,
+            url,
+          }),
+        },
+      ],
+    };
+  },
   component: LocationDetail,
   errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
   notFoundComponent: () => <div className="p-8">Not found</div>,
@@ -124,7 +145,7 @@ function LocationDetail() {
 
   return (
     <AppShell>
-      <TopBar title={loc.name} />
+      <TopBar title={loc.name} titleAs="h2" />
       <div className="p-6 md:p-10 max-w-4xl mx-auto space-y-6">
         {loc.image_url && (
           <img src={loc.image_url} alt={loc.name} className="w-full h-64 object-cover rounded-2xl" />

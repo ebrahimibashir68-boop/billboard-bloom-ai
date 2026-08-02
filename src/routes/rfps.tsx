@@ -47,7 +47,7 @@ export const Route = createFileRoute("/rfps")({
 function RfpsPage() {
   return (
     <AppShell>
-      <TopBar title="RFP Marketplace" />
+      <TopBar title="RFP Marketplace" titleAs="h2" />
       <RfpMarketplace />
     </AppShell>
   );

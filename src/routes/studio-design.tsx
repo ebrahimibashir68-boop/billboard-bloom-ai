@@ -28,7 +28,7 @@ export const Route = createFileRoute("/studio-design")({
 function StudioDesignPage() {
   return (
     <AppShell>
-      <TopBar title="Design Studio" />
+      <TopBar title="Design Studio" titleAs="h2" />
       <Studio />
     </AppShell>
   );

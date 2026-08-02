@@ -11,7 +11,7 @@ export const Route = createFileRoute("/guide/stadium-advertising-costs")({
       {
         name: "description",
         content:
-          "Compare traditional stadium advertising costs with Pi Billboard's dynamic, AI-powered digital placements. Learn how much stadium advertising costs and why digital is more cost-efficient.",
+          "Compare traditional stadium advertising costs with Pi Billboard's dynamic, AI-powered digital placements paid in Pi.",
       },
       {
         property: "og:title",
@@ -34,6 +34,21 @@ export const Route = createFileRoute("/guide/stadium-advertising-costs")({
         href: "https://billboard-bloom-ai.lovable.app/guide/stadium-advertising-costs",
       },
     ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: "How Much Does Stadium Advertising Cost?",
+          description:
+            "Compare traditional stadium advertising costs with Pi Billboard's dynamic, AI-powered digital placements paid in Pi.",
+          mainEntityOfPage:
+            "https://billboard-bloom-ai.lovable.app/guide/stadium-advertising-costs",
+          publisher: { "@type": "Organization", name: "Pi Billboard" },
+        }),
+      },
+    ],
   }),
   component: StadiumAdvertisingCostsGuide,
 });
@@ -42,6 +57,7 @@ function StadiumAdvertisingCostsGuide() {
   return (
     <AppShell>
       <TopBar
+        titleAs="h2"
         title="Advertising Guide"
         status={{ label: "1,402 Active Venues" }}
       />

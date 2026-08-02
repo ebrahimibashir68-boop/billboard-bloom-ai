@@ -30,7 +30,14 @@ export const Route = createFileRoute("/bookings")({
     meta: [
       { title: "My Bookings · Pi Billboard" },
       { name: "description", content: "Your billboard bookings, invoices, and proof-of-play." },
+      { property: "og:title", content: "My Bookings — Pi Billboard" },
+      {
+        property: "og:description",
+        content: "Track billboard bookings, pay invoices in Pi, and review verified proof-of-play.",
+      },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/bookings" },
     ],
+    links: [{ rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/bookings" }],
   }),
   component: BookingsPage,
   errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
@@ -116,7 +123,7 @@ function BookingsPage() {
   if (status !== "ready") {
     return (
       <AppShell>
-        <TopBar title="Bookings" />
+        <TopBar title="Bookings" titleAs="h2" />
         <div className="p-8 text-center text-muted-foreground text-sm">
           Open in Pi Browser to view your bookings.
         </div>
@@ -126,7 +133,7 @@ function BookingsPage() {
 
   return (
     <AppShell>
-      <TopBar title="Bookings" />
+      <TopBar title="Bookings" titleAs="h2" />
       <div className="p-6 md:p-10 max-w-5xl mx-auto space-y-6">
         <header>
           <h1 className="text-2xl font-bold">My bookings</h1>

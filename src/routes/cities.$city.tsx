@@ -184,7 +184,7 @@ function CityPage() {
         <section className="space-y-3">
           <h2 className="text-lg font-semibold">Landmarks &amp; districts we cover</h2>
           <ul className="flex flex-wrap gap-2">
-            {city.landmarks.map((l) => (
+            {city.landmarks.map((l: string) => (
               <li key={l} className="text-xs px-2.5 py-1 rounded-full bg-surface border border-border">
                 {l}
               </li>

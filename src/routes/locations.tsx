@@ -78,7 +78,23 @@ function LocationsPage() {
           <p className="text-sm text-muted-foreground mt-1">
             {locations.length} live screens · pay in π · programmatic auto-approve or partner-reviewed
           </p>
+          <p className="text-sm text-muted-foreground mt-2">
+            Or browse{" "}
+            <Link to="/cities" className="text-brand underline">
+              billboard advertising by city
+            </Link>
+            :{" "}
+            {CITIES.slice(0, 6).map((c, i) => (
+              <span key={c.slug}>
+                {i > 0 && ", "}
+                <Link to="/cities/$city" params={{ city: c.slug }} className="text-brand underline">
+                  {c.city}
+                </Link>
+              </span>
+            ))}
+          </p>
         </header>
+
 
         <input
           value={q}

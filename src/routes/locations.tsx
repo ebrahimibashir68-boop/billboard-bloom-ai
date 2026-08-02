@@ -4,6 +4,8 @@ import { MapPin, Monitor, Zap } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { TopBar } from "@/components/TopBar";
 import { supabase } from "@/integrations/supabase/client";
+import { CITIES } from "@/lib/cities";
+
 
 interface Location {
   id: string;

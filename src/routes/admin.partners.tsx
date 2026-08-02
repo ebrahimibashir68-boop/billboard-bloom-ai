@@ -29,7 +29,7 @@ interface Partner {
 function AdminPage() {
   return (
     <AppShell>
-      <TopBar title="Admin" />
+      <TopBar title="Admin" titleAs="h2" />
       <AdminConsole />
     </AppShell>
   );

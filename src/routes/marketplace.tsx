@@ -12,7 +12,9 @@ export const Route = createFileRoute("/marketplace")({
       { name: "description", content: "Discover billboards, partners, RFPs, and AI-ranked opportunities worldwide, powered by Pi and blockchain proof-of-play." },
       { property: "og:title", content: "Pi Billboard Marketplace" },
       { property: "og:description", content: "Book any famous billboard on the planet, pay in π, verify every play on-chain." },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/marketplace" },
     ],
+    links: [{ rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/marketplace" }],
   }),
   component: MarketplacePage,
   errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
@@ -61,7 +63,7 @@ function MarketplacePage() {
 
   return (
     <AppShell>
-      <TopBar title="Pi Billboard" />
+      <TopBar title="Pi Billboard" titleAs="h2" />
       <div className="p-6 md:p-10 max-w-7xl mx-auto w-full space-y-10">
         <header className="space-y-3">
           <div className="inline-flex items-center gap-2 text-xs text-brand font-mono uppercase tracking-widest">

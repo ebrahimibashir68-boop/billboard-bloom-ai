@@ -10,10 +10,14 @@ import { toast } from "sonner";
 export function TopBar({
   title,
   status,
+  titleAs = "h1",
 }: {
   title: string;
   status?: { label: string; tone?: "live" | "neutral" };
+  /** Use "h2" when the page content already renders its own <h1>. */
+  titleAs?: "h1" | "h2";
 }) {
+  const TitleTag = titleAs;
   const [open, setOpen] = useState(false);
   const { balance } = useBalance();
   // Mounting usePi here triggers automatic Pi authentication on app load.
@@ -35,7 +39,7 @@ export function TopBar({
   return (
     <header className="h-16 border-b border-border flex items-center justify-between px-6 bg-background/60 backdrop-blur-md z-10 shrink-0">
       <div className="flex items-center gap-4 min-w-0">
-        <h1 className="text-lg font-semibold tracking-tight truncate">{title}</h1>
+        <TitleTag className="text-lg font-semibold tracking-tight truncate">{title}</TitleTag>
         {status && (
           <div className="flex items-center gap-2 px-2 py-1 bg-success/10 rounded-full">
             <div className="size-1.5 bg-success rounded-full animate-pulse" />

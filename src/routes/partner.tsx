@@ -14,7 +14,14 @@ export const Route = createFileRoute("/partner")({
         name: "description",
         content: "Review incoming ad contracts, approve or reject creatives, and manage your billboard venues.",
       },
+      { property: "og:title", content: "Partner Console — Pi Billboard" },
+      {
+        property: "og:description",
+        content: "Billboard operators review ad contracts, approve creatives, and manage venue inventory.",
+      },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/partner" },
     ],
+    links: [{ rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/partner" }],
   }),
   component: PartnerPage,
   errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
@@ -72,7 +79,7 @@ interface Venue {
 function PartnerPage() {
   return (
     <AppShell>
-      <TopBar title="Partner Console" />
+      <TopBar title="Partner Console" titleAs="h2" />
       <PartnerDashboard />
     </AppShell>
   );

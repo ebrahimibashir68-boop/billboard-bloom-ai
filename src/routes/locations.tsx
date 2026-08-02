@@ -29,7 +29,15 @@ export const Route = createFileRoute("/locations")({
         content:
           "Book famous digital billboards worldwide — Times Square, Piccadilly, Shibuya, Burj Khalifa and more — paid in Pi.",
       },
+      { property: "og:title", content: "Global Billboard Inventory" },
+      {
+        property: "og:description",
+        content:
+          "Browse and book iconic digital billboards worldwide, with live impressions and Pi-denominated rates.",
+      },
+      { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/locations" },
     ],
+    links: [{ rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/locations" }],
   }),
   component: LocationsPage,
   errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
@@ -63,7 +71,7 @@ function LocationsPage() {
 
   return (
     <AppShell>
-      <TopBar title="Billboards" />
+      <TopBar title="Billboards" titleAs="h2" />
       <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-6">
         <header>
           <h1 className="text-2xl font-bold">Global billboard inventory</h1>
@@ -93,7 +101,7 @@ function LocationsPage() {
                 {l.image_url && (
                   <img
                     src={l.image_url}
-                    alt={l.name}
+                    alt={`${l.name} digital billboard venue in ${l.city}, ${l.country}`}
                     className="w-full h-40 object-cover"
                     loading="lazy"
                   />

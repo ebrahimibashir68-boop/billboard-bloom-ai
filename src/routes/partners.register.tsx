@@ -25,7 +25,7 @@ export const Route = createFileRoute("/partners/register")({
 function RegisterPage() {
   return (
     <AppShell>
-      <TopBar title="Partner Registration" />
+      <TopBar title="Partner Registration" titleAs="h2" />
       <RegisterForm />
     </AppShell>
   );

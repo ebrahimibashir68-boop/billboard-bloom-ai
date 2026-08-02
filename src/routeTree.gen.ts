@@ -30,6 +30,7 @@ import { Route as CitiesIndexRouteImport } from './routes/cities.index'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
 import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
+import { Route as CitiesCityRouteImport } from './routes/cities.$city'
 import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
 import { Route as ApiGenerateBillboardImageRouteImport } from './routes/api/generate-billboard-image'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -159,6 +160,11 @@ const GuideStadiumAdvertisingCostsRoute =
     path: '/guide/stadium-advertising-costs',
     getParentRoute: () => rootRouteImport,
   } as any)
+const CitiesCityRoute = CitiesCityRouteImport.update({
+  id: '/cities/$city',
+  path: '/cities/$city',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiInnovateFeedRoute = ApiInnovateFeedRouteImport.update({
   id: '/api/innovate-feed',
   path: '/api/innovate-feed',
@@ -299,6 +305,7 @@ export interface FileRoutesByFullPath {
   '/api/chat': typeof ApiChatRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
+  '/cities/$city': typeof CitiesCityRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
@@ -344,6 +351,7 @@ export interface FileRoutesByTo {
   '/api/chat': typeof ApiChatRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
+  '/cities/$city': typeof CitiesCityRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
@@ -390,6 +398,7 @@ export interface FileRoutesById {
   '/api/chat': typeof ApiChatRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
+  '/cities/$city': typeof CitiesCityRoute
   '/guide/stadium-advertising-costs': typeof GuideStadiumAdvertisingCostsRoute
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
@@ -437,6 +446,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
+    | '/cities/$city'
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
@@ -482,6 +492,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
+    | '/cities/$city'
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
@@ -527,6 +538,7 @@ export interface FileRouteTypes {
     | '/api/chat'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
+    | '/cities/$city'
     | '/guide/stadium-advertising-costs'
     | '/locations/$slug'
     | '/partners/register'
@@ -573,6 +585,7 @@ export interface RootRouteChildren {
   ApiChatRoute: typeof ApiChatRoute
   ApiGenerateBillboardImageRoute: typeof ApiGenerateBillboardImageRoute
   ApiInnovateFeedRoute: typeof ApiInnovateFeedRoute
+  CitiesCityRoute: typeof CitiesCityRoute
   GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
   PartnersRegisterRoute: typeof PartnersRegisterRoute
   CitiesIndexRoute: typeof CitiesIndexRoute
@@ -741,6 +754,13 @@ declare module '@tanstack/react-router' {
       path: '/guide/stadium-advertising-costs'
       fullPath: '/guide/stadium-advertising-costs'
       preLoaderRoute: typeof GuideStadiumAdvertisingCostsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cities/$city': {
+      id: '/cities/$city'
+      path: '/cities/$city'
+      fullPath: '/cities/$city'
+      preLoaderRoute: typeof CitiesCityRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/innovate-feed': {
@@ -937,6 +957,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiChatRoute: ApiChatRoute,
   ApiGenerateBillboardImageRoute: ApiGenerateBillboardImageRoute,
   ApiInnovateFeedRoute: ApiInnovateFeedRoute,
+  CitiesCityRoute: CitiesCityRoute,
   GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
   PartnersRegisterRoute: PartnersRegisterRoute,
   CitiesIndexRoute: CitiesIndexRoute,

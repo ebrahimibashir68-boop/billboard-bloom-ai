@@ -13,6 +13,7 @@ import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
+import { Route as PayoutsRouteImport } from './routes/payouts'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as OptimizeRouteImport } from './routes/optimize'
 import { Route as MeasurementRouteImport } from './routes/measurement'
@@ -76,6 +77,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RfpsRoute = RfpsRouteImport.update({
   id: '/rfps',
   path: '/rfps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PayoutsRoute = PayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnerRoute = PartnerRouteImport.update({
@@ -320,6 +326,7 @@ export interface FileRoutesByFullPath {
   '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
+  '/payouts': typeof PayoutsRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -370,6 +377,7 @@ export interface FileRoutesByTo {
   '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
+  '/payouts': typeof PayoutsRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -421,6 +429,7 @@ export interface FileRoutesById {
   '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
+  '/payouts': typeof PayoutsRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -473,6 +482,7 @@ export interface FileRouteTypes {
     | '/measurement'
     | '/optimize'
     | '/partner'
+    | '/payouts'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -523,6 +533,7 @@ export interface FileRouteTypes {
     | '/measurement'
     | '/optimize'
     | '/partner'
+    | '/payouts'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -573,6 +584,7 @@ export interface FileRouteTypes {
     | '/measurement'
     | '/optimize'
     | '/partner'
+    | '/payouts'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -624,6 +636,7 @@ export interface RootRouteChildren {
   MeasurementRoute: typeof MeasurementRoute
   OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
+  PayoutsRoute: typeof PayoutsRoute
   RfpsRoute: typeof RfpsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
@@ -687,6 +700,13 @@ declare module '@tanstack/react-router' {
       path: '/rfps'
       fullPath: '/rfps'
       preLoaderRoute: typeof RfpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payouts': {
+      id: '/payouts'
+      path: '/payouts'
+      fullPath: '/payouts'
+      preLoaderRoute: typeof PayoutsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partner': {
@@ -1027,6 +1047,7 @@ const rootRouteChildren: RootRouteChildren = {
   MeasurementRoute: MeasurementRoute,
   OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
+  PayoutsRoute: PayoutsRoute,
   RfpsRoute: RfpsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,

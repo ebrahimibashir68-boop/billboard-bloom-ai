@@ -13,8 +13,10 @@ import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
+import { Route as PayoutsRouteImport } from './routes/payouts'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as OptimizeRouteImport } from './routes/optimize'
+import { Route as MeasurementRouteImport } from './routes/measurement'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LocationsRouteImport } from './routes/locations'
@@ -41,8 +43,10 @@ import { Route as ApiPublicVerifyLedgerRouteImport } from './routes/api/public/v
 import { Route as ApiPublicScreenPlaylistRouteImport } from './routes/api/public/screen-playlist'
 import { Route as ApiPublicPiScreensRouteImport } from './routes/api/public/pi-screens'
 import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps'
+import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
 import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
+import { Route as ApiPublicPiDeliveryRouteImport } from './routes/api/public/pi-delivery'
 import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
 import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
@@ -51,6 +55,7 @@ import { Route as ApiPublicPiBookingsRouteImport } from './routes/api/public/pi-
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
 import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
+import { Route as ApiPublicOohStandardsRouteImport } from './routes/api/public/ooh-standards'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
@@ -74,6 +79,11 @@ const RfpsRoute = RfpsRouteImport.update({
   path: '/rfps',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PayoutsRoute = PayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PartnerRoute = PartnerRouteImport.update({
   id: '/partner',
   path: '/partner',
@@ -82,6 +92,11 @@ const PartnerRoute = PartnerRouteImport.update({
 const OptimizeRoute = OptimizeRouteImport.update({
   id: '/optimize',
   path: '/optimize',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeasurementRoute = MeasurementRouteImport.update({
+  id: '/measurement',
+  path: '/measurement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -218,6 +233,11 @@ const ApiPublicPiRfpsRoute = ApiPublicPiRfpsRouteImport.update({
   path: '/api/public/pi-rfps',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiPayoutsRoute = ApiPublicPiPayoutsRouteImport.update({
+  id: '/api/public/pi-payouts',
+  path: '/api/public/pi-payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiPartnersRoute = ApiPublicPiPartnersRouteImport.update({
   id: '/api/public/pi-partners',
   path: '/api/public/pi-partners',
@@ -229,6 +249,11 @@ const ApiPublicPiOptimizeCreativeRoute =
     path: '/api/public/pi-optimize-creative',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPiDeliveryRoute = ApiPublicPiDeliveryRouteImport.update({
+  id: '/api/public/pi-delivery',
+  path: '/api/public/pi-delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiCreativesRoute = ApiPublicPiCreativesRouteImport.update({
   id: '/api/public/pi-creatives',
   path: '/api/public/pi-creatives',
@@ -269,6 +294,11 @@ const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
   path: '/api/public/pi-approve',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicOohStandardsRoute = ApiPublicOohStandardsRouteImport.update({
+  id: '/api/public/ooh-standards',
+  path: '/api/public/ooh-standards',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
   Char91DotmcpChar93InvokeToolToolRouteImport.update({
     id: '/.mcp/invoke-tool/$tool',
@@ -293,8 +323,10 @@ export interface FileRoutesByFullPath {
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
+  '/payouts': typeof PayoutsRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -312,6 +344,7 @@ export interface FileRoutesByFullPath {
   '/cities/': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -320,8 +353,10 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
   '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
   '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
@@ -339,8 +374,10 @@ export interface FileRoutesByTo {
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
+  '/payouts': typeof PayoutsRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -358,6 +395,7 @@ export interface FileRoutesByTo {
   '/cities': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -366,8 +404,10 @@ export interface FileRoutesByTo {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
   '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
   '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
@@ -386,8 +426,10 @@ export interface FileRoutesById {
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
+  '/payouts': typeof PayoutsRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -405,6 +447,7 @@ export interface FileRoutesById {
   '/cities/': typeof CitiesIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
+  '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -413,8 +456,10 @@ export interface FileRoutesById {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
   '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
   '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
@@ -434,8 +479,10 @@ export interface FileRouteTypes {
     | '/locations'
     | '/marketplace'
     | '/mcp'
+    | '/measurement'
     | '/optimize'
     | '/partner'
+    | '/payouts'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -453,6 +500,7 @@ export interface FileRouteTypes {
     | '/cities/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/ooh-standards'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -461,8 +509,10 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-delivery'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
+    | '/api/public/pi-payouts'
     | '/api/public/pi-rfps'
     | '/api/public/pi-screens'
     | '/api/public/screen-playlist'
@@ -480,8 +530,10 @@ export interface FileRouteTypes {
     | '/locations'
     | '/marketplace'
     | '/mcp'
+    | '/measurement'
     | '/optimize'
     | '/partner'
+    | '/payouts'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -499,6 +551,7 @@ export interface FileRouteTypes {
     | '/cities'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/ooh-standards'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -507,8 +560,10 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-delivery'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
+    | '/api/public/pi-payouts'
     | '/api/public/pi-rfps'
     | '/api/public/pi-screens'
     | '/api/public/screen-playlist'
@@ -526,8 +581,10 @@ export interface FileRouteTypes {
     | '/locations'
     | '/marketplace'
     | '/mcp'
+    | '/measurement'
     | '/optimize'
     | '/partner'
+    | '/payouts'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -545,6 +602,7 @@ export interface FileRouteTypes {
     | '/cities/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
+    | '/api/public/ooh-standards'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -553,8 +611,10 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-delivery'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
+    | '/api/public/pi-payouts'
     | '/api/public/pi-rfps'
     | '/api/public/pi-screens'
     | '/api/public/screen-playlist'
@@ -573,8 +633,10 @@ export interface RootRouteChildren {
   LocationsRoute: typeof LocationsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
+  MeasurementRoute: typeof MeasurementRoute
   OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
+  PayoutsRoute: typeof PayoutsRoute
   RfpsRoute: typeof RfpsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
@@ -591,6 +653,7 @@ export interface RootRouteChildren {
   CitiesIndexRoute: typeof CitiesIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
+  ApiPublicOohStandardsRoute: typeof ApiPublicOohStandardsRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiAuthRoute: typeof ApiPublicPiAuthRoute
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
@@ -599,8 +662,10 @@ export interface RootRouteChildren {
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
   ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
   ApiPublicPiCreativesRoute: typeof ApiPublicPiCreativesRoute
+  ApiPublicPiDeliveryRoute: typeof ApiPublicPiDeliveryRoute
   ApiPublicPiOptimizeCreativeRoute: typeof ApiPublicPiOptimizeCreativeRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
+  ApiPublicPiPayoutsRoute: typeof ApiPublicPiPayoutsRoute
   ApiPublicPiRfpsRoute: typeof ApiPublicPiRfpsRoute
   ApiPublicPiScreensRoute: typeof ApiPublicPiScreensRoute
   ApiPublicScreenPlaylistRoute: typeof ApiPublicScreenPlaylistRoute
@@ -637,6 +702,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RfpsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/payouts': {
+      id: '/payouts'
+      path: '/payouts'
+      fullPath: '/payouts'
+      preLoaderRoute: typeof PayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/partner': {
       id: '/partner'
       path: '/partner'
@@ -649,6 +721,13 @@ declare module '@tanstack/react-router' {
       path: '/optimize'
       fullPath: '/optimize'
       preLoaderRoute: typeof OptimizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/measurement': {
+      id: '/measurement'
+      path: '/measurement'
+      fullPath: '/measurement'
+      preLoaderRoute: typeof MeasurementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -833,6 +912,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiRfpsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-payouts': {
+      id: '/api/public/pi-payouts'
+      path: '/api/public/pi-payouts'
+      fullPath: '/api/public/pi-payouts'
+      preLoaderRoute: typeof ApiPublicPiPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-partners': {
       id: '/api/public/pi-partners'
       path: '/api/public/pi-partners'
@@ -845,6 +931,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/pi-optimize-creative'
       fullPath: '/api/public/pi-optimize-creative'
       preLoaderRoute: typeof ApiPublicPiOptimizeCreativeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-delivery': {
+      id: '/api/public/pi-delivery'
+      path: '/api/public/pi-delivery'
+      fullPath: '/api/public/pi-delivery'
+      preLoaderRoute: typeof ApiPublicPiDeliveryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/pi-creatives': {
@@ -903,6 +996,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiApproveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/ooh-standards': {
+      id: '/api/public/ooh-standards'
+      path: '/api/public/ooh-standards'
+      fullPath: '/api/public/ooh-standards'
+      preLoaderRoute: typeof ApiPublicOohStandardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/.mcp/invoke-tool/$tool': {
       id: '/.mcp/invoke-tool/$tool'
       path: '/.mcp/invoke-tool/$tool'
@@ -944,8 +1044,10 @@ const rootRouteChildren: RootRouteChildren = {
   LocationsRoute: LocationsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,
+  MeasurementRoute: MeasurementRoute,
   OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
+  PayoutsRoute: PayoutsRoute,
   RfpsRoute: RfpsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
@@ -963,6 +1065,7 @@ const rootRouteChildren: RootRouteChildren = {
   CitiesIndexRoute: CitiesIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
+  ApiPublicOohStandardsRoute: ApiPublicOohStandardsRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiAuthRoute: ApiPublicPiAuthRoute,
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,
@@ -971,8 +1074,10 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
   ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,
   ApiPublicPiCreativesRoute: ApiPublicPiCreativesRoute,
+  ApiPublicPiDeliveryRoute: ApiPublicPiDeliveryRoute,
   ApiPublicPiOptimizeCreativeRoute: ApiPublicPiOptimizeCreativeRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
+  ApiPublicPiPayoutsRoute: ApiPublicPiPayoutsRoute,
   ApiPublicPiRfpsRoute: ApiPublicPiRfpsRoute,
   ApiPublicPiScreensRoute: ApiPublicPiScreensRoute,
   ApiPublicScreenPlaylistRoute: ApiPublicScreenPlaylistRoute,

@@ -202,9 +202,12 @@ export type Database = {
           country: string
           created_at: string
           id: string
+          min_payout_pi: number
           owner_pi_uid: string | null
           owner_pi_username: string | null
           owner_user_id: string | null
+          payment_terms: string
+          payout_wallet_address: string | null
           revenue_share_pct: number
           status: string
           updated_at: string
@@ -217,9 +220,12 @@ export type Database = {
           country: string
           created_at?: string
           id?: string
+          min_payout_pi?: number
           owner_pi_uid?: string | null
           owner_pi_username?: string | null
           owner_user_id?: string | null
+          payment_terms?: string
+          payout_wallet_address?: string | null
           revenue_share_pct?: number
           status?: string
           updated_at?: string
@@ -232,9 +238,12 @@ export type Database = {
           country?: string
           created_at?: string
           id?: string
+          min_payout_pi?: number
           owner_pi_uid?: string | null
           owner_pi_username?: string | null
           owner_user_id?: string | null
+          payment_terms?: string
+          payout_wallet_address?: string | null
           revenue_share_pct?: number
           status?: string
           updated_at?: string
@@ -492,8 +501,10 @@ export type Database = {
       billboard_locations: {
         Row: {
           active: boolean
+          avg_dwell_seconds: number | null
           city: string
           country: string
+          cpm_pi: number | null
           created_at: string
           daily_impressions: number
           hourly_pi_rate: number
@@ -503,17 +514,21 @@ export type Database = {
           lat: number | null
           lng: number | null
           name: string
+          openooh_venue_type_id: number | null
           partner_id: string | null
           resolution: string | null
           size_meters: string | null
           slot_seconds: number
           slug: string
           updated_at: string
+          viewability_pct: number | null
         }
         Insert: {
           active?: boolean
+          avg_dwell_seconds?: number | null
           city: string
           country: string
+          cpm_pi?: number | null
           created_at?: string
           daily_impressions?: number
           hourly_pi_rate?: number
@@ -523,17 +538,21 @@ export type Database = {
           lat?: number | null
           lng?: number | null
           name: string
+          openooh_venue_type_id?: number | null
           partner_id?: string | null
           resolution?: string | null
           size_meters?: string | null
           slot_seconds?: number
           slug: string
           updated_at?: string
+          viewability_pct?: number | null
         }
         Update: {
           active?: boolean
+          avg_dwell_seconds?: number | null
           city?: string
           country?: string
+          cpm_pi?: number | null
           created_at?: string
           daily_impressions?: number
           hourly_pi_rate?: number
@@ -543,14 +562,23 @@ export type Database = {
           lat?: number | null
           lng?: number | null
           name?: string
+          openooh_venue_type_id?: number | null
           partner_id?: string | null
           resolution?: string | null
           size_meters?: string | null
           slot_seconds?: number
           slug?: string
           updated_at?: string
+          viewability_pct?: number | null
         }
         Relationships: [
+          {
+            foreignKeyName: "billboard_locations_openooh_venue_type_id_fkey"
+            columns: ["openooh_venue_type_id"]
+            isOneToOne: false
+            referencedRelation: "openooh_venue_types"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "billboard_locations_partner_id_fkey"
             columns: ["partner_id"]
@@ -571,14 +599,18 @@ export type Database = {
         Row: {
           advertiser_pi_uid: string
           advertiser_pi_username: string | null
+          booked_impressions: number
           campaign_id: string | null
+          cpm_pi: number | null
           created_at: string
+          delivered_impressions: number
           hours: number
           id: string
           invoice_id: string | null
           location_id: string
           notes: string | null
           platform_fee_pi: number
+          pricing_model: string
           quoted_pi: number
           starts_at: string
           status: string
@@ -588,14 +620,18 @@ export type Database = {
         Insert: {
           advertiser_pi_uid: string
           advertiser_pi_username?: string | null
+          booked_impressions?: number
           campaign_id?: string | null
+          cpm_pi?: number | null
           created_at?: string
+          delivered_impressions?: number
           hours: number
           id?: string
           invoice_id?: string | null
           location_id: string
           notes?: string | null
           platform_fee_pi: number
+          pricing_model?: string
           quoted_pi: number
           starts_at: string
           status?: string
@@ -605,14 +641,18 @@ export type Database = {
         Update: {
           advertiser_pi_uid?: string
           advertiser_pi_username?: string | null
+          booked_impressions?: number
           campaign_id?: string | null
+          cpm_pi?: number | null
           created_at?: string
+          delivered_impressions?: number
           hours?: number
           id?: string
           invoice_id?: string | null
           location_id?: string
           notes?: string | null
           platform_fee_pi?: number
+          pricing_model?: string
           quoted_pi?: number
           starts_at?: string
           status?: string
@@ -759,6 +799,179 @@ export type Database = {
         }
         Relationships: []
       }
+      credit_notes: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          amount_pi: number
+          applied_at: string | null
+          created_at: string
+          credit_note_number: string
+          id: string
+          invoice_id: string
+          issued_at: string
+          notes: string | null
+          partner_id: string | null
+          reason: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          amount_pi: number
+          applied_at?: string | null
+          created_at?: string
+          credit_note_number: string
+          id?: string
+          invoice_id: string
+          issued_at?: string
+          notes?: string | null
+          partner_id?: string | null
+          reason?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          amount_pi?: number
+          applied_at?: string | null
+          created_at?: string
+          credit_note_number?: string
+          id?: string
+          invoice_id?: string
+          issued_at?: string
+          notes?: string | null
+          partner_id?: string | null
+          reason?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_notes_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_notes_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_notes_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_reports: {
+        Row: {
+          advertiser_pi_uid: string | null
+          booked_impressions: number
+          booking_id: string | null
+          contract_id: string | null
+          cpm_pi: number
+          created_at: string
+          delivered_impressions: number
+          discrepancy_pct: number
+          id: string
+          insertion_order_id: string | null
+          partner_id: string | null
+          placement_id: string | null
+          plays: number
+          report_date: string
+          spend_pi: number
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid?: string | null
+          booked_impressions?: number
+          booking_id?: string | null
+          contract_id?: string | null
+          cpm_pi?: number
+          created_at?: string
+          delivered_impressions?: number
+          discrepancy_pct?: number
+          id?: string
+          insertion_order_id?: string | null
+          partner_id?: string | null
+          placement_id?: string | null
+          plays?: number
+          report_date?: string
+          spend_pi?: number
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string | null
+          booked_impressions?: number
+          booking_id?: string | null
+          contract_id?: string | null
+          cpm_pi?: number
+          created_at?: string
+          delivered_impressions?: number
+          discrepancy_pct?: number
+          id?: string
+          insertion_order_id?: string | null
+          partner_id?: string | null
+          placement_id?: string | null
+          plays?: number
+          report_date?: string
+          spend_pi?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_reports_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_reports_contract_id_fkey"
+            columns: ["contract_id"]
+            isOneToOne: false
+            referencedRelation: "ad_contracts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_reports_insertion_order_id_fkey"
+            columns: ["insertion_order_id"]
+            isOneToOne: false
+            referencedRelation: "insertion_orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_reports_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_reports_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_reports_placement_id_fkey"
+            columns: ["placement_id"]
+            isOneToOne: false
+            referencedRelation: "ad_placements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       insertion_orders: {
         Row: {
           advertiser_pi_uid: string
@@ -773,6 +986,7 @@ export type Database = {
           id: string
           io_number: string
           net_pi: number
+          net_terms_days: number
           partner_id: string
           payment_terms: string
           proposal_id: string | null
@@ -795,6 +1009,7 @@ export type Database = {
           id?: string
           io_number: string
           net_pi: number
+          net_terms_days?: number
           partner_id: string
           payment_terms?: string
           proposal_id?: string | null
@@ -817,6 +1032,7 @@ export type Database = {
           id?: string
           io_number?: string
           net_pi?: number
+          net_terms_days?: number
           partner_id?: string
           payment_terms?: string
           proposal_id?: string | null
@@ -861,9 +1077,12 @@ export type Database = {
         Row: {
           advertiser_pi_uid: string
           advertiser_pi_username: string | null
+          agency_commission_pct: number
           booking_id: string | null
           contract_id: string | null
           created_at: string
+          credited_total_pi: number
+          currency: string
           due_at: string
           id: string
           insertion_order_id: string | null
@@ -872,6 +1091,7 @@ export type Database = {
           line_items: Json
           paid_at: string | null
           partner_id: string | null
+          payment_terms: string
           pi_txid: string | null
           status: string
           subtotal_pi: number
@@ -882,9 +1102,12 @@ export type Database = {
         Insert: {
           advertiser_pi_uid: string
           advertiser_pi_username?: string | null
+          agency_commission_pct?: number
           booking_id?: string | null
           contract_id?: string | null
           created_at?: string
+          credited_total_pi?: number
+          currency?: string
           due_at: string
           id?: string
           insertion_order_id?: string | null
@@ -893,6 +1116,7 @@ export type Database = {
           line_items?: Json
           paid_at?: string | null
           partner_id?: string | null
+          payment_terms?: string
           pi_txid?: string | null
           status?: string
           subtotal_pi: number
@@ -903,9 +1127,12 @@ export type Database = {
         Update: {
           advertiser_pi_uid?: string
           advertiser_pi_username?: string | null
+          agency_commission_pct?: number
           booking_id?: string | null
           contract_id?: string | null
           created_at?: string
+          credited_total_pi?: number
+          currency?: string
           due_at?: string
           id?: string
           insertion_order_id?: string | null
@@ -914,6 +1141,7 @@ export type Database = {
           line_items?: Json
           paid_at?: string | null
           partner_id?: string | null
+          payment_terms?: string
           pi_txid?: string | null
           status?: string
           subtotal_pi?: number
@@ -1069,6 +1297,41 @@ export type Database = {
           },
         ]
       }
+      openooh_venue_types: {
+        Row: {
+          created_at: string
+          full_path: string
+          id: number
+          level: string
+          name: string
+          parent_id: number | null
+        }
+        Insert: {
+          created_at?: string
+          full_path: string
+          id: number
+          level: string
+          name: string
+          parent_id?: number | null
+        }
+        Update: {
+          created_at?: string
+          full_path?: string
+          id?: number
+          level?: string
+          name?: string
+          parent_id?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "openooh_venue_types_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "openooh_venue_types"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       partner_admin_assignments: {
         Row: {
           created_at: string
@@ -1159,6 +1422,120 @@ export type Database = {
         }
         Relationships: []
       }
+      pi_payouts: {
+        Row: {
+          amount_pi: number
+          booking_id: string | null
+          completed_at: string | null
+          created_at: string
+          failure_reason: string | null
+          gross_pi: number
+          id: string
+          invoice_id: string | null
+          kind: string
+          memo: string
+          partner_id: string | null
+          payout_number: string
+          period_end: string | null
+          period_start: string | null
+          pi_payment_id: string | null
+          pi_txid: string | null
+          recipient_pi_uid: string
+          recipient_pi_username: string | null
+          recipient_wallet_address: string | null
+          revenue_share_pct: number
+          screen_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          amount_pi: number
+          booking_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          failure_reason?: string | null
+          gross_pi?: number
+          id?: string
+          invoice_id?: string | null
+          kind?: string
+          memo?: string
+          partner_id?: string | null
+          payout_number: string
+          period_end?: string | null
+          period_start?: string | null
+          pi_payment_id?: string | null
+          pi_txid?: string | null
+          recipient_pi_uid: string
+          recipient_pi_username?: string | null
+          recipient_wallet_address?: string | null
+          revenue_share_pct?: number
+          screen_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          amount_pi?: number
+          booking_id?: string | null
+          completed_at?: string | null
+          created_at?: string
+          failure_reason?: string | null
+          gross_pi?: number
+          id?: string
+          invoice_id?: string | null
+          kind?: string
+          memo?: string
+          partner_id?: string | null
+          payout_number?: string
+          period_end?: string | null
+          period_start?: string | null
+          pi_payment_id?: string | null
+          pi_txid?: string | null
+          recipient_pi_uid?: string
+          recipient_pi_username?: string | null
+          recipient_wallet_address?: string | null
+          revenue_share_pct?: number
+          screen_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pi_payouts_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pi_payouts_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pi_payouts_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pi_payouts_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pi_payouts_screen_id_fkey"
+            columns: ["screen_id"]
+            isOneToOne: false
+            referencedRelation: "screens"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       plays: {
         Row: {
           booking_id: string
@@ -1209,11 +1586,13 @@ export type Database = {
           duration_sec: number
           id: string
           impressions: number
+          ledger_hash: string | null
           photo_url: string | null
           placement_id: string
           played_at: string
           signature: string | null
           venue_id: string | null
+          verified: boolean
         }
         Insert: {
           contract_id?: string | null
@@ -1222,11 +1601,13 @@ export type Database = {
           duration_sec: number
           id?: string
           impressions?: number
+          ledger_hash?: string | null
           photo_url?: string | null
           placement_id: string
           played_at?: string
           signature?: string | null
           venue_id?: string | null
+          verified?: boolean
         }
         Update: {
           contract_id?: string | null
@@ -1235,11 +1616,13 @@ export type Database = {
           duration_sec?: number
           id?: string
           impressions?: number
+          ledger_hash?: string | null
           photo_url?: string | null
           placement_id?: string
           played_at?: string
           signature?: string | null
           venue_id?: string | null
+          verified?: boolean
         }
         Relationships: [
           {
@@ -1320,6 +1703,7 @@ export type Database = {
           location_id: string | null
           name: string
           notes: string | null
+          openooh_venue_type_id: number | null
           orientation: string
           partner_id: string | null
           pi_uid: string | null
@@ -1337,6 +1721,7 @@ export type Database = {
           location_id?: string | null
           name: string
           notes?: string | null
+          openooh_venue_type_id?: number | null
           orientation?: string
           partner_id?: string | null
           pi_uid?: string | null
@@ -1354,6 +1739,7 @@ export type Database = {
           location_id?: string | null
           name?: string
           notes?: string | null
+          openooh_venue_type_id?: number | null
           orientation?: string
           partner_id?: string | null
           pi_uid?: string | null
@@ -1368,6 +1754,13 @@ export type Database = {
             columns: ["location_id"]
             isOneToOne: false
             referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "screens_openooh_venue_type_id_fkey"
+            columns: ["openooh_venue_type_id"]
+            isOneToOne: false
+            referencedRelation: "openooh_venue_types"
             referencedColumns: ["id"]
           },
           {
@@ -1406,6 +1799,69 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      venue_audience_metrics: {
+        Row: {
+          avg_audience: number
+          avg_dwell_seconds: number
+          created_at: string
+          daypart: string
+          hour_end: number
+          hour_start: number
+          id: string
+          impression_multiplier: number
+          location_id: string | null
+          measurement_source: string
+          updated_at: string
+          venue_id: string | null
+          viewability_pct: number
+        }
+        Insert: {
+          avg_audience?: number
+          avg_dwell_seconds?: number
+          created_at?: string
+          daypart: string
+          hour_end: number
+          hour_start: number
+          id?: string
+          impression_multiplier?: number
+          location_id?: string | null
+          measurement_source?: string
+          updated_at?: string
+          venue_id?: string | null
+          viewability_pct?: number
+        }
+        Update: {
+          avg_audience?: number
+          avg_dwell_seconds?: number
+          created_at?: string
+          daypart?: string
+          hour_end?: number
+          hour_start?: number
+          id?: string
+          impression_multiplier?: number
+          location_id?: string | null
+          measurement_source?: string
+          updated_at?: string
+          venue_id?: string | null
+          viewability_pct?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "venue_audience_metrics_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "venue_audience_metrics_venue_id_fkey"
+            columns: ["venue_id"]
+            isOneToOne: false
+            referencedRelation: "venues"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       venue_creative_specs: {
         Row: {
@@ -1542,14 +1998,17 @@ export type Database = {
       venues: {
         Row: {
           active: boolean
+          avg_dwell_seconds: number | null
           base_rate_pi: number
           city: string | null
           code: string
           country: string | null
+          cpm_pi: number | null
           created_at: string
           daily_impressions: number
           id: string
           name: string
+          openooh_venue_type_id: number | null
           partner_id: string | null
           placement: string
           region: string | null
@@ -1558,14 +2017,17 @@ export type Database = {
         }
         Insert: {
           active?: boolean
+          avg_dwell_seconds?: number | null
           base_rate_pi?: number
           city?: string | null
           code: string
           country?: string | null
+          cpm_pi?: number | null
           created_at?: string
           daily_impressions?: number
           id?: string
           name: string
+          openooh_venue_type_id?: number | null
           partner_id?: string | null
           placement: string
           region?: string | null
@@ -1574,14 +2036,17 @@ export type Database = {
         }
         Update: {
           active?: boolean
+          avg_dwell_seconds?: number | null
           base_rate_pi?: number
           city?: string | null
           code?: string
           country?: string | null
+          cpm_pi?: number | null
           created_at?: string
           daily_impressions?: number
           id?: string
           name?: string
+          openooh_venue_type_id?: number | null
           partner_id?: string | null
           placement?: string
           region?: string | null
@@ -1589,6 +2054,13 @@ export type Database = {
           updated_at?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "venues_openooh_venue_type_id_fkey"
+            columns: ["openooh_venue_type_id"]
+            isOneToOne: false
+            referencedRelation: "openooh_venue_types"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "venues_partner_id_fkey"
             columns: ["partner_id"]

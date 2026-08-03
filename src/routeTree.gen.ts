@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as OptimizeRouteImport } from './routes/optimize'
+import { Route as MeasurementRouteImport } from './routes/measurement'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as LocationsRouteImport } from './routes/locations'
@@ -85,6 +86,11 @@ const PartnerRoute = PartnerRouteImport.update({
 const OptimizeRoute = OptimizeRouteImport.update({
   id: '/optimize',
   path: '/optimize',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeasurementRoute = MeasurementRouteImport.update({
+  id: '/measurement',
+  path: '/measurement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const McpRoute = McpRouteImport.update({
@@ -311,6 +317,7 @@ export interface FileRoutesByFullPath {
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -360,6 +367,7 @@ export interface FileRoutesByTo {
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -410,6 +418,7 @@ export interface FileRoutesById {
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
+  '/measurement': typeof MeasurementRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/rfps': typeof RfpsRoute
@@ -461,6 +470,7 @@ export interface FileRouteTypes {
     | '/locations'
     | '/marketplace'
     | '/mcp'
+    | '/measurement'
     | '/optimize'
     | '/partner'
     | '/rfps'
@@ -510,6 +520,7 @@ export interface FileRouteTypes {
     | '/locations'
     | '/marketplace'
     | '/mcp'
+    | '/measurement'
     | '/optimize'
     | '/partner'
     | '/rfps'
@@ -559,6 +570,7 @@ export interface FileRouteTypes {
     | '/locations'
     | '/marketplace'
     | '/mcp'
+    | '/measurement'
     | '/optimize'
     | '/partner'
     | '/rfps'
@@ -609,6 +621,7 @@ export interface RootRouteChildren {
   LocationsRoute: typeof LocationsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
+  MeasurementRoute: typeof MeasurementRoute
   OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
   RfpsRoute: typeof RfpsRoute
@@ -688,6 +701,13 @@ declare module '@tanstack/react-router' {
       path: '/optimize'
       fullPath: '/optimize'
       preLoaderRoute: typeof OptimizeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/measurement': {
+      id: '/measurement'
+      path: '/measurement'
+      fullPath: '/measurement'
+      preLoaderRoute: typeof MeasurementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mcp': {
@@ -1004,6 +1024,7 @@ const rootRouteChildren: RootRouteChildren = {
   LocationsRoute: LocationsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,
+  MeasurementRoute: MeasurementRoute,
   OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
   RfpsRoute: RfpsRoute,

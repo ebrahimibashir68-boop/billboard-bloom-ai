@@ -41,6 +41,7 @@ import { Route as ApiPublicVerifyLedgerRouteImport } from './routes/api/public/v
 import { Route as ApiPublicScreenPlaylistRouteImport } from './routes/api/public/screen-playlist'
 import { Route as ApiPublicPiScreensRouteImport } from './routes/api/public/pi-screens'
 import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps'
+import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
 import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
 import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
@@ -219,6 +220,11 @@ const ApiPublicPiRfpsRoute = ApiPublicPiRfpsRouteImport.update({
   path: '/api/public/pi-rfps',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiPayoutsRoute = ApiPublicPiPayoutsRouteImport.update({
+  id: '/api/public/pi-payouts',
+  path: '/api/public/pi-payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiPartnersRoute = ApiPublicPiPartnersRouteImport.update({
   id: '/api/public/pi-partners',
   path: '/api/public/pi-partners',
@@ -329,6 +335,7 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
   '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
   '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
@@ -376,6 +383,7 @@ export interface FileRoutesByTo {
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
   '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
   '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
@@ -424,6 +432,7 @@ export interface FileRoutesById {
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
+  '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
   '/api/public/pi-rfps': typeof ApiPublicPiRfpsRoute
   '/api/public/pi-screens': typeof ApiPublicPiScreensRoute
   '/api/public/screen-playlist': typeof ApiPublicScreenPlaylistRoute
@@ -473,6 +482,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-creatives'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
+    | '/api/public/pi-payouts'
     | '/api/public/pi-rfps'
     | '/api/public/pi-screens'
     | '/api/public/screen-playlist'
@@ -520,6 +530,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-creatives'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
+    | '/api/public/pi-payouts'
     | '/api/public/pi-rfps'
     | '/api/public/pi-screens'
     | '/api/public/screen-playlist'
@@ -567,6 +578,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-creatives'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
+    | '/api/public/pi-payouts'
     | '/api/public/pi-rfps'
     | '/api/public/pi-screens'
     | '/api/public/screen-playlist'
@@ -614,6 +626,7 @@ export interface RootRouteChildren {
   ApiPublicPiCreativesRoute: typeof ApiPublicPiCreativesRoute
   ApiPublicPiOptimizeCreativeRoute: typeof ApiPublicPiOptimizeCreativeRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
+  ApiPublicPiPayoutsRoute: typeof ApiPublicPiPayoutsRoute
   ApiPublicPiRfpsRoute: typeof ApiPublicPiRfpsRoute
   ApiPublicPiScreensRoute: typeof ApiPublicPiScreensRoute
   ApiPublicScreenPlaylistRoute: typeof ApiPublicScreenPlaylistRoute
@@ -846,6 +859,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiRfpsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-payouts': {
+      id: '/api/public/pi-payouts'
+      path: '/api/public/pi-payouts'
+      fullPath: '/api/public/pi-payouts'
+      preLoaderRoute: typeof ApiPublicPiPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-partners': {
       id: '/api/public/pi-partners'
       path: '/api/public/pi-partners'
@@ -994,6 +1014,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiCreativesRoute: ApiPublicPiCreativesRoute,
   ApiPublicPiOptimizeCreativeRoute: ApiPublicPiOptimizeCreativeRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
+  ApiPublicPiPayoutsRoute: ApiPublicPiPayoutsRoute,
   ApiPublicPiRfpsRoute: ApiPublicPiRfpsRoute,
   ApiPublicPiScreensRoute: ApiPublicPiScreensRoute,
   ApiPublicScreenPlaylistRoute: ApiPublicScreenPlaylistRoute,

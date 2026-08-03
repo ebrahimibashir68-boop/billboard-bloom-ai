@@ -44,6 +44,7 @@ import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps
 import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
 import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
+import { Route as ApiPublicPiDeliveryRouteImport } from './routes/api/public/pi-delivery'
 import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
 import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
 import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
@@ -236,6 +237,11 @@ const ApiPublicPiOptimizeCreativeRoute =
     path: '/api/public/pi-optimize-creative',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPiDeliveryRoute = ApiPublicPiDeliveryRouteImport.update({
+  id: '/api/public/pi-delivery',
+  path: '/api/public/pi-delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiCreativesRoute = ApiPublicPiCreativesRouteImport.update({
   id: '/api/public/pi-creatives',
   path: '/api/public/pi-creatives',
@@ -333,6 +339,7 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -381,6 +388,7 @@ export interface FileRoutesByTo {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -430,6 +438,7 @@ export interface FileRoutesById {
   '/api/public/pi-complete': typeof ApiPublicPiCompleteRoute
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
+  '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -480,6 +489,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-delivery'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -528,6 +538,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-delivery'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -576,6 +587,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-complete'
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
+    | '/api/public/pi-delivery'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -624,6 +636,7 @@ export interface RootRouteChildren {
   ApiPublicPiCompleteRoute: typeof ApiPublicPiCompleteRoute
   ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
   ApiPublicPiCreativesRoute: typeof ApiPublicPiCreativesRoute
+  ApiPublicPiDeliveryRoute: typeof ApiPublicPiDeliveryRoute
   ApiPublicPiOptimizeCreativeRoute: typeof ApiPublicPiOptimizeCreativeRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
   ApiPublicPiPayoutsRoute: typeof ApiPublicPiPayoutsRoute
@@ -880,6 +893,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiOptimizeCreativeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-delivery': {
+      id: '/api/public/pi-delivery'
+      path: '/api/public/pi-delivery'
+      fullPath: '/api/public/pi-delivery'
+      preLoaderRoute: typeof ApiPublicPiDeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-creatives': {
       id: '/api/public/pi-creatives'
       path: '/api/public/pi-creatives'
@@ -1012,6 +1032,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiCompleteRoute: ApiPublicPiCompleteRoute,
   ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,
   ApiPublicPiCreativesRoute: ApiPublicPiCreativesRoute,
+  ApiPublicPiDeliveryRoute: ApiPublicPiDeliveryRoute,
   ApiPublicPiOptimizeCreativeRoute: ApiPublicPiOptimizeCreativeRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
   ApiPublicPiPayoutsRoute: ApiPublicPiPayoutsRoute,

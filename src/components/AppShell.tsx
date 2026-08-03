@@ -72,26 +72,34 @@ export function AppShell({ children }: { children: ReactNode }) {
           <div className="size-6 border-2 border-background rounded-full flex items-center justify-center font-bold text-brand-foreground text-xs">π</div>
         </Link>
 
-        <div className="flex flex-col gap-2">
-          {nav.map(({ to, label, icon: Icon }) => {
-            const active = pathname === to;
-            return (
-              <Link
-                key={to}
-                to={to}
-                aria-label={label}
-                title={label}
-                className={`size-10 rounded-lg flex items-center justify-center transition-colors ${
-                  active
-                    ? "bg-surface-elevated text-brand"
-                    : "text-muted-foreground hover:text-foreground hover:bg-surface"
-                }`}
-              >
-                <Icon className="size-4" />
-              </Link>
-            );
-          })}
+        <div className="flex flex-col gap-4 overflow-y-auto">
+          {navGroups.map((group) => (
+            <div key={group.id} className="flex flex-col gap-2 items-center">
+              <span className="text-[8px] uppercase tracking-widest text-muted-foreground/70">
+                {group.label.slice(0, 4)}
+              </span>
+              {group.items.map(({ to, label, icon: Icon }) => {
+                const active = pathname === to;
+                return (
+                  <Link
+                    key={to}
+                    to={to}
+                    aria-label={label}
+                    title={`${group.label} — ${label}`}
+                    className={`size-10 rounded-lg flex items-center justify-center transition-colors ${
+                      active
+                        ? "bg-surface-elevated text-brand"
+                        : "text-muted-foreground hover:text-foreground hover:bg-surface"
+                    }`}
+                  >
+                    <Icon className="size-4" />
+                  </Link>
+                );
+              })}
+            </div>
+          ))}
         </div>
+
 
         <div className="mt-auto flex flex-col gap-4 items-center">
           <SettingsMenu />

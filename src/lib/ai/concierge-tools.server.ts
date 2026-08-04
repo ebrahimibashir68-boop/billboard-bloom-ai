@@ -111,7 +111,7 @@ export const conciergeTools = {
         };
       }
       if (dailyImpressions && cpmPi && days) {
-        const impressions = estimateImpressions(dailyImpressions, days);
+        const impressions = estimateImpressions({ dailyImpressions, hours: days * 24 });
         result.cpmModel = { impressions, cpmPi, totalPi: cpmCost(impressions, cpmPi) };
       }
       if (!Object.keys(result).length) {

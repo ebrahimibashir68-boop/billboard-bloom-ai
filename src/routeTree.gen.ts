@@ -35,6 +35,7 @@ import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide
 import { Route as CitiesCityRouteImport } from './routes/cities.$city'
 import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
 import { Route as ApiGenerateBillboardImageRouteImport } from './routes/api/generate-billboard-image'
+import { Route as ApiConciergeRouteImport } from './routes/api/concierge'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
@@ -191,6 +192,11 @@ const ApiGenerateBillboardImageRoute =
     path: '/api/generate-billboard-image',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiConciergeRoute = ApiConciergeRouteImport.update({
+  id: '/api/concierge',
+  path: '/api/concierge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -335,6 +341,7 @@ export interface FileRoutesByFullPath {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/concierge': typeof ApiConciergeRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/cities/$city': typeof CitiesCityRoute
@@ -386,6 +393,7 @@ export interface FileRoutesByTo {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/concierge': typeof ApiConciergeRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/cities/$city': typeof CitiesCityRoute
@@ -438,6 +446,7 @@ export interface FileRoutesById {
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/api/chat': typeof ApiChatRoute
+  '/api/concierge': typeof ApiConciergeRoute
   '/api/generate-billboard-image': typeof ApiGenerateBillboardImageRoute
   '/api/innovate-feed': typeof ApiInnovateFeedRoute
   '/cities/$city': typeof CitiesCityRoute
@@ -491,6 +500,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/partners'
     | '/api/chat'
+    | '/api/concierge'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/cities/$city'
@@ -542,6 +552,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/partners'
     | '/api/chat'
+    | '/api/concierge'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/cities/$city'
@@ -593,6 +604,7 @@ export interface FileRouteTypes {
     | '/.well-known/oauth-protected-resource'
     | '/admin/partners'
     | '/api/chat'
+    | '/api/concierge'
     | '/api/generate-billboard-image'
     | '/api/innovate-feed'
     | '/cities/$city'
@@ -645,6 +657,7 @@ export interface RootRouteChildren {
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminPartnersRoute: typeof AdminPartnersRoute
   ApiChatRoute: typeof ApiChatRoute
+  ApiConciergeRoute: typeof ApiConciergeRoute
   ApiGenerateBillboardImageRoute: typeof ApiGenerateBillboardImageRoute
   ApiInnovateFeedRoute: typeof ApiInnovateFeedRoute
   CitiesCityRoute: typeof CitiesCityRoute
@@ -856,6 +869,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiGenerateBillboardImageRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/concierge': {
+      id: '/api/concierge'
+      path: '/api/concierge'
+      fullPath: '/api/concierge'
+      preLoaderRoute: typeof ApiConciergeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -1057,6 +1077,7 @@ const rootRouteChildren: RootRouteChildren = {
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminPartnersRoute: AdminPartnersRoute,
   ApiChatRoute: ApiChatRoute,
+  ApiConciergeRoute: ApiConciergeRoute,
   ApiGenerateBillboardImageRoute: ApiGenerateBillboardImageRoute,
   ApiInnovateFeedRoute: ApiInnovateFeedRoute,
   CitiesCityRoute: CitiesCityRoute,

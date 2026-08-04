@@ -3,6 +3,7 @@ import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Build
 import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
+import { AssistantDock } from "./AssistantDock";
 
 
 type NavItem = { to: string; label: string; icon: LucideIcon };
@@ -109,6 +110,7 @@ export function AppShell({ children }: { children: ReactNode }) {
 
       <main className="flex-1 flex flex-col relative min-w-0">{children}</main>
       <ScrollControls />
+      <AssistantDock />
     </div>
   );
 }

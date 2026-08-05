@@ -161,9 +161,18 @@ export const roboPayTools = {
       spendPi: z.number(),
     }),
     execute: async ({ bookedImpressions, deliveredImpressions, spendPi }) => ({
-      ...shortfallCredit({ bookedImpressions, deliveredImpressions, spendPi }),
+      bookedImpressions,
+      deliveredImpressions,
+      discrepancyPct: discrepancyPct(bookedImpressions, deliveredImpressions),
+      needsMakeGood: needsMakeGood(bookedImpressions, deliveredImpressions),
+      creditNotePi: shortfallCredit({
+        booked: bookedImpressions,
+        delivered: deliveredImpressions,
+        spendPi,
+      }),
       nextStep: "/measurement",
     }),
+
   }),
 };
 

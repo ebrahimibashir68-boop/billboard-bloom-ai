@@ -115,22 +115,22 @@ export const roboPayTools = {
     execute: async ({ subtotalPi, paidPi, creditsPi, terms, issuedAt }) => {
       const t = terms ?? "net_30";
       const issued = issuedAt ?? new Date().toISOString();
+      const feePi = platformFee(subtotalPi);
+      const totalPi = Math.round((subtotalPi + feePi) * 10000) / 10000;
+      const credited = (creditsPi ?? 0) + (paidPi ?? 0);
       return {
         subtotalPi,
-        platformFeePi: platformFee(subtotalPi),
+        platformFeePi: feePi,
+        totalPi,
         creditsPi: creditsPi ?? 0,
         paidPi: paidPi ?? 0,
-        balancePi: invoiceBalance({
-          subtotalPi,
-          feePi: platformFee(subtotalPi),
-          creditsPi: creditsPi ?? 0,
-          paidPi: paidPi ?? 0,
-        }),
+        balancePi: invoiceBalance({ totalPi, creditedTotalPi: credited }),
         terms: t,
         dueDate: dueDate(issued, t).toISOString().slice(0, 10),
         nextStep: "/bookings",
       };
     },
+
   }),
 
   payout_estimate: tool({

@@ -2,7 +2,7 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, type UIMessage } from "ai";
 import { Link } from "@tanstack/react-router";
 import { useCallback, useState } from "react";
-import { Bot, Sparkles, X, Wrench } from "lucide-react";
+import { Bot, Sparkles, X, Wrench, Brain, Wallet } from "lucide-react";
 import {
   Conversation,
   ConversationContent,
@@ -19,11 +19,58 @@ import {
 } from "@/components/ai-elements/prompt-input";
 import { Shimmer } from "@/components/ai-elements/shimmer";
 
-const starters = [
-  "I've never advertised before — do everything for me",
-  "Find me billboards in Dubai and estimate a 7-day cost",
-  "What does this app actually do?",
-  "I'm a venue owner — how do I earn Pi?",
+type BotId = "concierge" | "openmind" | "robopay";
+
+const BOT_UI: {
+  id: BotId;
+  name: string;
+  tagline: string;
+  icon: typeof Bot;
+  starters: string[];
+  empty: string;
+}[] = [
+  {
+    id: "concierge",
+    name: "Concierge",
+    tagline: "Does the work for you, in Pi",
+    icon: Bot,
+    empty:
+      "I can explain the app, find venues, price a campaign, brief the creative and walk you to the right screen.",
+    starters: [
+      "I've never advertised before — do everything for me",
+      "Find me billboards in Dubai and estimate a 7-day cost",
+      "What does this app actually do?",
+      "I'm a venue owner — how do I earn Pi?",
+    ],
+  },
+  {
+    id: "openmind",
+    name: "OpenMind",
+    tagline: "Plans your strategy across the app",
+    icon: Brain,
+    empty:
+      "Tell me your objective and I'll build an ordered plan across this app — venues, dayparts, contracts and reporting.",
+    starters: [
+      "Plan a launch campaign for a new energy drink",
+      "I own 4 stadium screens — how do I fill them?",
+      "Which dayparts should I buy for match nights?",
+      "Give me an innovative way to use this platform",
+    ],
+  },
+  {
+    id: "robopay",
+    name: "RoboPay",
+    tagline: "Pi quotes, billing and payouts",
+    icon: Wallet,
+    empty:
+      "I handle the money: Pi quotes, platform fees, invoices and payment terms, credit notes and media-owner payouts.",
+    starters: [
+      "Quote 7 days on a stadium screen, itemised in Pi",
+      "How does depositing Pi into the app work?",
+      "500 Pi budget at 12 Pi CPM — how many impressions?",
+      "I'm a venue owner — what's my payout on 1,000 Pi?",
+    ],
+  },
 ];
 
 type OpenPagePart = { route: string; label: string; reason: string };
@@ -36,16 +83,34 @@ const toolLabels: Record<string, string> = {
   "tool-venue_taxonomy": "Classifying venue types",
   "tool-draft_creative_brief": "Drafting a creative brief",
   "tool-open_page": "Preparing your next step",
+  "tool-pi_settlement_overview": "Reading how Pi settlement works",
+  "tool-quote_campaign": "Building an itemised Pi quote",
+  "tool-budget_reach": "Converting your Pi budget to reach",
+  "tool-invoice_math": "Working out the invoice",
+  "tool-payout_estimate": "Estimating your Pi payout",
+  "tool-make_good_check": "Checking delivery for credit notes",
+  "tool-plan_campaign_roadmap": "Planning your roadmap",
+  "tool-recommend_services": "Matching services to your need",
+  "tool-daypart_strategy": "Choosing dayparts",
+  "tool-innovation_ideas": "Exploring new capabilities",
 };
+
 
 /** App-wide AI agent that can explain and carry out the app's tasks for the user. */
 export function AssistantDock() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [bot, setBot] = useState<BotId>("concierge");
+  const active = BOT_UI.find((b) => b.id === bot) ?? BOT_UI[0];
 
-  const { messages, sendMessage, status, stop, error } = useChat({
+  const { messages, sendMessage, setMessages, status, stop, error } = useChat({
     transport: new DefaultChatTransport({ api: "/api/concierge" }),
   });
+
+  const send = useCallback(
+    (text: string) => void sendMessage({ text }, { body: { bot } }),
+    [bot, sendMessage],
+  );
 
   const isStreaming = status === "streaming" || status === "submitted";
 
@@ -53,10 +118,10 @@ export function AssistantDock() {
     (message: { text?: string }) => {
       const text = (message.text ?? input).trim();
       if (!text) return;
-      void sendMessage({ text });
+      send(text);
       setInput("");
     },
-    [input, sendMessage],
+    [input, send],
   );
 
   if (!open) {
@@ -64,7 +129,7 @@ export function AssistantDock() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Open the Pi Concierge AI assistant"
+        aria-label="Open the Pi AI bots: Concierge, OpenMind and RoboPay"
         className="fixed bottom-5 right-5 z-40 inline-flex items-center gap-2 h-12 pl-3 pr-4 rounded-full bg-brand text-brand-foreground shadow-[0_0_28px_-6px_var(--color-brand)] hover:brightness-110 transition"
       >
         <Bot className="size-5" />
@@ -80,12 +145,12 @@ export function AssistantDock() {
     >
       <header className="flex items-center gap-2 px-3 py-2.5 border-b border-border">
         <div className="size-8 rounded-md bg-brand/15 text-brand flex items-center justify-center">
-          <Bot className="size-4" />
+          <active.icon className="size-4" />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-sm font-semibold">Pi Concierge</div>
+          <div className="text-sm font-semibold">{active.name}</div>
           <div className="text-[11px] text-muted-foreground truncate">
-            {isStreaming ? "Working on it…" : "Does the work for you, in Pi"}
+            {isStreaming ? "Working on it…" : active.tagline}
           </div>
         </div>
         <button
@@ -98,20 +163,52 @@ export function AssistantDock() {
         </button>
       </header>
 
+      <div
+        role="tablist"
+        aria-label="Choose an AI bot"
+        className="flex gap-1 px-2 py-2 border-b border-border bg-background/60"
+      >
+        {BOT_UI.map((b) => {
+          const selected = b.id === bot;
+          return (
+            <button
+              key={b.id}
+              type="button"
+              role="tab"
+              aria-selected={selected}
+              disabled={isStreaming}
+              onClick={() => {
+                if (b.id === bot) return;
+                setBot(b.id);
+                setMessages([]);
+              }}
+              className={`flex-1 inline-flex items-center justify-center gap-1.5 h-8 rounded-md text-[11px] font-semibold transition-colors disabled:opacity-50 ${
+                selected
+                  ? "bg-brand/15 text-brand border border-brand/40"
+                  : "text-muted-foreground hover:text-foreground hover:bg-surface-elevated border border-transparent"
+              }`}
+            >
+              <b.icon className="size-3.5" />
+              {b.name}
+            </button>
+          );
+        })}
+      </div>
+
       <Conversation className="flex-1">
         <ConversationContent>
           {messages.length === 0 ? (
             <ConversationEmptyState
               icon={<Sparkles className="size-6" />}
-              title="Tell me what you need"
-              description="I can explain the app, find venues, price a campaign, brief the creative and walk you to the right screen."
+              title={`Tell ${active.name} what you need`}
+              description={active.empty}
             >
               <div className="mt-4 grid gap-2 w-full">
-                {starters.map((s) => (
+                {active.starters.map((s) => (
                   <button
                     key={s}
                     type="button"
-                    onClick={() => void sendMessage({ text: s })}
+                    onClick={() => send(s)}
                     className="text-left text-xs px-3 py-2 rounded-md border border-border bg-background hover:bg-surface-elevated"
                   >
                     {s}

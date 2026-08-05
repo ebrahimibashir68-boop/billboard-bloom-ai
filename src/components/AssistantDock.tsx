@@ -73,13 +73,6 @@ const BOT_UI: {
   },
 ];
 
-const legacyStarters = [
-  "I've never advertised before — do everything for me",
-  "Find me billboards in Dubai and estimate a 7-day cost",
-  "What does this app actually do?",
-  "I'm a venue owner — how do I earn Pi?",
-];
-
 type OpenPagePart = { route: string; label: string; reason: string };
 
 const toolLabels: Record<string, string> = {
@@ -90,7 +83,18 @@ const toolLabels: Record<string, string> = {
   "tool-venue_taxonomy": "Classifying venue types",
   "tool-draft_creative_brief": "Drafting a creative brief",
   "tool-open_page": "Preparing your next step",
+  "tool-pi_settlement_overview": "Reading how Pi settlement works",
+  "tool-quote_campaign": "Building an itemised Pi quote",
+  "tool-budget_reach": "Converting your Pi budget to reach",
+  "tool-invoice_math": "Working out the invoice",
+  "tool-payout_estimate": "Estimating your Pi payout",
+  "tool-make_good_check": "Checking delivery for credit notes",
+  "tool-plan_campaign_roadmap": "Planning your roadmap",
+  "tool-recommend_services": "Matching services to your need",
+  "tool-daypart_strategy": "Choosing dayparts",
+  "tool-innovation_ideas": "Exploring new capabilities",
 };
+
 
 /** App-wide AI agent that can explain and carry out the app's tasks for the user. */
 export function AssistantDock() {

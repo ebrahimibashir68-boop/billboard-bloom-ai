@@ -55,11 +55,11 @@ export const roboPayTools = {
     description:
       "Produce a full Pi quote for a campaign: gross, platform fee, agency commission and net, using either the venue-tier model or the CPM model.",
     inputSchema: z.object({
-      placement: z.enum(["stadium", "arena", "racetrack", "esports"]).nullable(),
-      days: z.number().nullable(),
-      dailyImpressions: z.number().nullable(),
-      cpmPi: z.number().nullable(),
-      agencyCommissionPct: z.number().nullable(),
+      placement: z.enum(["stadium", "arena", "racetrack", "esports"]).nullish(),
+      days: z.number().nullish(),
+      dailyImpressions: z.number().nullish(),
+      cpmPi: z.number().nullish(),
+      agencyCommissionPct: z.number().nullish(),
     }),
     execute: async ({ placement, days, dailyImpressions, cpmPi, agencyCommissionPct }) => {
       const commission = agencyCommissionPct ?? DEFAULT_AGENCY_COMMISSION_PCT;
@@ -109,10 +109,10 @@ export const roboPayTools = {
       "Compute an invoice: subtotal, platform fee, credit notes for under-delivery, amount paid, remaining balance and the due date from the payment terms.",
     inputSchema: z.object({
       subtotalPi: z.number(),
-      paidPi: z.number().nullable(),
-      creditsPi: z.number().nullable(),
-      terms: z.string().nullable().describe("Payment terms id, e.g. net_30"),
-      issuedAt: z.string().nullable().describe("ISO date the invoice was issued"),
+      paidPi: z.number().nullish(),
+      creditsPi: z.number().nullish(),
+      terms: z.string().nullish().describe("Payment terms id, e.g. net_30"),
+      issuedAt: z.string().nullish().describe("ISO date the invoice was issued"),
     }),
     execute: async ({ subtotalPi, paidPi, creditsPi, terms, issuedAt }) => {
       const t = terms ?? "net_30";
@@ -140,7 +140,7 @@ export const roboPayTools = {
       "Estimate a media owner's or displayer's Pi payout from delivered gross spend, and explain the A2U withdrawal.",
     inputSchema: z.object({
       grossPi: z.number(),
-      sharePct: z.number().nullable(),
+      sharePct: z.number().nullish(),
     }),
     execute: async ({ grossPi, sharePct }) => {
       const share = sharePct ?? DEFAULT_REVENUE_SHARE_PCT;
@@ -189,7 +189,7 @@ export const openMindTools = {
     inputSchema: z.object({
       objective: z.string().describe("What the user wants to achieve, in their own words."),
       role: z.enum(["advertiser", "agency", "media_owner", "displayer", "unsure"]),
-      budgetPi: z.number().nullable(),
+      budgetPi: z.number().nullish(),
     }),
     execute: async ({ objective, role, budgetPi }) => {
       const buy = [

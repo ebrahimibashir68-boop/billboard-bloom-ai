@@ -2133,6 +2133,7 @@ export type Database = {
         Args: { p_amount: number; p_pi_uid: string; p_pi_username: string }
         Returns: number
       }
+      default_revenue_share: { Args: never; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

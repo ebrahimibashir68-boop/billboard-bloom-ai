@@ -4,6 +4,7 @@ import { AppShell } from "@/components/AppShell";
 import { TopBar } from "@/components/TopBar";
 import { MapPin, FileText, Building2, Sparkles, Palette, Radio, Blocks, TrendingUp } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { usePi } from "@/lib/pi/usePi";
 
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
@@ -27,6 +28,7 @@ interface RfpRow { id: string; campaign_name: string; budget_pi: number; target_
 interface Stats { locations: number; partners: number; plays: number; ledger: number; }
 
 function MarketplacePage() {
+  const { authenticate, status: piStatus } = usePi();
   const [loc, setLoc] = useState<LocationRow[]>([]);
   const [partners, setPartners] = useState<PartnerRow[]>([]);
   const [rfps, setRfps] = useState<RfpRow[]>([]);
@@ -47,19 +49,30 @@ function MarketplacePage() {
       setPartners((prs ?? []) as PartnerRow[]);
       setStats({ locations: locC ?? 0, partners: parC ?? 0, plays: playC ?? 0, ledger: ledC ?? 0 });
 
-      const token = (await supabase.auth.getSession()).data.session?.access_token;
-      // Public RFPs endpoint requires Pi bearer; skip if not signed in.
-      if (token) {
-        try {
-          const res = await fetch("/api/public/pi-rfps");
-          if (res.ok) {
-            const j = (await res.json()) as { rfps?: RfpRow[] };
-            setRfps(j.rfps?.slice(0, 6) ?? []);
-          }
-        } catch { /* ignore */ }
-      }
     })();
   }, []);
+
+  // Open RFPs are Pi-gated: fetch them with a verified Pi access token.
+  useEffect(() => {
+    if (piStatus !== "ready") return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const auth = await authenticate();
+        const res = await fetch("/api/public/pi-rfps", {
+          headers: { Authorization: `Bearer ${auth.accessToken}` },
+        });
+        if (!res.ok) return;
+        const j = (await res.json()) as { rfps?: RfpRow[] };
+        if (!cancelled) setRfps(j.rfps?.slice(0, 6) ?? []);
+      } catch {
+        // Not signed in with Pi — leave the RFP rail empty.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [piStatus, authenticate]);
 
   return (
     <AppShell>

@@ -284,9 +284,11 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
             contractId: inserted.id,
             hash: contract_hash,
             cost,
-            balance: debit.newBalance,
+            paymentId,
+            txid,
             matches,
           });
+
         } catch (err) {
           console.error("[pi-contracts] POST error", err);
           return Response.json({ error: "Internal error" }, { status: 500 });

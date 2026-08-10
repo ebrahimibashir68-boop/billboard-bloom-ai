@@ -52,7 +52,7 @@ function BookingsPage() {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [plays, setPlays] = useState<Record<string, Play[]>>({});
-  const [paying, setPaying] = useState<string | null>(null);
+  const [payInvoice, setPayInvoice] = useState<{ id: string; invoice_number: string; total_pi: number } | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -74,28 +74,11 @@ function BookingsPage() {
     if (status === "ready") load();
   }, [status, load]);
 
-  const pay = async (invoiceId: string) => {
-    setPaying(invoiceId);
-    try {
-      const auth = await authenticate();
-      const res = await fetch("/api/public/pi-bookings?action=pay", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-        body: JSON.stringify({ invoice_id: invoiceId }),
-      });
-      const j = await res.json();
-      if (!res.ok) throw new Error(j.error ?? "Failed");
-      toast.success(`Paid. ${j.plays_created} proof-of-play rows generated.`);
-      load();
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed");
-    } finally {
-      setPaying(null);
-    }
+  const onInvoicePaid = () => {
+    setPayInvoice(null);
+    void load();
   };
+
 
   const toggle = async (b: Booking) => {
     if (expanded === b.id) {

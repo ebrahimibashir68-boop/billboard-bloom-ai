@@ -47,7 +47,10 @@ const CreateSchema = z.object({
   placements: z.array(z.enum(PlacementIds)).min(1).max(4),
   durationDays: z.number().int().min(1).max(365),
   targetVenues: z.number().int().min(1).max(50),
+  paymentId: z.string().min(10).max(128),
+  txid: z.string().min(10).max(128),
 });
+
 
 export const Route = createFileRoute("/api/public/pi-contracts")({
   server: {

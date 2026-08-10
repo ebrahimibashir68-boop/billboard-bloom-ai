@@ -174,13 +174,19 @@ function BookingsPage() {
                           </div>
                           {b.invoices.status === "issued" ? (
                             <button
-                              onClick={() => pay(b.invoices!.id)}
-                              disabled={paying === b.invoices.id}
+                              onClick={() =>
+                                setPayInvoice({
+                                  id: b.invoices!.id,
+                                  invoice_number: b.invoices!.invoice_number,
+                                  total_pi: b.invoices!.total_pi,
+                                })
+                              }
                               className="px-3 py-1.5 bg-brand text-brand-foreground rounded-lg text-xs font-semibold disabled:opacity-50"
                             >
-                              {paying === b.invoices.id ? "Paying…" : `Pay ${b.invoices.total_pi} π`}
+                              Pay {b.invoices.total_pi} π
                             </button>
                           ) : (
+
                             <span className="text-xs text-success flex items-center gap-1">
                               <Receipt className="size-3" /> Paid
                             </span>

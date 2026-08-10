@@ -99,8 +99,7 @@ export function SmartContractDialog({
     };
   }, [canonicalPreview]);
 
-  const busy = stage.kind === "auth" || stage.kind === "signing";
-  const insufficient = balance !== null && balance < cost;
+  const busy = !["idle", "done", "error"].includes(stage.kind);
 
   if (!open) return null;
 
@@ -127,42 +126,101 @@ export function SmartContractDialog({
   const handleSign = async () => {
     if (cost <= 0 || !title.trim() || !bodyText.trim()) return;
     try {
+      if (status !== "ready") {
+        setStage({ kind: "error", message: PI_BROWSER_UNAVAILABLE_MESSAGE });
+        return;
+      }
+
+      if (user && !hasScope("payments")) {
+        forgetScope("payments");
+      }
+
       setStage({ kind: "auth" });
-      const auth = await authenticate();
-      setStage({ kind: "signing" });
-      const res = await fetch("/api/public/pi-contracts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
+      const auth = await authenticate(["username", "payments"]);
+      if (!auth.scopes.includes("payments")) {
+        setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+        return;
+      }
+      const accessToken = auth.accessToken;
+
+      setStage({ kind: "creating" });
+      const Pi = await loadPiSdk();
+
+      await Pi.createPayment(
+        {
+          amount: cost,
+          memo: `Pi Billboard Contract: ${title.trim()}`.slice(0, 28),
+          metadata: { kind: "contract", title: title.trim(), tier, cost_pi: cost },
         },
-        body: JSON.stringify({
-          tier,
-          title: title.trim(),
-          bodyText: bodyText.trim(),
-          imageUrl: imageUrl.trim() || undefined,
-          placements,
-          durationDays: days,
-          targetVenues,
-        }),
-      });
-      const data = (await res.json().catch(() => ({}))) as {
-        error?: string;
-        hash?: string;
-        balance?: number;
-      };
-      if (!res.ok || !data.hash) throw new Error(data.error || "Contract signing failed");
-      if (typeof data.balance === "number") setBalance(data.balance);
-      setStage({ kind: "done", hash: data.hash });
-      toast.success(`Contract signed — ${cost} π`, {
-        description: `Hash ${data.hash.slice(0, 12)}…`,
-      });
-      onCreated?.();
+        {
+          onReadyForServerApproval: async (paymentId) => {
+            setStage({ kind: "approving", paymentId });
+            const res = await fetch("/api/public/pi-approve", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+              body: JSON.stringify({ paymentId }),
+            });
+            if (!res.ok) throw new Error("Approval failed");
+          },
+          onReadyForServerCompletion: async (paymentId, txid) => {
+            setStage({ kind: "completing", paymentId, txid });
+            const res = await fetch("/api/public/pi-contracts", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+              body: JSON.stringify({
+                tier,
+                title: title.trim(),
+                bodyText: bodyText.trim(),
+                imageUrl: imageUrl.trim() || undefined,
+                placements,
+                durationDays: days,
+                targetVenues,
+                paymentId,
+                txid,
+              }),
+            });
+            const data = (await res.json().catch(() => ({}))) as {
+              error?: string;
+              hash?: string;
+            };
+            if (!res.ok || !data.hash) throw new Error(data.error || "Contract signing failed");
+            setStage({ kind: "done", hash: data.hash });
+            toast.success(`Contract signed — ${cost} π`, {
+              description: `Hash ${data.hash.slice(0, 12)}…`,
+            });
+            onCreated?.();
+          },
+          onCancel: () => {
+            setStage({ kind: "error", message: "Payment cancelled." });
+          },
+          onError: (err) => {
+            const message = err.message || "Unknown Pi error";
+            if (message.toLowerCase().includes("payments") && message.toLowerCase().includes("scope")) {
+              forgetScope("payments");
+              setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+              return;
+            }
+            setStage({ kind: "error", message });
+          },
+        },
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : "Contract signing failed";
+      if (message.toLowerCase().includes("payments") && message.toLowerCase().includes("scope")) {
+        forgetScope("payments");
+        setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+        return;
+      }
       setStage({ kind: "error", message });
     }
   };
+
 
   return (
     <div

@@ -30,7 +30,10 @@ const PurchaseSchema = z.object({
   title: z.string().trim().min(1).max(80),
   placement: PlacementSchema,
   durationDays: z.number().int().min(1).max(365),
+  paymentId: z.string().min(10).max(128),
+  txid: z.string().min(10).max(128),
 });
+
 
 export const Route = createFileRoute("/api/public/pi-campaigns")({
   server: {

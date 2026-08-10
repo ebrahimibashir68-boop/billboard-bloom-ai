@@ -2161,6 +2161,18 @@ export type Database = {
           plays_created: number
         }[]
       }
+      pay_booking_invoice_with_pi: {
+        Args: {
+          p_amount: number
+          p_invoice_id: string
+          p_payment_id: string
+          p_pi_uid: string
+          p_txid: string
+        }
+        Returns: {
+          plays_created: number
+        }[]
+      }
       purchase_ad_campaign: {
         Args: {
           p_cost_pi: number

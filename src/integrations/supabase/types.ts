@@ -76,6 +76,8 @@ export type Database = {
           duration_days: number
           ends_at: string
           id: string
+          pi_payment_id: string | null
+          pi_txid: string | null
           pi_uid: string
           pi_username: string
           placement: string
@@ -90,6 +92,8 @@ export type Database = {
           duration_days: number
           ends_at: string
           id?: string
+          pi_payment_id?: string | null
+          pi_txid?: string | null
           pi_uid: string
           pi_username: string
           placement: string
@@ -104,6 +108,8 @@ export type Database = {
           duration_days?: number
           ends_at?: string
           id?: string
+          pi_payment_id?: string | null
+          pi_txid?: string | null
           pi_uid?: string
           pi_username?: string
           placement?: string
@@ -2185,6 +2191,21 @@ export type Database = {
         Returns: {
           campaign_id: string
           new_balance: number
+        }[]
+      }
+      purchase_ad_campaign_with_pi: {
+        Args: {
+          p_cost_pi: number
+          p_duration_days: number
+          p_payment_id: string
+          p_pi_uid: string
+          p_pi_username: string
+          p_placement: string
+          p_title: string
+          p_txid: string
+        }
+        Returns: {
+          campaign_id: string
         }[]
       }
       screen_playlist: {

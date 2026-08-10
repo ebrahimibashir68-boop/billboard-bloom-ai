@@ -211,7 +211,8 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
               cost_pi: cost,
               contract_hash,
               contract_json: JSON.parse(JSON.stringify(canonical)),
-
+              pi_payment_id: paymentId,
+              pi_txid: txid,
               status: "active",
               activated_at: new Date().toISOString(),
               ends_at: endsAt.toISOString(),
@@ -220,14 +221,9 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
             .single();
           if (insErr || !inserted) {
             console.error("[pi-contracts] insert failed", insErr);
-            // Best-effort refund
-            await supabaseAdmin.rpc("credit_pi_balance", {
-              p_pi_uid: user.uid,
-              p_pi_username: user.username,
-              p_amount: cost,
-            });
             return Response.json({ error: "Contract creation failed" }, { status: 500 });
           }
+
 
           // AI venue matching → group by owning partner → create one
           // approval request per partner. Placements start as

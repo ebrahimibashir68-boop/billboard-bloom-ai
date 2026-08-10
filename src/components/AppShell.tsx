@@ -4,6 +4,9 @@ import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
 import { AssistantDock } from "./AssistantDock";
+import { PiAuthGate } from "./PiAuthGate";
+import { PiComplianceFooter } from "./PiComplianceFooter";
+
 
 
 type NavItem = { to: string; label: string; icon: LucideIcon };

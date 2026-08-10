@@ -5,11 +5,13 @@ import { usePi, PI_BROWSER_UNAVAILABLE_MESSAGE, PI_PAYMENT_SCOPE_MESSAGE } from 
 import { PLACEMENTS, type Placement } from "@/lib/pi/pricing";
 import {
   buildCanonicalContract,
+  canonicalStringify,
   computeContractCost,
   hashContract,
   TIER_LIMITS,
   type ContractTier,
 } from "@/lib/pi/contracts";
+
 
 type Stage =
   | { kind: "idle" }

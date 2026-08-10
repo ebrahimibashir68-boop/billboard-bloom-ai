@@ -470,8 +470,9 @@ export function SmartContractDialog({
           </button>
 
           <p className="text-[10px] text-muted-foreground text-center">
-            Paid from your Pi balance. AI distributes to matched venues automatically.
+            Paid directly from your Pi wallet. The txid is recorded on the ledger and AI distributes to matched venues automatically.
           </p>
+
         </div>
       </div>
     </div>

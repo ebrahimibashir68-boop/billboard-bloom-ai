@@ -4,7 +4,9 @@ import { toast } from "sonner";
 import { ChevronDown, ChevronRight, Receipt } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { TopBar } from "@/components/TopBar";
+import { PayInvoiceDialog } from "@/components/PayInvoiceDialog";
 import { usePi } from "@/lib/pi/usePi";
+
 
 interface Booking {
   id: string;

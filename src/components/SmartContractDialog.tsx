@@ -1,8 +1,7 @@
 import { useId, useMemo, useState, useEffect } from "react";
-import { Loader2, X, ShieldCheck, AlertTriangle, FileCheck2, Sparkles } from "lucide-react";
+import { Loader2, X, ShieldCheck, AlertTriangle, FileCheck2, Sparkles, Wifi, WifiOff, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
-import { usePi } from "@/lib/pi/usePi";
-import { useBalance } from "@/lib/pi/BalanceContext";
+import { usePi, PI_BROWSER_UNAVAILABLE_MESSAGE, PI_PAYMENT_SCOPE_MESSAGE } from "@/lib/pi/usePi";
 import { PLACEMENTS, type Placement } from "@/lib/pi/pricing";
 import {
   buildCanonicalContract,
@@ -13,12 +12,16 @@ import {
   type ContractTier,
 } from "@/lib/pi/contracts";
 
+
 type Stage =
   | { kind: "idle" }
   | { kind: "auth" }
-  | { kind: "signing" }
+  | { kind: "creating" }
+  | { kind: "approving"; paymentId: string }
+  | { kind: "completing"; paymentId: string; txid: string }
   | { kind: "done"; hash: string }
   | { kind: "error"; message: string };
+
 
 export function SmartContractDialog({
   open,
@@ -29,9 +32,9 @@ export function SmartContractDialog({
   onClose: () => void;
   onCreated?: () => void;
 }) {
-  const { status, authenticate, user } = usePi();
-  const { balance, setBalance } = useBalance();
+  const { status, user, hasScope, authenticate, loadPiSdk, forgetScope } = usePi();
   const [tier, setTier] = useState<ContractTier>("individual");
+
   const [title, setTitle] = useState("Launch Spot");
   const [bodyText, setBodyText] = useState("Introducing our new flagship — worldwide, this weekend.");
   const [imageUrl, setImageUrl] = useState("");
@@ -98,8 +101,7 @@ export function SmartContractDialog({
     };
   }, [canonicalPreview]);
 
-  const busy = stage.kind === "auth" || stage.kind === "signing";
-  const insufficient = balance !== null && balance < cost;
+  const busy = !["idle", "done", "error"].includes(stage.kind);
 
   if (!open) return null;
 
@@ -126,42 +128,101 @@ export function SmartContractDialog({
   const handleSign = async () => {
     if (cost <= 0 || !title.trim() || !bodyText.trim()) return;
     try {
+      if (status !== "ready") {
+        setStage({ kind: "error", message: PI_BROWSER_UNAVAILABLE_MESSAGE });
+        return;
+      }
+
+      if (user && !hasScope("payments")) {
+        forgetScope("payments");
+      }
+
       setStage({ kind: "auth" });
-      const auth = await authenticate();
-      setStage({ kind: "signing" });
-      const res = await fetch("/api/public/pi-contracts", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
+      const auth = await authenticate(["username", "payments"]);
+      if (!auth.scopes.includes("payments")) {
+        setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+        return;
+      }
+      const accessToken = auth.accessToken;
+
+      setStage({ kind: "creating" });
+      const Pi = await loadPiSdk();
+
+      await Pi.createPayment(
+        {
+          amount: cost,
+          memo: `Pi Billboard Contract: ${title.trim()}`.slice(0, 28),
+          metadata: { kind: "contract", title: title.trim(), tier, cost_pi: cost },
         },
-        body: JSON.stringify({
-          tier,
-          title: title.trim(),
-          bodyText: bodyText.trim(),
-          imageUrl: imageUrl.trim() || undefined,
-          placements,
-          durationDays: days,
-          targetVenues,
-        }),
-      });
-      const data = (await res.json().catch(() => ({}))) as {
-        error?: string;
-        hash?: string;
-        balance?: number;
-      };
-      if (!res.ok || !data.hash) throw new Error(data.error || "Contract signing failed");
-      if (typeof data.balance === "number") setBalance(data.balance);
-      setStage({ kind: "done", hash: data.hash });
-      toast.success(`Contract signed — ${cost} π`, {
-        description: `Hash ${data.hash.slice(0, 12)}…`,
-      });
-      onCreated?.();
+        {
+          onReadyForServerApproval: async (paymentId) => {
+            setStage({ kind: "approving", paymentId });
+            const res = await fetch("/api/public/pi-approve", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+              body: JSON.stringify({ paymentId }),
+            });
+            if (!res.ok) throw new Error("Approval failed");
+          },
+          onReadyForServerCompletion: async (paymentId, txid) => {
+            setStage({ kind: "completing", paymentId, txid });
+            const res = await fetch("/api/public/pi-contracts", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+              },
+              body: JSON.stringify({
+                tier,
+                title: title.trim(),
+                bodyText: bodyText.trim(),
+                imageUrl: imageUrl.trim() || undefined,
+                placements,
+                durationDays: days,
+                targetVenues,
+                paymentId,
+                txid,
+              }),
+            });
+            const data = (await res.json().catch(() => ({}))) as {
+              error?: string;
+              hash?: string;
+            };
+            if (!res.ok || !data.hash) throw new Error(data.error || "Contract signing failed");
+            setStage({ kind: "done", hash: data.hash });
+            toast.success(`Contract signed — ${cost} π`, {
+              description: `Hash ${data.hash.slice(0, 12)}…`,
+            });
+            onCreated?.();
+          },
+          onCancel: () => {
+            setStage({ kind: "error", message: "Payment cancelled." });
+          },
+          onError: (err) => {
+            const message = err.message || "Unknown Pi error";
+            if (message.toLowerCase().includes("payments") && message.toLowerCase().includes("scope")) {
+              forgetScope("payments");
+              setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+              return;
+            }
+            setStage({ kind: "error", message });
+          },
+        },
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : "Contract signing failed";
+      if (message.toLowerCase().includes("payments") && message.toLowerCase().includes("scope")) {
+        forgetScope("payments");
+        setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
+        return;
+      }
       setStage({ kind: "error", message });
     }
   };
+
 
   return (
     <div
@@ -365,28 +426,16 @@ export function SmartContractDialog({
           </div>
 
           {/* Cost */}
-          <div className="flex items-center justify-between p-3 bg-background border border-border rounded-xl">
-            <div>
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total cost</p>
-              <p className="text-2xl font-bold text-brand tabular-nums">{cost} π</p>
+          <div className="p-4 bg-background border border-border rounded-xl space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Total cost</span>
             </div>
-            <div className="text-right">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                Your balance
-              </p>
-              <p
-                className={`text-sm font-semibold tabular-nums ${insufficient ? "text-destructive" : "text-foreground"}`}
-              >
-                {balance === null ? "— π" : `${balance.toFixed(2)} π`}
-              </p>
+            <div className="flex justify-between items-end">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount due</span>
+              <span className="text-2xl font-bold text-brand tabular-nums">{cost} π</span>
             </div>
           </div>
 
-          {insufficient && (
-            <p className="text-xs text-destructive">
-              Not enough Pi. Deposit more from the top bar.
-            </p>
-          )}
 
           {stage.kind === "done" && (
             <div className="text-success text-xs flex items-start gap-1.5">
@@ -405,11 +454,11 @@ export function SmartContractDialog({
               busy ||
               cost <= 0 ||
               !title.trim() ||
-              !bodyText.trim() ||
-              insufficient
+              !bodyText.trim()
             }
             className="w-full py-3 bg-brand text-brand-foreground font-semibold rounded-xl hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
+
             {busy && <Loader2 className="size-4 animate-spin" />}
             {stage.kind === "done"
               ? "Close"
@@ -421,8 +470,9 @@ export function SmartContractDialog({
           </button>
 
           <p className="text-[10px] text-muted-foreground text-center">
-            Paid from your Pi balance. AI distributes to matched venues automatically.
+            Paid directly from your Pi wallet. The txid is recorded on the ledger and AI distributes to matched venues automatically.
           </p>
+
         </div>
       </div>
     </div>

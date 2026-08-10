@@ -47,7 +47,10 @@ const CreateSchema = z.object({
   placements: z.array(z.enum(PlacementIds)).min(1).max(4),
   durationDays: z.number().int().min(1).max(365),
   targetVenues: z.number().int().min(1).max(50),
+  paymentId: z.string().min(10).max(128),
+  txid: z.string().min(10).max(128),
 });
+
 
 export const Route = createFileRoute("/api/public/pi-contracts")({
   server: {
@@ -149,41 +152,48 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
           );
           const contract_hash = await hashContract(canonical);
 
-          // Atomically debit the Pi balance using optimistic concurrency on
-          // updated_at. Concurrent contract creations for the same UID cannot
-          // both succeed — the losing writer retries once.
-          const debitAtomic = async (): Promise<
-            { ok: true; newBalance: number } | { ok: false; reason: "insufficient" | "not_found" | "conflict" }
-          > => {
-            const { data: current, error: readErr } = await supabaseAdmin
-              .from("pi_balances")
-              .select("balance, updated_at")
-              .eq("pi_uid", user.uid)
-              .maybeSingle();
-            if (readErr) throw readErr;
-            if (!current) return { ok: false, reason: "not_found" };
-            const balance = Number(current.balance);
-            if (balance < cost) return { ok: false, reason: "insufficient" };
-            const { data: updated, error: updErr } = await supabaseAdmin
-              .from("pi_balances")
-              .update({ balance: balance - cost, updated_at: new Date().toISOString() })
-              .eq("pi_uid", user.uid)
-              .eq("updated_at", current.updated_at)
-              .select("balance")
-              .maybeSingle();
-            if (updErr) throw updErr;
-            if (!updated) return { ok: false, reason: "conflict" };
-            return { ok: true, newBalance: Number(updated.balance) };
-          };
-
-          let debit = await debitAtomic();
-          if (!debit.ok && debit.reason === "conflict") debit = await debitAtomic();
-          if (!debit.ok) {
-            if (debit.reason === "insufficient" || debit.reason === "not_found") {
-              return Response.json({ error: "Insufficient Pi balance" }, { status: 402 });
-            }
-            return Response.json({ error: "Payment race — please retry" }, { status: 409 });
+          // Verify the Pi payment exists, is owned by the caller, and covers the cost.
+          const key = process.env.PI_API_KEY;
+          if (!key) {
+            console.error("[pi-contracts] PI_API_KEY missing");
+            return Response.json({ error: "Payment service unavailable" }, { status: 503 });
           }
+
+          const { paymentId, txid } = draft;
+          const lookup = await fetch(`${PI_API_BASE}/payments/${paymentId}`, {
+            headers: { Authorization: `Key ${key}` },
+          });
+          if (!lookup.ok) {
+            const detail = await lookup.text();
+            console.error("[pi-contracts] payment lookup failed", lookup.status, detail);
+            return Response.json({ error: "Payment verification failed" }, { status: 400 });
+          }
+          const payment = (await lookup.json()) as {
+            user_uid?: string;
+            amount?: number;
+          };
+          if (payment.user_uid !== user.uid) {
+            return Response.json({ error: "Forbidden" }, { status: 403 });
+          }
+          if (typeof payment.amount !== "number" || payment.amount < cost - 0.000001) {
+            return Response.json({ error: "Payment amount does not match contract cost" }, { status: 409 });
+          }
+
+          // Complete the payment on the Pi Platform.
+          const complete = await fetch(`${PI_API_BASE}/payments/${paymentId}/complete`, {
+            method: "POST",
+            headers: {
+              Authorization: `Key ${key}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ txid }),
+          });
+          if (!complete.ok) {
+            const detail = await complete.text();
+            console.error("[pi-contracts] complete failed", complete.status, detail);
+            return Response.json({ error: "Payment completion failed" }, { status: 400 });
+          }
+
 
           const endsAt = new Date(Date.now() + draft.durationDays * 24 * 60 * 60 * 1000);
           const { data: inserted, error: insErr } = await supabaseAdmin
@@ -201,7 +211,8 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
               cost_pi: cost,
               contract_hash,
               contract_json: JSON.parse(JSON.stringify(canonical)),
-
+              pi_payment_id: paymentId,
+              pi_txid: txid,
               status: "active",
               activated_at: new Date().toISOString(),
               ends_at: endsAt.toISOString(),
@@ -210,14 +221,9 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
             .single();
           if (insErr || !inserted) {
             console.error("[pi-contracts] insert failed", insErr);
-            // Best-effort refund
-            await supabaseAdmin.rpc("credit_pi_balance", {
-              p_pi_uid: user.uid,
-              p_pi_username: user.username,
-              p_amount: cost,
-            });
             return Response.json({ error: "Contract creation failed" }, { status: 500 });
           }
+
 
           // AI venue matching → group by owning partner → create one
           // approval request per partner. Placements start as
@@ -278,9 +284,11 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
             contractId: inserted.id,
             hash: contract_hash,
             cost,
-            balance: debit.newBalance,
+            paymentId,
+            txid,
             matches,
           });
+
         } catch (err) {
           console.error("[pi-contracts] POST error", err);
           return Response.json({ error: "Internal error" }, { status: 500 });

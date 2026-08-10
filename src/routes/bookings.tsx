@@ -4,7 +4,9 @@ import { toast } from "sonner";
 import { ChevronDown, ChevronRight, Receipt } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { TopBar } from "@/components/TopBar";
+import { PayInvoiceDialog } from "@/components/PayInvoiceDialog";
 import { usePi } from "@/lib/pi/usePi";
+
 
 interface Booking {
   id: string;
@@ -50,7 +52,7 @@ function BookingsPage() {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
   const [plays, setPlays] = useState<Record<string, Play[]>>({});
-  const [paying, setPaying] = useState<string | null>(null);
+  const [payInvoice, setPayInvoice] = useState<{ id: string; invoice_number: string; total_pi: number } | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -72,28 +74,11 @@ function BookingsPage() {
     if (status === "ready") load();
   }, [status, load]);
 
-  const pay = async (invoiceId: string) => {
-    setPaying(invoiceId);
-    try {
-      const auth = await authenticate();
-      const res = await fetch("/api/public/pi-bookings?action=pay", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${auth.accessToken}`,
-        },
-        body: JSON.stringify({ invoice_id: invoiceId }),
-      });
-      const j = await res.json();
-      if (!res.ok) throw new Error(j.error ?? "Failed");
-      toast.success(`Paid. ${j.plays_created} proof-of-play rows generated.`);
-      load();
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Failed");
-    } finally {
-      setPaying(null);
-    }
+  const onInvoicePaid = () => {
+    setPayInvoice(null);
+    void load();
   };
+
 
   const toggle = async (b: Booking) => {
     if (expanded === b.id) {
@@ -189,13 +174,19 @@ function BookingsPage() {
                           </div>
                           {b.invoices.status === "issued" ? (
                             <button
-                              onClick={() => pay(b.invoices!.id)}
-                              disabled={paying === b.invoices.id}
+                              onClick={() =>
+                                setPayInvoice({
+                                  id: b.invoices!.id,
+                                  invoice_number: b.invoices!.invoice_number,
+                                  total_pi: b.invoices!.total_pi,
+                                })
+                              }
                               className="px-3 py-1.5 bg-brand text-brand-foreground rounded-lg text-xs font-semibold disabled:opacity-50"
                             >
-                              {paying === b.invoices.id ? "Paying…" : `Pay ${b.invoices.total_pi} π`}
+                              Pay {b.invoices.total_pi} π
                             </button>
                           ) : (
+
                             <span className="text-xs text-success flex items-center gap-1">
                               <Receipt className="size-3" /> Paid
                             </span>
@@ -234,9 +225,17 @@ function BookingsPage() {
           </div>
         )}
       </div>
+
+      <PayInvoiceDialog
+        invoice={payInvoice}
+        open={payInvoice !== null}
+        onClose={() => setPayInvoice(null)}
+        onPaid={onInvoicePaid}
+      />
     </AppShell>
   );
 }
+
 
 function StatusPill({ status }: { status: string }) {
   const cls =

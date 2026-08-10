@@ -1,8 +1,13 @@
-import { useId, useMemo, useState } from "react";
-import { Loader2, X, ShieldCheck, AlertTriangle, Wifi, WifiOff, RefreshCw } from "lucide-react";
+import { useId, useState } from "react";
+import { Loader2, X, ShieldCheck, AlertTriangle, Wifi, WifiOff, RefreshCw, Receipt } from "lucide-react";
 import { toast } from "sonner";
-import { usePi, PI_BROWSER_UNAVAILABLE_MESSAGE, PI_PAYMENT_SCOPE_MESSAGE } from "@/lib/pi/usePi";
-import { PLACEMENTS, computeCost, type Placement } from "@/lib/pi/pricing";
+import { PI_BROWSER_UNAVAILABLE_MESSAGE, PI_PAYMENT_SCOPE_MESSAGE, usePi } from "@/lib/pi/usePi";
+
+interface Invoice {
+  id: string;
+  invoice_number: string;
+  total_pi: number;
+}
 
 type Stage =
   | { kind: "idle" }
@@ -10,39 +15,28 @@ type Stage =
   | { kind: "creating" }
   | { kind: "approving"; paymentId: string }
   | { kind: "completing"; paymentId: string; txid: string }
-  | { kind: "done" }
+  | { kind: "done"; txid: string }
   | { kind: "error"; message: string };
 
-export function PurchaseCampaignDialog({
+export function PayInvoiceDialog({
+  invoice,
   open,
   onClose,
-  onPurchased,
+  onPaid,
 }: {
+  invoice: Invoice | null;
   open: boolean;
   onClose: () => void;
-  onPurchased?: () => void;
+  onPaid?: () => void;
 }) {
   const { status, user, hasScope, authenticate, loadPiSdk, forgetScope } = usePi();
-  const [title, setTitle] = useState("Launch Spot");
-  const [placement, setPlacement] = useState<Placement>("stadium");
-  const [days, setDays] = useState(7);
   const [stage, setStage] = useState<Stage>({ kind: "idle" });
-  const titleId = useId();
-  const daysId = useId();
 
-  const cost = useMemo(() => computeCost(placement, days), [placement, days]);
+  if (!open || !invoice) return null;
+
   const busy = !["idle", "done", "error"].includes(stage.kind);
 
-  if (!open) return null;
-
-  const close = () => {
-    if (busy) return;
-    setStage({ kind: "idle" });
-    onClose();
-  };
-
-  const handlePurchase = async () => {
-    if (cost <= 0 || !title.trim()) return;
+  const handlePay = async () => {
     try {
       if (status !== "ready") {
         setStage({ kind: "error", message: PI_BROWSER_UNAVAILABLE_MESSAGE });
@@ -66,9 +60,9 @@ export function PurchaseCampaignDialog({
 
       await Pi.createPayment(
         {
-          amount: cost,
-          memo: `Pi Billboard: ${title.trim()}`.slice(0, 28),
-          metadata: { kind: "campaign_purchase", title: title.trim(), placement, days },
+          amount: Number(invoice.total_pi),
+          memo: `Pi Billboard ${invoice.invoice_number}`.slice(0, 28),
+          metadata: { invoice_id: invoice.id, invoice_number: invoice.invoice_number, kind: "invoice_payment" },
         },
         {
           onReadyForServerApproval: async (paymentId) => {
@@ -85,25 +79,23 @@ export function PurchaseCampaignDialog({
           },
           onReadyForServerCompletion: async (paymentId, txid) => {
             setStage({ kind: "completing", paymentId, txid });
-            const res = await fetch("/api/public/pi-campaigns", {
+            const res = await fetch("/api/public/pi-complete", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${accessToken}`,
               },
-              body: JSON.stringify({
-                title: title.trim(),
-                placement,
-                durationDays: days,
-                paymentId,
-                txid,
-              }),
+              body: JSON.stringify({ paymentId, txid, invoice_id: invoice.id }),
             });
-            const data = (await res.json().catch(() => ({}))) as { error?: string };
-            if (!res.ok) throw new Error(data.error || "Campaign creation failed");
-            setStage({ kind: "done" });
-            toast.success(`Campaign launched — ${cost} π`, { description: `${title.trim()} · ${days}d` });
-            onPurchased?.();
+            if (!res.ok) {
+              const data = (await res.json().catch(() => ({}))) as { error?: string };
+              throw new Error(data.error || "Completion failed");
+            }
+            setStage({ kind: "done", txid });
+            toast.success(`Invoice ${invoice.invoice_number} paid`, {
+              description: `Tx ${txid.slice(0, 10)}…`,
+            });
+            onPaid?.();
           },
           onCancel: () => {
             setStage({ kind: "error", message: "Payment cancelled." });
@@ -120,7 +112,7 @@ export function PurchaseCampaignDialog({
         },
       );
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Purchase failed";
+      const message = err instanceof Error ? err.message : "Payment failed";
       if (message.toLowerCase().includes("payments") && message.toLowerCase().includes("scope")) {
         forgetScope("payments");
         setStage({ kind: "error", message: PI_PAYMENT_SCOPE_MESSAGE });
@@ -128,6 +120,12 @@ export function PurchaseCampaignDialog({
       }
       setStage({ kind: "error", message });
     }
+  };
+
+  const close = () => {
+    if (busy) return;
+    setStage({ kind: "idle" });
+    onClose();
   };
 
   return (
@@ -140,8 +138,16 @@ export function PurchaseCampaignDialog({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-5 border-b border-border">
-          <h2 className="text-base font-semibold">New Campaign</h2>
-          <button onClick={close} disabled={busy} aria-label="Close new campaign dialog" className="text-muted-foreground hover:text-foreground disabled:opacity-30">
+          <div className="flex items-center gap-2">
+            <Receipt className="size-5 text-brand" />
+            <h2 className="text-base font-semibold">Pay invoice</h2>
+          </div>
+          <button
+            onClick={close}
+            disabled={busy}
+            aria-label="Close pay invoice dialog"
+            className="text-muted-foreground hover:text-foreground disabled:opacity-30"
+          >
             <X className="size-4" />
           </button>
         </div>
@@ -186,7 +192,7 @@ export function PurchaseCampaignDialog({
               <WifiOff className="size-4 shrink-0 mt-0.5 text-destructive" />
               <div className="space-y-2">
                 <p className="font-semibold text-destructive">Wallet not reachable</p>
-                <p className="text-muted-foreground">Open this app inside Pi Browser to launch a paid campaign from your wallet.</p>
+                <p className="text-muted-foreground">Open this app inside Pi Browser to pay invoices from your wallet.</p>
                 <button
                   type="button"
                   onClick={() => window.location.reload()}
@@ -203,69 +209,19 @@ export function PurchaseCampaignDialog({
               <AlertTriangle className="size-4 shrink-0 mt-0.5 text-brand" />
               <div>
                 <p className="font-semibold text-brand">Payments permission required</p>
-                <p className="text-muted-foreground mt-1">Re-sign with Pi and approve the payments scope to launch this campaign.</p>
+                <p className="text-muted-foreground mt-1">Re-sign with Pi and approve the payments scope to pay this invoice.</p>
               </div>
             </div>
           )}
 
-          <div>
-            <label htmlFor={titleId} className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Campaign name</label>
-            <input
-              id={titleId}
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              maxLength={80}
-              className="mt-2 w-full p-3 bg-background border border-border rounded-xl text-sm focus:outline-none focus:ring-1 focus:ring-brand"
-            />
-          </div>
-
-          <div>
-            <label className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Placement</label>
-            <div className="mt-2 grid grid-cols-2 gap-2">
-              {PLACEMENTS.map((p) => {
-                const active = p.id === placement;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => setPlacement(p.id)}
-                    className={`text-left p-3 rounded-xl border transition ${
-                      active
-                        ? "bg-brand/10 border-brand/40"
-                        : "bg-surface-elevated border-border hover:border-border/80"
-                    }`}
-                  >
-                    <p className={`text-sm font-semibold ${active ? "text-brand" : "text-foreground"}`}>{p.label}</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{p.blurb}</p>
-                    <p className="text-[10px] text-muted-foreground mt-1">{p.multiplier}× base</p>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-
-          <div>
-            <label htmlFor={daysId} className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">
-              Duration · {days} day{days === 1 ? "" : "s"}
-            </label>
-            <input
-              id={daysId}
-              type="range"
-              min={1}
-              max={30}
-              step={1}
-              value={days}
-              onChange={(e) => setDays(parseInt(e.target.value, 10) || 1)}
-              className="w-full mt-2 accent-brand"
-            />
-          </div>
-
           <div className="p-4 bg-background border border-border rounded-xl space-y-3">
             <div className="flex justify-between items-center">
-              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Total cost</span>
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Invoice</span>
+              <span className="font-mono text-xs">{invoice.invoice_number}</span>
             </div>
             <div className="flex justify-between items-end">
               <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount due</span>
-              <span className="text-2xl font-bold text-brand tabular-nums">{cost} π</span>
+              <span className="text-2xl font-bold text-brand tabular-nums">{Number(invoice.total_pi).toFixed(2)} π</span>
             </div>
           </div>
 
@@ -277,7 +233,7 @@ export function PurchaseCampaignDialog({
               <StageLine label="Blockchain settle" active={stage.kind === "completing"} done={stage.kind === "done"} />
               {stage.kind === "done" && (
                 <p className="text-success mt-2 flex items-center gap-1.5">
-                  <ShieldCheck className="size-3.5" /> Campaign live on-chain.
+                  <ShieldCheck className="size-3.5" /> Invoice paid on-chain.
                 </p>
               )}
               {stage.kind === "error" && <p className="text-destructive mt-2">{stage.message}</p>}
@@ -285,16 +241,16 @@ export function PurchaseCampaignDialog({
           )}
 
           <button
-            onClick={stage.kind === "done" ? close : handlePurchase}
-            disabled={status !== "ready" || busy || cost <= 0 || !title.trim()}
+            onClick={stage.kind === "done" ? close : handlePay}
+            disabled={status !== "ready" || busy}
             className="w-full py-3 bg-brand text-brand-foreground font-semibold rounded-xl hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {busy && <Loader2 className="size-4 animate-spin" />}
-            {stage.kind === "done" ? "Close" : busy ? "Processing…" : `Launch · ${cost} π`}
+            {stage.kind === "done" ? "Close" : busy ? "Processing…" : `Pay ${Number(invoice.total_pi).toFixed(2)} π with Pi Wallet`}
           </button>
 
           <p className="text-[10px] text-muted-foreground text-center">
-            This campaign will be paid directly from your Pi wallet. The txid is recorded on the ledger before the campaign goes live.
+            This invoice will be settled directly from your Pi wallet. The txid is recorded on the ledger before playback begins.
           </p>
         </div>
       </div>

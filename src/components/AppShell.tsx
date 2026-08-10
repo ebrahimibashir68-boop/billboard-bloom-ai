@@ -4,6 +4,9 @@ import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
 import { AssistantDock } from "./AssistantDock";
+import { PiAuthGate } from "./PiAuthGate";
+import { PiComplianceFooter } from "./PiComplianceFooter";
+
 
 
 type NavItem = { to: string; label: string; icon: LucideIcon };
@@ -101,17 +104,22 @@ export function AppShell({ children }: { children: ReactNode }) {
           ))}
         </div>
 
-
         <div className="mt-auto flex flex-col gap-4 items-center">
           <SettingsMenu />
           <div className="size-8 rounded-full bg-surface border border-border" />
         </div>
       </nav>
 
-      <main className="flex-1 flex flex-col relative min-w-0">{children}</main>
+      <main className="flex-1 flex flex-col relative min-w-0">
+        <PiAuthGate>
+          {children}
+          <PiComplianceFooter />
+        </PiAuthGate>
+      </main>
       <ScrollControls />
       <AssistantDock />
     </div>
   );
 }
+
 

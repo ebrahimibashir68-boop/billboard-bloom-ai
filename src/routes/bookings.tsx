@@ -225,9 +225,17 @@ function BookingsPage() {
           </div>
         )}
       </div>
+
+      <PayInvoiceDialog
+        invoice={payInvoice}
+        open={payInvoice !== null}
+        onClose={() => setPayInvoice(null)}
+        onPaid={onInvoicePaid}
+      />
     </AppShell>
   );
 }
+
 
 function StatusPill({ status }: { status: string }) {
   const cls =

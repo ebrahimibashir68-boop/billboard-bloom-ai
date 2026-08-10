@@ -454,11 +454,11 @@ export function SmartContractDialog({
               busy ||
               cost <= 0 ||
               !title.trim() ||
-              !bodyText.trim() ||
-              insufficient
+              !bodyText.trim()
             }
             className="w-full py-3 bg-brand text-brand-foreground font-semibold rounded-xl hover:brightness-110 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
+
             {busy && <Loader2 className="size-4 animate-spin" />}
             {stage.kind === "done"
               ? "Close"

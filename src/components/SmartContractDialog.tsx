@@ -1,12 +1,10 @@
 import { useId, useMemo, useState, useEffect } from "react";
-import { Loader2, X, ShieldCheck, AlertTriangle, FileCheck2, Sparkles } from "lucide-react";
+import { Loader2, X, ShieldCheck, AlertTriangle, FileCheck2, Sparkles, Wifi, WifiOff, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
-import { usePi } from "@/lib/pi/usePi";
-import { useBalance } from "@/lib/pi/BalanceContext";
+import { usePi, PI_BROWSER_UNAVAILABLE_MESSAGE, PI_PAYMENT_SCOPE_MESSAGE } from "@/lib/pi/usePi";
 import { PLACEMENTS, type Placement } from "@/lib/pi/pricing";
 import {
   buildCanonicalContract,
-  canonicalStringify,
   computeContractCost,
   hashContract,
   TIER_LIMITS,
@@ -16,9 +14,12 @@ import {
 type Stage =
   | { kind: "idle" }
   | { kind: "auth" }
-  | { kind: "signing" }
+  | { kind: "creating" }
+  | { kind: "approving"; paymentId: string }
+  | { kind: "completing"; paymentId: string; txid: string }
   | { kind: "done"; hash: string }
   | { kind: "error"; message: string };
+
 
 export function SmartContractDialog({
   open,

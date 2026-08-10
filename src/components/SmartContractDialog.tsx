@@ -426,28 +426,16 @@ export function SmartContractDialog({
           </div>
 
           {/* Cost */}
-          <div className="flex items-center justify-between p-3 bg-background border border-border rounded-xl">
-            <div>
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Total cost</p>
-              <p className="text-2xl font-bold text-brand tabular-nums">{cost} π</p>
+          <div className="p-4 bg-background border border-border rounded-xl space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Total cost</span>
             </div>
-            <div className="text-right">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground">
-                Your balance
-              </p>
-              <p
-                className={`text-sm font-semibold tabular-nums ${insufficient ? "text-destructive" : "text-foreground"}`}
-              >
-                {balance === null ? "— π" : `${balance.toFixed(2)} π`}
-              </p>
+            <div className="flex justify-between items-end">
+              <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium">Amount due</span>
+              <span className="text-2xl font-bold text-brand tabular-nums">{cost} π</span>
             </div>
           </div>
 
-          {insufficient && (
-            <p className="text-xs text-destructive">
-              Not enough Pi. Deposit more from the top bar.
-            </p>
-          )}
 
           {stage.kind === "done" && (
             <div className="text-success text-xs flex items-start gap-1.5">

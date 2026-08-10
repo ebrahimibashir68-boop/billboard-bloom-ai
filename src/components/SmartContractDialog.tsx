@@ -30,9 +30,9 @@ export function SmartContractDialog({
   onClose: () => void;
   onCreated?: () => void;
 }) {
-  const { status, authenticate, user } = usePi();
-  const { balance, setBalance } = useBalance();
+  const { status, user, hasScope, authenticate, loadPiSdk, forgetScope } = usePi();
   const [tier, setTier] = useState<ContractTier>("individual");
+
   const [title, setTitle] = useState("Launch Spot");
   const [bodyText, setBodyText] = useState("Introducing our new flagship — worldwide, this weekend.");
   const [imageUrl, setImageUrl] = useState("");

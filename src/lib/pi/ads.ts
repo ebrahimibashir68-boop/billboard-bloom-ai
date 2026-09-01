@@ -1,10 +1,11 @@
-// Pi Ads helper — wraps the Pi SDK Ads surface documented in ads.md.
-// Handles native-feature detection, retries a request when the ad isn't ready,
-// and returns a normalized outcome so callers don't need to know SDK internals.
+// Pi Ads Network helper — wraps the Pi SDK Ads surface.
+// Handles native-feature detection, pre-loads rewarded ads, and (for rewarded
+// ads) verifies the reward with the Pi Ads Network server-side before the app
+// grants anything of value.
 import type { PiAdType, PiSDK, PiShowAdResponse } from "./types";
 
 export type ShowAdOutcome =
-  | { ok: true; type: PiAdType; rewarded: boolean; adId?: string }
+  | { ok: true; type: PiAdType; rewarded: boolean; verified: boolean; adId?: string }
   | { ok: false; reason: "unsupported" | "unavailable" | "network" | "display_error" | "closed" };
 
 function getPi(): PiSDK | null {
@@ -12,7 +13,9 @@ function getPi(): PiSDK | null {
   return window.Pi ?? null;
 }
 
-async function isAdsSupported(Pi: PiSDK): Promise<boolean> {
+export async function isAdsSupported(): Promise<boolean> {
+  const Pi = getPi();
+  if (!Pi) return false;
   try {
     if (!Pi.Ads || typeof Pi.nativeFeaturesList !== "function") return false;
     const features = await Pi.nativeFeaturesList();
@@ -22,10 +25,31 @@ async function isAdsSupported(Pi: PiSDK): Promise<boolean> {
   }
 }
 
-export async function showPiAd(adType: PiAdType): Promise<ShowAdOutcome> {
+/** Server-side reward verification. Returns false when it cannot be confirmed. */
+async function verifyReward(adId: string, accessToken?: string): Promise<boolean> {
+  try {
+    const res = await fetch("/api/public/pi-ad-reward", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+      },
+      body: JSON.stringify({ adId }),
+    });
+    if (!res.ok) return false;
+    const data = (await res.json()) as { verified?: boolean };
+    return data.verified === true;
+  } catch {
+    return false;
+  }
+}
+
+export async function showPiAd(
+  adType: PiAdType,
+  options: { accessToken?: string } = {},
+): Promise<ShowAdOutcome> {
   const Pi = getPi();
-  if (!Pi) return { ok: false, reason: "unsupported" };
-  if (!(await isAdsSupported(Pi))) return { ok: false, reason: "unsupported" };
+  if (!Pi || !(await isAdsSupported())) return { ok: false, reason: "unsupported" };
   const ads = Pi.Ads!;
 
   // Interstitial ads can be shown directly; rewarded ads must be pre-loaded.
@@ -50,10 +74,12 @@ export async function showPiAd(adType: PiAdType): Promise<ShowAdOutcome> {
   }
 
   switch (res.result) {
-    case "AD_REWARDED":
-      return { ok: true, type: adType, rewarded: true, adId: res.adId };
+    case "AD_REWARDED": {
+      const verified = res.adId ? await verifyReward(res.adId, options.accessToken) : false;
+      return { ok: true, type: adType, rewarded: true, verified, adId: res.adId };
+    }
     case "AD_CLOSED":
-      return { ok: true, type: adType, rewarded: false, adId: res.adId };
+      return { ok: true, type: adType, rewarded: false, verified: false, adId: res.adId };
     case "AD_NOT_AVAILABLE":
       return { ok: false, reason: "unavailable" };
     case "AD_NETWORK_ERROR":

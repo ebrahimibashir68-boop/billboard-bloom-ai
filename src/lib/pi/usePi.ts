@@ -11,7 +11,8 @@ let piSession: {
   user: PiAuthResult["user"] | null;
   scopes: PiScope[];
   walletAddress: string | null;
-} = { user: null, scopes: [], walletAddress: null };
+  accessToken: string | null;
+} = { user: null, scopes: [], walletAddress: null, accessToken: null };
 const sessionListeners = new Set<() => void>();
 
 function publishSession(next: typeof piSession) {
@@ -60,10 +61,10 @@ function loadPiSdk(): Promise<PiSDK> {
   if (window.Pi) return Promise.resolve(window.Pi);
   if (sdkPromise) return sdkPromise;
 
-  // Sandbox mode is opt-in via VITE_PI_SANDBOX="true". Production Pi Browser
-  // sessions require sandbox: false (default). Never hardcode true — that
-  // makes real Pi Browser users see "Sandbox mode" and blocks live payments.
-  const sandbox = String(import.meta.env.VITE_PI_SANDBOX ?? "").toLowerCase() === "true";
+  // Mainnet only. This app settles real Pi, so sandbox/testnet mode is never
+  // enabled — no env flag can turn it on.
+  const sandbox = false;
+
 
 
   sdkPromise = new Promise<PiSDK>((resolve, reject) => {
@@ -161,7 +162,12 @@ export function usePi() {
     const grantedScopes = scopesFromAuthResult(result, requestedScopes);
     const nextScopes = uniqueScopes([...piSession.scopes, ...grantedScopes]);
     const nextWallet = walletAddressFromAuthResult(result) ?? piSession.walletAddress;
-    publishSession({ user: verified.user, scopes: nextScopes, walletAddress: nextWallet });
+    publishSession({
+      user: verified.user,
+      scopes: nextScopes,
+      walletAddress: nextWallet,
+      accessToken: result.accessToken,
+    });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "1");
     } catch {
@@ -200,7 +206,7 @@ export function usePi() {
   }, [authenticate]);
 
   const signOut = useCallback(() => {
-    publishSession({ user: null, scopes: [], walletAddress: null });
+    publishSession({ user: null, scopes: [], walletAddress: null, accessToken: null });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "0");
     } catch {
@@ -218,13 +224,31 @@ export function usePi() {
     [authenticate],
   );
 
+  /**
+   * Returns a usable Pi access token, reusing the current session when possible
+   * and re-authenticating only when there is none. Every call to our own API
+   * routes should go through this so the backend can re-validate against
+   * GET /v2/me.
+   */
+  const getAccessToken = useCallback(
+    async (scopes: PiScope[] = DEFAULT_SCOPES) => {
+      const missing = scopes.some((scope) => !piSession.scopes.includes(scope));
+      if (piSession.accessToken && !missing) return piSession.accessToken;
+      const result = await authenticate(scopes);
+      return result.accessToken;
+    },
+    [authenticate],
+  );
+
   return {
     status,
     user: session.user,
     scopes: session.scopes,
     walletAddress: session.walletAddress,
+    accessToken: session.accessToken,
     hasScope,
     authenticate,
+    getAccessToken,
     connectWallet,
     signOut,
     loadPiSdk,

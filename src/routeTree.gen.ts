@@ -13,6 +13,7 @@ import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RfpsRouteImport } from './routes/rfps'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PayoutsRouteImport } from './routes/payouts'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as OptimizeRouteImport } from './routes/optimize'
@@ -56,6 +57,7 @@ import { Route as ApiPublicPiBookingsRouteImport } from './routes/api/public/pi-
 import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
 import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
+import { Route as ApiPublicPiAdRewardRouteImport } from './routes/api/public/pi-ad-reward'
 import { Route as ApiPublicOohStandardsRouteImport } from './routes/api/public/ooh-standards'
 import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -78,6 +80,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RfpsRoute = RfpsRouteImport.update({
   id: '/rfps',
   path: '/rfps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PayoutsRoute = PayoutsRouteImport.update({
@@ -300,6 +307,11 @@ const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
   path: '/api/public/pi-approve',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiAdRewardRoute = ApiPublicPiAdRewardRouteImport.update({
+  id: '/api/public/pi-ad-reward',
+  path: '/api/public/pi-ad-reward',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicOohStandardsRoute = ApiPublicOohStandardsRouteImport.update({
   id: '/api/public/ooh-standards',
   path: '/api/public/ooh-standards',
@@ -333,6 +345,7 @@ export interface FileRoutesByFullPath {
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
+  '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -352,6 +365,7 @@ export interface FileRoutesByFullPath {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
+  '/api/public/pi-ad-reward': typeof ApiPublicPiAdRewardRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -385,6 +399,7 @@ export interface FileRoutesByTo {
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
+  '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -404,6 +419,7 @@ export interface FileRoutesByTo {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
+  '/api/public/pi-ad-reward': typeof ApiPublicPiAdRewardRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -438,6 +454,7 @@ export interface FileRoutesById {
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
+  '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
@@ -457,6 +474,7 @@ export interface FileRoutesById {
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
+  '/api/public/pi-ad-reward': typeof ApiPublicPiAdRewardRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
   '/api/public/pi-auth': typeof ApiPublicPiAuthRoute
   '/api/public/pi-balance': typeof ApiPublicPiBalanceRoute
@@ -492,6 +510,7 @@ export interface FileRouteTypes {
     | '/optimize'
     | '/partner'
     | '/payouts'
+    | '/privacy'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -511,6 +530,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
+    | '/api/public/pi-ad-reward'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -544,6 +564,7 @@ export interface FileRouteTypes {
     | '/optimize'
     | '/partner'
     | '/payouts'
+    | '/privacy'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -563,6 +584,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
+    | '/api/public/pi-ad-reward'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -596,6 +618,7 @@ export interface FileRouteTypes {
     | '/optimize'
     | '/partner'
     | '/payouts'
+    | '/privacy'
     | '/rfps'
     | '/sitemap.xml'
     | '/studio'
@@ -615,6 +638,7 @@ export interface FileRouteTypes {
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
+    | '/api/public/pi-ad-reward'
     | '/api/public/pi-approve'
     | '/api/public/pi-auth'
     | '/api/public/pi-balance'
@@ -649,6 +673,7 @@ export interface RootRouteChildren {
   OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
   PayoutsRoute: typeof PayoutsRoute
+  PrivacyRoute: typeof PrivacyRoute
   RfpsRoute: typeof RfpsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
@@ -667,6 +692,7 @@ export interface RootRouteChildren {
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicOohStandardsRoute: typeof ApiPublicOohStandardsRoute
+  ApiPublicPiAdRewardRoute: typeof ApiPublicPiAdRewardRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
   ApiPublicPiAuthRoute: typeof ApiPublicPiAuthRoute
   ApiPublicPiBalanceRoute: typeof ApiPublicPiBalanceRoute
@@ -713,6 +739,13 @@ declare module '@tanstack/react-router' {
       path: '/rfps'
       fullPath: '/rfps'
       preLoaderRoute: typeof RfpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/payouts': {
@@ -1016,6 +1049,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiApproveRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-ad-reward': {
+      id: '/api/public/pi-ad-reward'
+      path: '/api/public/pi-ad-reward'
+      fullPath: '/api/public/pi-ad-reward'
+      preLoaderRoute: typeof ApiPublicPiAdRewardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/ooh-standards': {
       id: '/api/public/ooh-standards'
       path: '/api/public/ooh-standards'
@@ -1068,6 +1108,7 @@ const rootRouteChildren: RootRouteChildren = {
   OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
   PayoutsRoute: PayoutsRoute,
+  PrivacyRoute: PrivacyRoute,
   RfpsRoute: RfpsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
@@ -1087,6 +1128,7 @@ const rootRouteChildren: RootRouteChildren = {
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicOohStandardsRoute: ApiPublicOohStandardsRoute,
+  ApiPublicPiAdRewardRoute: ApiPublicPiAdRewardRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,
   ApiPublicPiAuthRoute: ApiPublicPiAuthRoute,
   ApiPublicPiBalanceRoute: ApiPublicPiBalanceRoute,

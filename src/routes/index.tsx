@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
     ],
     links: [
       { rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/" },
-      { rel: "preload", as: "image", href: worldMap, fetchpriority: "high" },
+      { rel: "preload", as: "image", href: worldMap, fetchPriority: "high" },
     ],
   }),
   component: Dashboard,

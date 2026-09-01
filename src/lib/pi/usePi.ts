@@ -11,7 +11,8 @@ let piSession: {
   user: PiAuthResult["user"] | null;
   scopes: PiScope[];
   walletAddress: string | null;
-} = { user: null, scopes: [], walletAddress: null };
+  accessToken: string | null;
+} = { user: null, scopes: [], walletAddress: null, accessToken: null };
 const sessionListeners = new Set<() => void>();
 
 function publishSession(next: typeof piSession) {

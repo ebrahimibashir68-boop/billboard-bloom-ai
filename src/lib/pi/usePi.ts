@@ -162,7 +162,12 @@ export function usePi() {
     const grantedScopes = scopesFromAuthResult(result, requestedScopes);
     const nextScopes = uniqueScopes([...piSession.scopes, ...grantedScopes]);
     const nextWallet = walletAddressFromAuthResult(result) ?? piSession.walletAddress;
-    publishSession({ user: verified.user, scopes: nextScopes, walletAddress: nextWallet });
+    publishSession({
+      user: verified.user,
+      scopes: nextScopes,
+      walletAddress: nextWallet,
+      accessToken: result.accessToken,
+    });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "1");
     } catch {

@@ -201,7 +201,7 @@ export function usePi() {
   }, [authenticate]);
 
   const signOut = useCallback(() => {
-    publishSession({ user: null, scopes: [], walletAddress: null });
+    publishSession({ user: null, scopes: [], walletAddress: null, accessToken: null });
     try {
       localStorage.setItem(AUTO_LOGIN_KEY, "0");
     } catch {

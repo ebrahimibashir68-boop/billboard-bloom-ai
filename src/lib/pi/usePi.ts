@@ -224,13 +224,31 @@ export function usePi() {
     [authenticate],
   );
 
+  /**
+   * Returns a usable Pi access token, reusing the current session when possible
+   * and re-authenticating only when there is none. Every call to our own API
+   * routes should go through this so the backend can re-validate against
+   * GET /v2/me.
+   */
+  const getAccessToken = useCallback(
+    async (scopes: PiScope[] = DEFAULT_SCOPES) => {
+      const missing = scopes.some((scope) => !piSession.scopes.includes(scope));
+      if (piSession.accessToken && !missing) return piSession.accessToken;
+      const result = await authenticate(scopes);
+      return result.accessToken;
+    },
+    [authenticate],
+  );
+
   return {
     status,
     user: session.user,
     scopes: session.scopes,
     walletAddress: session.walletAddress,
+    accessToken: session.accessToken,
     hasScope,
     authenticate,
+    getAccessToken,
     connectWallet,
     signOut,
     loadPiSdk,

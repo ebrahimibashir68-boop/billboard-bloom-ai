@@ -61,10 +61,10 @@ function loadPiSdk(): Promise<PiSDK> {
   if (window.Pi) return Promise.resolve(window.Pi);
   if (sdkPromise) return sdkPromise;
 
-  // Sandbox mode is opt-in via VITE_PI_SANDBOX="true". Production Pi Browser
-  // sessions require sandbox: false (default). Never hardcode true — that
-  // makes real Pi Browser users see "Sandbox mode" and blocks live payments.
-  const sandbox = String(import.meta.env.VITE_PI_SANDBOX ?? "").toLowerCase() === "true";
+  // Mainnet only. This app settles real Pi, so sandbox/testnet mode is never
+  // enabled — no env flag can turn it on.
+  const sandbox = false;
+
 
 
   sdkPromise = new Promise<PiSDK>((resolve, reject) => {

@@ -1,21 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
-
-const PI_API_BASE = "https://api.minepi.com/v2";
-
-async function verifyPiUser(accessToken: string): Promise<{ uid: string; username: string } | null> {
-  try {
-    const res = await fetch(`${PI_API_BASE}/me`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { uid?: string; username?: string };
-    if (!data.uid || !data.username) return null;
-    return { uid: data.uid, username: data.username };
-  } catch {
-    return null;
-  }
-}
+import {
+  assertPaymentOwnedAndFunded,
+  bearer,
+  completePiPayment,
+  SAFE_PI_ID_RE,
+  verifyPiUser,
+} from "@/lib/pi/platform.server";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -24,24 +15,20 @@ export const Route = createFileRoute("/api/public/pi-complete")({
     handlers: {
       POST: async ({ request }) => {
         try {
-          const auth = request.headers.get("authorization") ?? "";
-          const accessToken = auth.toLowerCase().startsWith("bearer ")
-            ? auth.slice(7).trim()
-            : "";
-          if (!accessToken || accessToken.length > 4096) {
+          const accessToken = bearer(request);
+          if (!accessToken) {
             return Response.json({ error: "Unauthorized" }, { status: 401 });
           }
 
-          const body = (await request.json()) as {
+          const body = (await request.json().catch(() => null)) as {
             paymentId?: string;
             txid?: string;
             invoice_id?: string;
-          };
-          const paymentId = body.paymentId?.trim();
-          const txid = body.txid?.trim();
-          const invoiceId = body.invoice_id?.trim();
-          const SAFE_ID = /^[a-zA-Z0-9_-]{1,128}$/;
-          if (!paymentId || !txid || !SAFE_ID.test(paymentId) || !SAFE_ID.test(txid)) {
+          } | null;
+          const paymentId = body?.paymentId?.trim();
+          const txid = body?.txid?.trim();
+          const invoiceId = body?.invoice_id?.trim();
+          if (!paymentId || !txid || !SAFE_PI_ID_RE.test(paymentId) || !SAFE_PI_ID_RE.test(txid)) {
             return Response.json({ error: "Invalid request" }, { status: 400 });
           }
           if (invoiceId && !UUID_RE.test(invoiceId)) {
@@ -53,50 +40,17 @@ export const Route = createFileRoute("/api/public/pi-complete")({
             return Response.json({ error: "Unauthorized" }, { status: 401 });
           }
 
-          const key = process.env.PI_API_KEY;
-          if (!key) {
-            console.error("[pi-complete] PI_API_KEY missing — refusing to process payment");
-            return Response.json({ error: "Payment service unavailable" }, { status: 503 });
+          // Authoritative Pi Platform check: the payment must exist, belong to
+          // the caller and carry a positive amount.
+          const owned = await assertPaymentOwnedAndFunded({ paymentId, uid: user.uid });
+          if (!owned.ok) {
+            return Response.json({ error: owned.error }, { status: owned.status });
           }
+          const { payment, amount: verifiedAmount } = owned;
 
-          // Look up the payment from Pi API to get authoritative amount + owner.
-          const lookup = await fetch(`${PI_API_BASE}/payments/${paymentId}`, {
-            headers: { Authorization: `Key ${key}` },
-          });
-          if (!lookup.ok) {
-            const detail = await lookup.text();
-            console.error("[pi-complete] payment lookup failed", lookup.status, detail);
-            return Response.json({ error: "Payment completion failed" }, { status: 400 });
-          }
-          const payment = (await lookup.json()) as {
-            user_uid?: string;
-            amount?: number;
-            memo?: string;
-          };
-          if (payment.user_uid !== user.uid) {
-            console.warn("[pi-complete] uid mismatch", {
-              caller: user.uid,
-              payment: payment.user_uid,
-            });
-            return Response.json({ error: "Forbidden" }, { status: 403 });
-          }
-          const verifiedAmount = typeof payment.amount === "number" ? payment.amount : 0;
-          if (verifiedAmount <= 0) {
-            return Response.json({ error: "Invalid payment amount" }, { status: 400 });
-          }
-
-          // Tell the Pi API we observed the txid and completed the payment.
-          const complete = await fetch(`${PI_API_BASE}/payments/${paymentId}/complete`, {
-            method: "POST",
-            headers: {
-              Authorization: `Key ${key}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ txid }),
-          });
-          if (!complete.ok) {
-            const detail = await complete.text();
-            console.error("[pi-complete] complete failed", complete.status, detail);
+          // Tell the Pi Platform we observed the txid and completed the payment.
+          const completed = await completePiPayment(paymentId, txid);
+          if (!completed) {
             return Response.json({ error: "Payment completion failed" }, { status: 400 });
           }
 
@@ -119,7 +73,10 @@ export const Route = createFileRoute("/api/public/pi-complete")({
                 return Response.json({ ok: true, plays_created: 0, alreadyPaid: true });
               }
               if (msg.includes("insufficient")) {
-                return Response.json({ error: "Payment amount does not match invoice" }, { status: 409 });
+                return Response.json(
+                  { error: "Payment amount does not match invoice" },
+                  { status: 409 },
+                );
               }
               console.error("[pi-complete] invoice settlement failed", rpcErr);
               return Response.json({ error: "Invoice settlement failed" }, { status: 500 });
@@ -134,15 +91,13 @@ export const Route = createFileRoute("/api/public/pi-complete")({
           }
 
           // Deposit path: idempotently record the payment and credit the balance.
-          const { error: insertErr } = await supabaseAdmin
-            .from("pi_payments")
-            .insert({
-              payment_id: paymentId,
-              pi_uid: user.uid,
-              txid,
-              amount: verifiedAmount,
-              memo: payment.memo ?? null,
-            });
+          const { error: insertErr } = await supabaseAdmin.from("pi_payments").insert({
+            payment_id: paymentId,
+            pi_uid: user.uid,
+            txid,
+            amount: verifiedAmount,
+            memo: payment.memo ?? null,
+          });
 
           let alreadyCredited = false;
           if (insertErr) {
@@ -190,4 +145,3 @@ export const Route = createFileRoute("/api/public/pi-complete")({
     },
   },
 });
-

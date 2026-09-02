@@ -70,47 +70,23 @@ export const Route = createFileRoute("/api/public/pi-campaigns")({
             return Response.json({ error: "Invalid pricing" }, { status: 400 });
           }
 
-          const key = process.env.PI_API_KEY;
-          if (!key) {
-            console.error("[pi-campaigns] PI_API_KEY missing");
-            return Response.json({ error: "Payment service unavailable" }, { status: 503 });
-          }
-
-          // Verify the payment exists, is owned by the caller, and matches the cost.
-          const lookup = await fetch(`${PI_API_BASE}/payments/${paymentId}`, {
-            headers: { Authorization: `Key ${key}` },
+          // Authoritative Pi Platform verification: the payment must exist,
+          // belong to the caller and cover the campaign cost.
+          const owned = await assertPaymentOwnedAndFunded({
+            paymentId,
+            uid: user.uid,
+            minAmount: cost,
           });
-          if (!lookup.ok) {
-            const detail = await lookup.text();
-            console.error("[pi-campaigns] payment lookup failed", lookup.status, detail);
-            return Response.json({ error: "Payment verification failed" }, { status: 400 });
-          }
-          const payment = (await lookup.json()) as {
-            user_uid?: string;
-            amount?: number;
-            status?: { developer_completed?: boolean };
-          };
-          if (payment.user_uid !== user.uid) {
-            return Response.json({ error: "Forbidden" }, { status: 403 });
-          }
-          if (typeof payment.amount !== "number" || payment.amount < cost - 0.000001) {
-            return Response.json({ error: "Payment amount does not match campaign cost" }, { status: 409 });
+          if (!owned.ok) {
+            return Response.json({ error: owned.error }, { status: owned.status });
           }
 
           // Complete the payment on the Pi Platform.
-          const complete = await fetch(`${PI_API_BASE}/payments/${paymentId}/complete`, {
-            method: "POST",
-            headers: {
-              Authorization: `Key ${key}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ txid }),
-          });
-          if (!complete.ok) {
-            const detail = await complete.text();
-            console.error("[pi-campaigns] complete failed", complete.status, detail);
+          const completed = await completePiPayment(paymentId, txid);
+          if (!completed) {
             return Response.json({ error: "Payment completion failed" }, { status: 400 });
           }
+
 
           const { data, error } = await supabaseAdmin.rpc("purchase_ad_campaign_with_pi", {
             p_pi_uid: user.uid,

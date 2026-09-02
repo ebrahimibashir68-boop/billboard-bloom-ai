@@ -2,27 +2,13 @@ import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { supabaseAdmin } from "@/integrations/supabase/client.server";
 import { computeCost, PLACEMENTS } from "@/lib/pi/pricing";
-
-const PI_API_BASE = "https://api.minepi.com/v2";
-
-async function verifyPiUser(accessToken: string): Promise<{ uid: string; username: string } | null> {
-  try {
-    const res = await fetch(`${PI_API_BASE}/me`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { uid?: string; username?: string };
-    if (!data.uid || !data.username) return null;
-    return { uid: data.uid, username: data.username };
-  } catch {
-    return null;
-  }
-}
-
-function bearer(request: Request): string {
-  const auth = request.headers.get("authorization") ?? "";
-  return auth.toLowerCase().startsWith("bearer ") ? auth.slice(7).trim() : "";
-}
+import {
+  assertPaymentOwnedAndFunded,
+  bearer,
+  completePiPayment,
+  SAFE_PI_ID_RE,
+  verifyPiUser,
+} from "@/lib/pi/platform.server";
 
 const PlacementSchema = z.enum(PLACEMENTS.map((p) => p.id) as [string, ...string[]]);
 
@@ -30,9 +16,10 @@ const PurchaseSchema = z.object({
   title: z.string().trim().min(1).max(80),
   placement: PlacementSchema,
   durationDays: z.number().int().min(1).max(365),
-  paymentId: z.string().min(10).max(128),
-  txid: z.string().min(10).max(128),
+  paymentId: z.string().min(10).max(128).regex(SAFE_PI_ID_RE),
+  txid: z.string().min(10).max(128).regex(SAFE_PI_ID_RE),
 });
+
 
 
 export const Route = createFileRoute("/api/public/pi-campaigns")({

@@ -10,27 +10,13 @@ import {
 } from "@/lib/pi/contracts";
 import { PLACEMENTS, type Placement } from "@/lib/pi/pricing";
 import { matchVenues } from "@/lib/ai/match-venues.server";
-
-const PI_API_BASE = "https://api.minepi.com/v2";
-
-async function verifyPiUser(accessToken: string): Promise<{ uid: string; username: string } | null> {
-  try {
-    const res = await fetch(`${PI_API_BASE}/me`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { uid?: string; username?: string };
-    if (!data.uid || !data.username) return null;
-    return { uid: data.uid, username: data.username };
-  } catch {
-    return null;
-  }
-}
-
-function bearer(request: Request): string {
-  const auth = request.headers.get("authorization") ?? "";
-  return auth.toLowerCase().startsWith("bearer ") ? auth.slice(7).trim() : "";
-}
+import {
+  assertPaymentOwnedAndFunded,
+  bearer,
+  completePiPayment,
+  SAFE_PI_ID_RE,
+  verifyPiUser,
+} from "@/lib/pi/platform.server";
 
 const PlacementIds = PLACEMENTS.map((p) => p.id) as [string, ...string[]];
 const CreateSchema = z.object({
@@ -47,9 +33,10 @@ const CreateSchema = z.object({
   placements: z.array(z.enum(PlacementIds)).min(1).max(4),
   durationDays: z.number().int().min(1).max(365),
   targetVenues: z.number().int().min(1).max(50),
-  paymentId: z.string().min(10).max(128),
-  txid: z.string().min(10).max(128),
+  paymentId: z.string().min(10).max(128).regex(SAFE_PI_ID_RE),
+  txid: z.string().min(10).max(128).regex(SAFE_PI_ID_RE),
 });
+
 
 
 export const Route = createFileRoute("/api/public/pi-contracts")({

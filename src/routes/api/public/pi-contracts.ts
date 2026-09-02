@@ -10,27 +10,13 @@ import {
 } from "@/lib/pi/contracts";
 import { PLACEMENTS, type Placement } from "@/lib/pi/pricing";
 import { matchVenues } from "@/lib/ai/match-venues.server";
-
-const PI_API_BASE = "https://api.minepi.com/v2";
-
-async function verifyPiUser(accessToken: string): Promise<{ uid: string; username: string } | null> {
-  try {
-    const res = await fetch(`${PI_API_BASE}/me`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
-    if (!res.ok) return null;
-    const data = (await res.json()) as { uid?: string; username?: string };
-    if (!data.uid || !data.username) return null;
-    return { uid: data.uid, username: data.username };
-  } catch {
-    return null;
-  }
-}
-
-function bearer(request: Request): string {
-  const auth = request.headers.get("authorization") ?? "";
-  return auth.toLowerCase().startsWith("bearer ") ? auth.slice(7).trim() : "";
-}
+import {
+  assertPaymentOwnedAndFunded,
+  bearer,
+  completePiPayment,
+  SAFE_PI_ID_RE,
+  verifyPiUser,
+} from "@/lib/pi/platform.server";
 
 const PlacementIds = PLACEMENTS.map((p) => p.id) as [string, ...string[]];
 const CreateSchema = z.object({
@@ -47,9 +33,10 @@ const CreateSchema = z.object({
   placements: z.array(z.enum(PlacementIds)).min(1).max(4),
   durationDays: z.number().int().min(1).max(365),
   targetVenues: z.number().int().min(1).max(50),
-  paymentId: z.string().min(10).max(128),
-  txid: z.string().min(10).max(128),
+  paymentId: z.string().min(10).max(128).regex(SAFE_PI_ID_RE),
+  txid: z.string().min(10).max(128).regex(SAFE_PI_ID_RE),
 });
+
 
 
 export const Route = createFileRoute("/api/public/pi-contracts")({
@@ -152,47 +139,24 @@ export const Route = createFileRoute("/api/public/pi-contracts")({
           );
           const contract_hash = await hashContract(canonical);
 
-          // Verify the Pi payment exists, is owned by the caller, and covers the cost.
-          const key = process.env.PI_API_KEY;
-          if (!key) {
-            console.error("[pi-contracts] PI_API_KEY missing");
-            return Response.json({ error: "Payment service unavailable" }, { status: 503 });
-          }
-
+          // Authoritative Pi Platform verification: the payment must exist,
+          // belong to the caller and cover the contract cost.
           const { paymentId, txid } = draft;
-          const lookup = await fetch(`${PI_API_BASE}/payments/${paymentId}`, {
-            headers: { Authorization: `Key ${key}` },
+          const owned = await assertPaymentOwnedAndFunded({
+            paymentId,
+            uid: user.uid,
+            minAmount: cost,
           });
-          if (!lookup.ok) {
-            const detail = await lookup.text();
-            console.error("[pi-contracts] payment lookup failed", lookup.status, detail);
-            return Response.json({ error: "Payment verification failed" }, { status: 400 });
-          }
-          const payment = (await lookup.json()) as {
-            user_uid?: string;
-            amount?: number;
-          };
-          if (payment.user_uid !== user.uid) {
-            return Response.json({ error: "Forbidden" }, { status: 403 });
-          }
-          if (typeof payment.amount !== "number" || payment.amount < cost - 0.000001) {
-            return Response.json({ error: "Payment amount does not match contract cost" }, { status: 409 });
+          if (!owned.ok) {
+            return Response.json({ error: owned.error }, { status: owned.status });
           }
 
           // Complete the payment on the Pi Platform.
-          const complete = await fetch(`${PI_API_BASE}/payments/${paymentId}/complete`, {
-            method: "POST",
-            headers: {
-              Authorization: `Key ${key}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ txid }),
-          });
-          if (!complete.ok) {
-            const detail = await complete.text();
-            console.error("[pi-contracts] complete failed", complete.status, detail);
+          const completed = await completePiPayment(paymentId, txid);
+          if (!completed) {
             return Response.json({ error: "Payment completion failed" }, { status: 400 });
           }
+
 
 
           const endsAt = new Date(Date.now() + draft.durationDays * 24 * 60 * 60 * 1000);

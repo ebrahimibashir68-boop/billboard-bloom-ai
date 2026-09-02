@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { ShieldCheck } from "lucide-react";
 
 export function PiComplianceFooter() {
@@ -10,12 +11,18 @@ export function PiComplianceFooter() {
           <span className="hidden sm:inline">·</span>
           <span>All values shown in π</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3">
           <span className="flex items-center gap-1">
-            <ShieldCheck className="size-3 text-success" />
+            <ShieldCheck className="size-3 text-success" aria-hidden />
             Pi-compliant settlement
           </span>
-          <span>U2A deposits · A2U payouts · on-chain ledger</span>
+          <span className="hidden sm:inline">U2A deposits · A2U payouts · on-chain ledger</span>
+          <Link to="/privacy" className="underline hover:text-foreground">
+            Privacy
+          </Link>
+          <Link to="/terms" className="underline hover:text-foreground">
+            Terms
+          </Link>
         </div>
       </div>
     </footer>

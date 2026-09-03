@@ -4,7 +4,10 @@ import type { PiAuthResult, PiPaymentDTO, PiSDK, PiScope } from "./types";
 const SDK_URL = "https://sdk.minepi.com/pi-sdk.js";
 export const PI_BROWSER_UNAVAILABLE_MESSAGE = "Pi SDK not available. Open this app inside Pi Browser to sign in.";
 export const PI_PAYMENT_SCOPE_MESSAGE = "Payments permission is missing. Re-sign with Pi and approve the payments scope to continue.";
-const DEFAULT_SCOPES: PiScope[] = ["username", "payments"];
+// The app settles every service through Pi, so the wallet is part of the
+// baseline session: username (identity), payments (U2A) and wallet_address
+// (the Pi Ecosystem Wallet used for transactions and payouts).
+const DEFAULT_SCOPES: PiScope[] = ["username", "payments", "wallet_address"];
 
 let sdkPromise: Promise<PiSDK> | null = null;
 let piSession: {

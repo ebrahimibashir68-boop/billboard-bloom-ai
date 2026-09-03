@@ -28,6 +28,7 @@ export const Route = createFileRoute("/api/public/pi-auth")({
         const me = (await meRes.json()) as {
           uid?: string;
           username?: string;
+          wallet_address?: string;
           credentials?: { scopes?: string[] };
         };
         if (!me?.uid || !me?.username) {
@@ -37,6 +38,8 @@ export const Route = createFileRoute("/api/public/pi-auth")({
         return Response.json({
           ok: true,
           user: { uid: me.uid, username: me.username },
+          // Present only when the user granted the wallet_address scope.
+          walletAddress: me.wallet_address ?? null,
           scopes: me.credentials?.scopes ?? [],
         });
       },

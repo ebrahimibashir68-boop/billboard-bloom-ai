@@ -164,9 +164,20 @@ export function usePi() {
 
 
 
-    const grantedScopes = scopesFromAuthResult(result, requestedScopes);
+    // Scopes and wallet address are taken from the server's /v2/me response
+    // first (authoritative), with the SDK auth result as a fallback.
+    const serverScopes = (verified.scopes ?? []).filter(
+      (scope): scope is PiScope =>
+        scope === "username" || scope === "payments" || scope === "wallet_address",
+    );
+    const grantedScopes = serverScopes.length
+      ? serverScopes
+      : scopesFromAuthResult(result, requestedScopes);
     const nextScopes = uniqueScopes([...piSession.scopes, ...grantedScopes]);
-    const nextWallet = walletAddressFromAuthResult(result) ?? piSession.walletAddress;
+    const nextWallet =
+      verified.walletAddress ??
+      walletAddressFromAuthResult(result) ??
+      piSession.walletAddress;
     publishSession({
       user: verified.user,
       scopes: nextScopes,

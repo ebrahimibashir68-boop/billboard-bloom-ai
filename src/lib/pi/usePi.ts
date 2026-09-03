@@ -145,6 +145,8 @@ export function usePi() {
     }
     const verified = (await res.json()) as {
       user: { uid: string; username: string };
+      walletAddress?: string | null;
+      scopes?: string[];
     };
 
     if (pendingIncomplete) {

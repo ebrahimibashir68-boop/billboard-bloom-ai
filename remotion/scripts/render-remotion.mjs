@@ -11,11 +11,12 @@ const bundled = await bundle({
 });
 
 const browser = await openBrowser("chrome", {
-  browserExecutable: process.env.PUPPETEER_EXECUTABLE_PATH ?? "/bin/chromium",
+  browserExecutable:
+    "/opt/ms-playwright/chromium_headless_shell-1194/chrome-linux/headless_shell",
   chromiumOptions: {
     args: ["--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage"],
   },
-  chromeMode: "chrome-for-testing",
+  chromeMode: "headless-shell",
 });
 
 const composition = await selectComposition({

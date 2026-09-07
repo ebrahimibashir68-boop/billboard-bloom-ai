@@ -31,10 +31,10 @@ await renderMedia({
   composition,
   serveUrl: bundled,
   codec: "h264",
-  outputLocation: "/mnt/documents/pi-billboard-tutorial.mp4",
+  outputLocation: "/tmp/vo/silent.mp4",
   puppeteerInstance: browser,
   muted: true,
-  concurrency: 1,
+  concurrency: 4,
 });
 
 await browser.close({ silent: false });

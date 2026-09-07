@@ -30,6 +30,7 @@ import { Route as CampaignsRouteImport } from './routes/campaigns'
 import { Route as BookingsRouteImport } from './routes/bookings'
 import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as GuideIndexRouteImport } from './routes/guide.index'
 import { Route as CitiesIndexRouteImport } from './routes/cities.index'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
@@ -166,6 +167,11 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideIndexRoute = GuideIndexRouteImport.update({
+  id: '/guide/',
+  path: '/guide/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CitiesIndexRoute = CitiesIndexRouteImport.update({
@@ -369,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/cities/': typeof CitiesIndexRoute
+  '/guide/': typeof GuideIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
@@ -424,6 +431,7 @@ export interface FileRoutesByTo {
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/cities': typeof CitiesIndexRoute
+  '/guide': typeof GuideIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
@@ -480,6 +488,7 @@ export interface FileRoutesById {
   '/locations/$slug': typeof LocationsSlugRoute
   '/partners/register': typeof PartnersRegisterRoute
   '/cities/': typeof CitiesIndexRoute
+  '/guide/': typeof GuideIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
@@ -537,6 +546,7 @@ export interface FileRouteTypes {
     | '/locations/$slug'
     | '/partners/register'
     | '/cities/'
+    | '/guide/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
@@ -592,6 +602,7 @@ export interface FileRouteTypes {
     | '/locations/$slug'
     | '/partners/register'
     | '/cities'
+    | '/guide'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
@@ -647,6 +658,7 @@ export interface FileRouteTypes {
     | '/locations/$slug'
     | '/partners/register'
     | '/cities/'
+    | '/guide/'
     | '/.lovable/oauth/consent'
     | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
@@ -702,6 +714,7 @@ export interface RootRouteChildren {
   GuideStadiumAdvertisingCostsRoute: typeof GuideStadiumAdvertisingCostsRoute
   PartnersRegisterRoute: typeof PartnersRegisterRoute
   CitiesIndexRoute: typeof CitiesIndexRoute
+  GuideIndexRoute: typeof GuideIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
   Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicOohStandardsRoute: typeof ApiPublicOohStandardsRoute
@@ -871,6 +884,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide/': {
+      id: '/guide/'
+      path: '/guide'
+      fullPath: '/guide/'
+      preLoaderRoute: typeof GuideIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cities/': {
@@ -1146,6 +1166,7 @@ const rootRouteChildren: RootRouteChildren = {
   GuideStadiumAdvertisingCostsRoute: GuideStadiumAdvertisingCostsRoute,
   PartnersRegisterRoute: PartnersRegisterRoute,
   CitiesIndexRoute: CitiesIndexRoute,
+  GuideIndexRoute: GuideIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
   Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicOohStandardsRoute: ApiPublicOohStandardsRoute,

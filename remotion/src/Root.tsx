@@ -12,7 +12,7 @@ import { StepPay } from "./scenes/StepPay";
 import { StepTrack } from "./scenes/StepTrack";
 import { Outro } from "./scenes/Outro";
 
-const D = { intro: 150, s1: 180, s2: 180, s3: 170, s4: 180, s5: 170, outro: 170 };
+const D = { intro: 270, s1: 400, s2: 320, s3: 360, s4: 330, s5: 320, outro: 410 };
 const T = 20;
 
 const MainVideo: React.FC = () => (

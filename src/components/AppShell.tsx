@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, Store, Radio, Blocks, Wand2, Gauge, Wallet, type LucideIcon } from "lucide-react";
+import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, Store, Radio, Blocks, Wand2, Gauge, Wallet, PlayCircle, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
@@ -22,6 +22,7 @@ const navGroups: { id: string; label: string; items: NavItem[] }[] = [
       { to: "/marketplace", label: "Marketplace", icon: Store },
       { to: "/locations", label: "Billboards", icon: MapPin },
       { to: "/cities", label: "Cities", icon: Building2 },
+      { to: "/guide", label: "Video Guide", icon: PlayCircle },
     ],
   },
   {

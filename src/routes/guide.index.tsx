@@ -62,7 +62,7 @@ const steps = [
 function GuideVideoPage() {
   return (
     <AppShell>
-      <TopBar titleAs="h2" />
+      <TopBar title="Video Guide" titleAs="h2" />
       <div className="flex-1 overflow-y-auto p-6 md:p-10">
         <div className="mx-auto max-w-4xl space-y-10">
           <header className="space-y-3">

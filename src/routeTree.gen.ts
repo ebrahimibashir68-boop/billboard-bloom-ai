@@ -13,6 +13,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PayoutsRouteImport } from './routes/payouts'
@@ -83,6 +84,11 @@ const StudioRoute = StudioRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RfpsRoute = RfpsRouteImport.update({
@@ -365,6 +371,7 @@ export interface FileRoutesByFullPath {
   '/payouts': typeof PayoutsRoute
   '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -422,6 +429,7 @@ export interface FileRoutesByTo {
   '/payouts': typeof PayoutsRoute
   '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -480,6 +488,7 @@ export interface FileRoutesById {
   '/payouts': typeof PayoutsRoute
   '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -539,6 +548,7 @@ export interface FileRouteTypes {
     | '/payouts'
     | '/privacy'
     | '/rfps'
+    | '/services'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -596,6 +606,7 @@ export interface FileRouteTypes {
     | '/payouts'
     | '/privacy'
     | '/rfps'
+    | '/services'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -653,6 +664,7 @@ export interface FileRouteTypes {
     | '/payouts'
     | '/privacy'
     | '/rfps'
+    | '/services'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -711,6 +723,7 @@ export interface RootRouteChildren {
   PayoutsRoute: typeof PayoutsRoute
   PrivacyRoute: typeof PrivacyRoute
   RfpsRoute: typeof RfpsRoute
+  ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
   StudioDesignRoute: typeof StudioDesignRoute
@@ -778,6 +791,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rfps': {
@@ -1170,6 +1190,7 @@ const rootRouteChildren: RootRouteChildren = {
   PayoutsRoute: PayoutsRoute,
   PrivacyRoute: PrivacyRoute,
   RfpsRoute: RfpsRoute,
+  ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
   StudioDesignRoute: StudioDesignRoute,

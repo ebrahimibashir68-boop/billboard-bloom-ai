@@ -13,3 +13,4 @@ Pi Billboard lets advertisers generate stadium-ready creative with AI and deploy
 - [AI Creative Studio](/studio): Compose ad creatives with AI and preview them on real stadium billboard mockups.
 - [Campaigns](/campaigns): Live and scheduled ad campaigns running on the network.
 - [Analytics](/analytics): Network-wide impressions, spend, reach, and venue performance.
+- [OOH Services](/services): Traditional billboard services — media planning (GRP/reach/frequency), avails & holds, print & installation, proof of posting, site audits, permits, cancellations.

@@ -13,6 +13,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ServicesRouteImport } from './routes/services'
 import { Route as RfpsRouteImport } from './routes/rfps'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as PayoutsRouteImport } from './routes/payouts'
@@ -50,6 +51,7 @@ import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps
 import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
 import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
+import { Route as ApiPublicPiOohServicesRouteImport } from './routes/api/public/pi-ooh-services'
 import { Route as ApiPublicPiDeliveryRouteImport } from './routes/api/public/pi-delivery'
 import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
 import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
@@ -82,6 +84,11 @@ const StudioRoute = StudioRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RfpsRoute = RfpsRouteImport.update({
@@ -274,6 +281,11 @@ const ApiPublicPiOptimizeCreativeRoute =
     path: '/api/public/pi-optimize-creative',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicPiOohServicesRoute = ApiPublicPiOohServicesRouteImport.update({
+  id: '/api/public/pi-ooh-services',
+  path: '/api/public/pi-ooh-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiDeliveryRoute = ApiPublicPiDeliveryRouteImport.update({
   id: '/api/public/pi-delivery',
   path: '/api/public/pi-delivery',
@@ -359,6 +371,7 @@ export interface FileRoutesByFullPath {
   '/payouts': typeof PayoutsRoute
   '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -389,6 +402,7 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
+  '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -415,6 +429,7 @@ export interface FileRoutesByTo {
   '/payouts': typeof PayoutsRoute
   '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -445,6 +460,7 @@ export interface FileRoutesByTo {
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
+  '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -472,6 +488,7 @@ export interface FileRoutesById {
   '/payouts': typeof PayoutsRoute
   '/privacy': typeof PrivacyRoute
   '/rfps': typeof RfpsRoute
+  '/services': typeof ServicesRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
@@ -502,6 +519,7 @@ export interface FileRoutesById {
   '/api/public/pi-contracts': typeof ApiPublicPiContractsRoute
   '/api/public/pi-creatives': typeof ApiPublicPiCreativesRoute
   '/api/public/pi-delivery': typeof ApiPublicPiDeliveryRoute
+  '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -530,6 +548,7 @@ export interface FileRouteTypes {
     | '/payouts'
     | '/privacy'
     | '/rfps'
+    | '/services'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -560,6 +579,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
     | '/api/public/pi-delivery'
+    | '/api/public/pi-ooh-services'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -586,6 +606,7 @@ export interface FileRouteTypes {
     | '/payouts'
     | '/privacy'
     | '/rfps'
+    | '/services'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -616,6 +637,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
     | '/api/public/pi-delivery'
+    | '/api/public/pi-ooh-services'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -642,6 +664,7 @@ export interface FileRouteTypes {
     | '/payouts'
     | '/privacy'
     | '/rfps'
+    | '/services'
     | '/sitemap.xml'
     | '/studio'
     | '/studio-design'
@@ -672,6 +695,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-contracts'
     | '/api/public/pi-creatives'
     | '/api/public/pi-delivery'
+    | '/api/public/pi-ooh-services'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -699,6 +723,7 @@ export interface RootRouteChildren {
   PayoutsRoute: typeof PayoutsRoute
   PrivacyRoute: typeof PrivacyRoute
   RfpsRoute: typeof RfpsRoute
+  ServicesRoute: typeof ServicesRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   StudioRoute: typeof StudioRoute
   StudioDesignRoute: typeof StudioDesignRoute
@@ -728,6 +753,7 @@ export interface RootRouteChildren {
   ApiPublicPiContractsRoute: typeof ApiPublicPiContractsRoute
   ApiPublicPiCreativesRoute: typeof ApiPublicPiCreativesRoute
   ApiPublicPiDeliveryRoute: typeof ApiPublicPiDeliveryRoute
+  ApiPublicPiOohServicesRoute: typeof ApiPublicPiOohServicesRoute
   ApiPublicPiOptimizeCreativeRoute: typeof ApiPublicPiOptimizeCreativeRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
   ApiPublicPiPayoutsRoute: typeof ApiPublicPiPayoutsRoute
@@ -765,6 +791,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/rfps': {
@@ -1026,6 +1059,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiOptimizeCreativeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-ooh-services': {
+      id: '/api/public/pi-ooh-services'
+      path: '/api/public/pi-ooh-services'
+      fullPath: '/api/public/pi-ooh-services'
+      preLoaderRoute: typeof ApiPublicPiOohServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-delivery': {
       id: '/api/public/pi-delivery'
       path: '/api/public/pi-delivery'
@@ -1150,6 +1190,7 @@ const rootRouteChildren: RootRouteChildren = {
   PayoutsRoute: PayoutsRoute,
   PrivacyRoute: PrivacyRoute,
   RfpsRoute: RfpsRoute,
+  ServicesRoute: ServicesRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   StudioRoute: StudioRoute,
   StudioDesignRoute: StudioDesignRoute,
@@ -1180,6 +1221,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiContractsRoute: ApiPublicPiContractsRoute,
   ApiPublicPiCreativesRoute: ApiPublicPiCreativesRoute,
   ApiPublicPiDeliveryRoute: ApiPublicPiDeliveryRoute,
+  ApiPublicPiOohServicesRoute: ApiPublicPiOohServicesRoute,
   ApiPublicPiOptimizeCreativeRoute: ApiPublicPiOptimizeCreativeRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
   ApiPublicPiPayoutsRoute: ApiPublicPiPayoutsRoute,

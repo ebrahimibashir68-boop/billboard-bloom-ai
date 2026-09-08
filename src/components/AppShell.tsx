@@ -1,5 +1,5 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, Store, Radio, Blocks, Wand2, Gauge, Wallet, PlayCircle, type LucideIcon } from "lucide-react";
+import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, Store, Radio, Blocks, Wand2, Gauge, Wallet, PlayCircle, Briefcase, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
@@ -33,6 +33,7 @@ const navGroups: { id: string; label: string; items: NavItem[] }[] = [
       { to: "/rfps", label: "RFP Marketplace", icon: FileText },
       { to: "/contracts", label: "Smart Contracts", icon: FileCheck2 },
       { to: "/campaigns", label: "Campaigns", icon: Megaphone },
+      { to: "/services", label: "OOH Services", icon: Briefcase },
     ],
   },
   {

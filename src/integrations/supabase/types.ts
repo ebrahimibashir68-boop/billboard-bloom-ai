@@ -725,6 +725,65 @@ export type Database = {
         }
         Relationships: []
       }
+      campaign_change_requests: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          booking_id: string | null
+          change_type: string
+          created_at: string
+          effective_date: string
+          id: string
+          new_end_date: string | null
+          penalty_pct: number
+          penalty_pi: number
+          reason: string | null
+          reference: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          booking_id?: string | null
+          change_type: string
+          created_at?: string
+          effective_date: string
+          id?: string
+          new_end_date?: string | null
+          penalty_pct?: number
+          penalty_pi?: number
+          reason?: string | null
+          reference: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          booking_id?: string | null
+          change_type?: string
+          created_at?: string
+          effective_date?: string
+          id?: string
+          new_end_date?: string | null
+          penalty_pct?: number
+          penalty_pi?: number
+          reason?: string | null
+          reference?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaign_change_requests_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       creative_optimizations: {
         Row: {
           audience: Json
@@ -1079,6 +1138,59 @@ export type Database = {
           },
         ]
       }
+      inventory_holds: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          created_at: string
+          expires_at: string
+          hold_end: string
+          hold_start: string
+          id: string
+          location_id: string | null
+          location_name: string
+          notes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          created_at?: string
+          expires_at: string
+          hold_end: string
+          hold_start: string
+          id?: string
+          location_id?: string | null
+          location_name: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          created_at?: string
+          expires_at?: string
+          hold_end?: string
+          hold_start?: string
+          id?: string
+          location_id?: string | null
+          location_name?: string
+          notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_holds_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       invoices: {
         Row: {
           advertiser_pi_uid: string
@@ -1302,6 +1414,69 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      media_plans: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          avg_frequency: number
+          budget_pi: number
+          campaign_name: string
+          cpm_pi: number
+          created_at: string
+          flight_end: string
+          flight_start: string
+          grps: number
+          id: string
+          markets: string[]
+          notes: string | null
+          planned_impressions: number
+          reach_pct: number
+          status: string
+          target_population: number
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          avg_frequency: number
+          budget_pi: number
+          campaign_name: string
+          cpm_pi: number
+          created_at?: string
+          flight_end: string
+          flight_start: string
+          grps: number
+          id?: string
+          markets?: string[]
+          notes?: string | null
+          planned_impressions: number
+          reach_pct: number
+          status?: string
+          target_population: number
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          avg_frequency?: number
+          budget_pi?: number
+          campaign_name?: string
+          cpm_pi?: number
+          created_at?: string
+          flight_end?: string
+          flight_start?: string
+          grps?: number
+          id?: string
+          markets?: string[]
+          notes?: string | null
+          planned_impressions?: number
+          reach_pct?: number
+          status?: string
+          target_population?: number
+          updated_at?: string
+        }
+        Relationships: []
       }
       openooh_venue_types: {
         Row: {
@@ -1584,6 +1759,143 @@ export type Database = {
           },
         ]
       }
+      posting_proofs: {
+        Row: {
+          created_at: string
+          id: string
+          lat: number | null
+          ledger_hash: string | null
+          lng: number | null
+          location_id: string | null
+          location_name: string
+          notes: string | null
+          photo_url: string | null
+          pi_uid: string
+          pi_username: string | null
+          posted_at: string
+          production_order_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lat?: number | null
+          ledger_hash?: string | null
+          lng?: number | null
+          location_id?: string | null
+          location_name: string
+          notes?: string | null
+          photo_url?: string | null
+          pi_uid: string
+          pi_username?: string | null
+          posted_at?: string
+          production_order_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lat?: number | null
+          ledger_hash?: string | null
+          lng?: number | null
+          location_id?: string | null
+          location_name?: string
+          notes?: string | null
+          photo_url?: string | null
+          pi_uid?: string
+          pi_username?: string | null
+          posted_at?: string
+          production_order_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posting_proofs_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posting_proofs_production_order_id_fkey"
+            columns: ["production_order_id"]
+            isOneToOne: false
+            referencedRelation: "production_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      production_orders: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          created_at: string
+          height_m: number
+          id: string
+          install_cost_pi: number
+          install_date: string
+          location_id: string | null
+          location_name: string
+          material: string
+          notes: string | null
+          order_number: string
+          production_cost_pi: number
+          quantity: number
+          removal_date: string | null
+          status: string
+          total_pi: number
+          updated_at: string
+          width_m: number
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          created_at?: string
+          height_m: number
+          id?: string
+          install_cost_pi: number
+          install_date: string
+          location_id?: string | null
+          location_name: string
+          material: string
+          notes?: string | null
+          order_number: string
+          production_cost_pi: number
+          quantity?: number
+          removal_date?: string | null
+          status?: string
+          total_pi: number
+          updated_at?: string
+          width_m: number
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          created_at?: string
+          height_m?: number
+          id?: string
+          install_cost_pi?: number
+          install_date?: string
+          location_id?: string | null
+          location_name?: string
+          material?: string
+          notes?: string | null
+          order_number?: string
+          production_cost_pi?: number
+          quantity?: number
+          removal_date?: string | null
+          status?: string
+          total_pi?: number
+          updated_at?: string
+          width_m?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "production_orders_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       proof_of_plays: {
         Row: {
           contract_id: string | null
@@ -1781,6 +2093,121 @@ export type Database = {
             columns: ["partner_id"]
             isOneToOne: false
             referencedRelation: "public_ad_partners"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_audits: {
+        Row: {
+          audit_source: string
+          audited_at: string
+          condition: string
+          created_at: string
+          daily_traffic: number
+          id: string
+          illumination: string
+          location_id: string | null
+          location_name: string
+          notes: string | null
+          obstruction_pct: number
+          pi_uid: string
+          pi_username: string | null
+          score: number
+        }
+        Insert: {
+          audit_source: string
+          audited_at: string
+          condition: string
+          created_at?: string
+          daily_traffic: number
+          id?: string
+          illumination: string
+          location_id?: string | null
+          location_name: string
+          notes?: string | null
+          obstruction_pct?: number
+          pi_uid: string
+          pi_username?: string | null
+          score: number
+        }
+        Update: {
+          audit_source?: string
+          audited_at?: string
+          condition?: string
+          created_at?: string
+          daily_traffic?: number
+          id?: string
+          illumination?: string
+          location_id?: string | null
+          location_name?: string
+          notes?: string | null
+          obstruction_pct?: number
+          pi_uid?: string
+          pi_username?: string | null
+          score?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_audits_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      site_permits: {
+        Row: {
+          authority: string
+          created_at: string
+          expires_on: string
+          id: string
+          issued_on: string
+          location_id: string | null
+          location_name: string
+          notes: string | null
+          permit_number: string
+          pi_uid: string
+          pi_username: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          authority: string
+          created_at?: string
+          expires_on: string
+          id?: string
+          issued_on: string
+          location_id?: string | null
+          location_name: string
+          notes?: string | null
+          permit_number: string
+          pi_uid: string
+          pi_username?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          authority?: string
+          created_at?: string
+          expires_on?: string
+          id?: string
+          issued_on?: string
+          location_id?: string | null
+          location_name?: string
+          notes?: string | null
+          permit_number?: string
+          pi_uid?: string
+          pi_username?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "site_permits_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_locations"
             referencedColumns: ["id"]
           },
         ]

@@ -220,6 +220,137 @@ export function revenueShare(grossPi: number, sharePct: number): number {
 }
 
 /* ------------------------------------------------------------------ */
+/* Media planning: GRPs, reach, frequency                              */
+/* ------------------------------------------------------------------ */
+
+/** Gross rating points = impressions / target population × 100. */
+export function grps(impressions: number, targetPopulation: number): number {
+  if (impressions <= 0 || targetPopulation <= 0) return 0;
+  return round4((impressions / targetPopulation) * 100);
+}
+
+/**
+ * Standard OOH reach curve: reach rises with GRPs but saturates.
+ * Planning estimate only; audited reach comes from the measurement source.
+ */
+export function estimateReachPct(grpValue: number): number {
+  if (grpValue <= 0) return 0;
+  return round4(Math.min(95, 100 * (1 - Math.exp(-grpValue / 180))));
+}
+
+export function avgFrequency(grpValue: number, reachPct: number): number {
+  if (reachPct <= 0) return 0;
+  return round4(grpValue / reachPct);
+}
+
+export function mediaPlanMetrics(params: {
+  budgetPi: number;
+  cpmPi: number;
+  targetPopulation: number;
+}) {
+  const impressions = impressionsForBudget(params.budgetPi, params.cpmPi);
+  const g = grps(impressions, params.targetPopulation);
+  const reach = estimateReachPct(g);
+  return { impressions, grps: g, reachPct: reach, frequency: avgFrequency(g, reach) };
+}
+
+/* ------------------------------------------------------------------ */
+/* Avails & holds                                                      */
+/* ------------------------------------------------------------------ */
+
+/** Industry norm: a hold on a face lapses after 48 hours unless firmed. */
+export const HOLD_EXPIRY_HOURS = 48;
+
+export const HOLD_STATUS_LABELS: Record<string, string> = {
+  hold: "On hold",
+  firm: "Firm",
+  released: "Released",
+  expired: "Expired",
+};
+
+/* ------------------------------------------------------------------ */
+/* Production & installation                                           */
+/* ------------------------------------------------------------------ */
+
+export const PRODUCTION_MATERIALS: {
+  id: string;
+  label: string;
+  piPerSqm: number;
+  installPi: number;
+}[] = [
+  { id: "vinyl", label: "PVC vinyl (static face)", piPerSqm: 1.2, installPi: 25 },
+  { id: "eco_flex", label: "PVC-free eco flex", piPerSqm: 1.6, installPi: 25 },
+  { id: "mesh", label: "Mesh (building wrap)", piPerSqm: 1.9, installPi: 60 },
+  { id: "paper", label: "Blue-back poster paper", piPerSqm: 0.6, installPi: 12 },
+  { id: "digital_file", label: "Digital file (LED screen)", piPerSqm: 0, installPi: 4 },
+];
+
+export function productionQuote(params: {
+  material: string;
+  widthM: number;
+  heightM: number;
+  quantity: number;
+}) {
+  const m = PRODUCTION_MATERIALS.find((x) => x.id === params.material);
+  if (!m || params.widthM <= 0 || params.heightM <= 0 || params.quantity <= 0) {
+    return { production: 0, install: 0, total: 0 };
+  }
+  const area = params.widthM * params.heightM;
+  const production = round4(area * m.piPerSqm * params.quantity);
+  const install = round4(m.installPi * params.quantity);
+  return { production, install, total: round4(production + install) };
+}
+
+export const PRODUCTION_STATUS_LABELS: Record<string, string> = {
+  ordered: "Ordered",
+  printed: "Printed",
+  shipped: "Shipped",
+  posted: "Posted",
+  removed: "Removed",
+  cancelled: "Cancelled",
+};
+
+/* ------------------------------------------------------------------ */
+/* Cancellation & renewal policy                                       */
+/* ------------------------------------------------------------------ */
+
+export type ChangeType = "cancel" | "renew" | "extend" | "reschedule";
+
+export const CHANGE_TYPES: { id: ChangeType; label: string }[] = [
+  { id: "cancel", label: "Cancellation" },
+  { id: "renew", label: "Renewal" },
+  { id: "extend", label: "Extension" },
+  { id: "reschedule", label: "Reschedule" },
+];
+
+/**
+ * Standard OOH cancellation ladder: free with 60+ days notice, 25% inside
+ * 60 days, 50% inside 30 days, 100% inside 14 days. Other changes are free.
+ */
+export function cancellationPenaltyPct(changeType: ChangeType, daysNotice: number): number {
+  if (changeType !== "cancel") return 0;
+  if (daysNotice >= 60) return 0;
+  if (daysNotice >= 30) return 25;
+  if (daysNotice >= 14) return 50;
+  return 100;
+}
+
+/* ------------------------------------------------------------------ */
+/* Site audits                                                         */
+/* ------------------------------------------------------------------ */
+
+export const AUDIT_SOURCES = ["Geopath", "Route", "COMMB", "MOVE", "Operator self-audit"];
+export const ILLUMINATION = ["none", "front_lit", "back_lit", "digital"];
+export const CONDITIONS = ["excellent", "good", "fair", "poor"];
+
+/** Composite 0–100 site score from condition, obstruction and lighting. */
+export function siteScore(params: { condition: string; obstructionPct: number; illumination: string }): number {
+  const cond = { excellent: 100, good: 80, fair: 55, poor: 25 }[params.condition] ?? 50;
+  const light = { digital: 1, back_lit: 0.95, front_lit: 0.9, none: 0.75 }[params.illumination] ?? 0.8;
+  return Math.round(Math.max(0, cond * light * (1 - Math.min(100, params.obstructionPct) / 100)));
+}
+
+/* ------------------------------------------------------------------ */
 
 export function round4(n: number): number {
   return Math.round(n * 10_000) / 10_000;

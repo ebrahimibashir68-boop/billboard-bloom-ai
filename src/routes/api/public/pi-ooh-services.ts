@@ -129,10 +129,12 @@ export const Route = createFileRoute("/api/public/pi-ooh-services")({
         const kind = new URL(request.url).searchParams.get("kind") as Kind | null;
         if (!kind || !KINDS.includes(kind)) return Response.json({ error: "Invalid kind" }, { status: 400 });
 
+        // Table is chosen at runtime from a fixed allow-list; the generated
+        // client can't narrow the column union across tables, so cast once.
         const { data, error } = await supabaseAdmin
-          .from(kind)
+          .from(kind as "media_plans")
           .select("*")
-          .eq(OWNER_COL[kind], user.uid)
+          .eq(OWNER_COL[kind] as "advertiser_pi_uid", user.uid)
           .order("created_at", { ascending: false })
           .limit(100);
         if (error) {

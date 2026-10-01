@@ -42,7 +42,7 @@ export const Route = createFileRoute("/locations")({
     links: [{ rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/locations" }],
   }),
   component: LocationsPage,
-  errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
+  errorComponent: ({ error }) => <div className="p-8 text-destructive">{error instanceof Error ? error.message : String(error)}</div>,
   notFoundComponent: () => <div className="p-8">Not found</div>,
 });
 

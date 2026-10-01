@@ -75,7 +75,7 @@ export const Route = createFileRoute("/cities/$city")({
     };
   },
   component: CityPage,
-  errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
+  errorComponent: ({ error }) => <div className="p-8 text-destructive">{error instanceof Error ? error.message : String(error)}</div>,
   notFoundComponent: () => (
     <div className="p-8 space-y-3">
       <h1 className="text-xl font-bold">City not found</h1>

@@ -18,7 +18,7 @@ export const Route = createFileRoute("/marketplace")({
     links: [{ rel: "canonical", href: "https://billboard-bloom-ai.lovable.app/marketplace" }],
   }),
   component: MarketplacePage,
-  errorComponent: ({ error }) => <div className="p-8 text-destructive">{error.message}</div>,
+  errorComponent: ({ error }) => <div className="p-8 text-destructive">{error instanceof Error ? error.message : String(error)}</div>,
   notFoundComponent: () => <div className="p-8">Not found</div>,
 });
 

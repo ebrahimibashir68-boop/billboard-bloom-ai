@@ -9,161 +9,66 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as StudioDesignRouteImport } from './routes/studio-design'
-import { Route as StudioRouteImport } from './routes/studio'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as RfpsRouteImport } from './routes/rfps'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as PayoutsRouteImport } from './routes/payouts'
-import { Route as PartnerRouteImport } from './routes/partner'
-import { Route as OptimizeRouteImport } from './routes/optimize'
-import { Route as MeasurementRouteImport } from './routes/measurement'
-import { Route as McpRouteImport } from './routes/mcp'
-import { Route as MarketplaceRouteImport } from './routes/marketplace'
-import { Route as LocationsRouteImport } from './routes/locations'
-import { Route as LedgerRouteImport } from './routes/ledger'
-import { Route as InnovateRouteImport } from './routes/innovate'
-import { Route as DisplayerRouteImport } from './routes/displayer'
-import { Route as ContractsRouteImport } from './routes/contracts'
-import { Route as CampaignsRouteImport } from './routes/campaigns'
-import { Route as BookingsRouteImport } from './routes/bookings'
-import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as GuideIndexRouteImport } from './routes/guide.index'
-import { Route as CitiesIndexRouteImport } from './routes/cities.index'
-import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
-import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
-import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
-import { Route as CitiesCityRouteImport } from './routes/cities.$city'
-import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
-import { Route as ApiGenerateBillboardImageRouteImport } from './routes/api/generate-billboard-image'
-import { Route as ApiConciergeRouteImport } from './routes/api/concierge'
-import { Route as ApiChatRouteImport } from './routes/api/chat'
-import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
-import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as BookingsRouteImport } from './routes/bookings'
+import { Route as CampaignsRouteImport } from './routes/campaigns'
+import { Route as ContractsRouteImport } from './routes/contracts'
+import { Route as DisplayerRouteImport } from './routes/displayer'
+import { Route as InnovateRouteImport } from './routes/innovate'
+import { Route as LedgerRouteImport } from './routes/ledger'
+import { Route as LocationsRouteImport } from './routes/locations'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as McpRouteImport } from './routes/mcp'
+import { Route as MeasurementRouteImport } from './routes/measurement'
+import { Route as OptimizeRouteImport } from './routes/optimize'
+import { Route as PartnerRouteImport } from './routes/partner'
+import { Route as PayoutsRouteImport } from './routes/payouts'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RfpsRouteImport } from './routes/rfps'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as StudioRouteImport } from './routes/studio'
+import { Route as StudioDesignRouteImport } from './routes/studio-design'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
-import { Route as ApiPublicVerifyLedgerRouteImport } from './routes/api/public/verify-ledger'
-import { Route as ApiPublicScreenPlaylistRouteImport } from './routes/api/public/screen-playlist'
-import { Route as ApiPublicPiScreensRouteImport } from './routes/api/public/pi-screens'
-import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps'
-import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
-import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
-import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
-import { Route as ApiPublicPiOohServicesRouteImport } from './routes/api/public/pi-ooh-services'
-import { Route as ApiPublicPiDeliveryRouteImport } from './routes/api/public/pi-delivery'
-import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
-import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
-import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
-import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
-import { Route as ApiPublicPiBookingsRouteImport } from './routes/api/public/pi-bookings'
-import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
-import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
-import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
-import { Route as ApiPublicPiAdRewardRouteImport } from './routes/api/public/pi-ad-reward'
-import { Route as ApiPublicOohStandardsRouteImport } from './routes/api/public/ooh-standards'
-import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
+import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiConciergeRouteImport } from './routes/api/concierge'
+import { Route as ApiGenerateBillboardImageRouteImport } from './routes/api/generate-billboard-image'
+import { Route as ApiInnovateFeedRouteImport } from './routes/api/innovate-feed'
+import { Route as CitiesIndexRouteImport } from './routes/cities.index'
+import { Route as CitiesCityRouteImport } from './routes/cities.$city'
+import { Route as GuideIndexRouteImport } from './routes/guide.index'
+import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide.stadium-advertising-costs'
+import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
+import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
+import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
+import { Route as ApiPublicOohStandardsRouteImport } from './routes/api/public/ooh-standards'
+import { Route as ApiPublicPiAdRewardRouteImport } from './routes/api/public/pi-ad-reward'
+import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
+import { Route as ApiPublicPiAuthRouteImport } from './routes/api/public/pi-auth'
+import { Route as ApiPublicPiBalanceRouteImport } from './routes/api/public/pi-balance'
+import { Route as ApiPublicPiBookingsRouteImport } from './routes/api/public/pi-bookings'
+import { Route as ApiPublicPiCampaignsRouteImport } from './routes/api/public/pi-campaigns'
+import { Route as ApiPublicPiCompleteRouteImport } from './routes/api/public/pi-complete'
+import { Route as ApiPublicPiContractsRouteImport } from './routes/api/public/pi-contracts'
+import { Route as ApiPublicPiCreativesRouteImport } from './routes/api/public/pi-creatives'
+import { Route as ApiPublicPiDeliveryRouteImport } from './routes/api/public/pi-delivery'
+import { Route as ApiPublicPiOohServicesRouteImport } from './routes/api/public/pi-ooh-services'
+import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
+import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
+import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
+import { Route as ApiPublicPiRfpsRouteImport } from './routes/api/public/pi-rfps'
+import { Route as ApiPublicPiScreensRouteImport } from './routes/api/public/pi-screens'
+import { Route as ApiPublicScreenPlaylistRouteImport } from './routes/api/public/screen-playlist'
+import { Route as ApiPublicVerifyLedgerRouteImport } from './routes/api/public/verify-ledger'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudioDesignRoute = StudioDesignRouteImport.update({
-  id: '/studio-design',
-  path: '/studio-design',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StudioRoute = StudioRouteImport.update({
-  id: '/studio',
-  path: '/studio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RfpsRoute = RfpsRouteImport.update({
-  id: '/rfps',
-  path: '/rfps',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PayoutsRoute = PayoutsRouteImport.update({
-  id: '/payouts',
-  path: '/payouts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PartnerRoute = PartnerRouteImport.update({
-  id: '/partner',
-  path: '/partner',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OptimizeRoute = OptimizeRouteImport.update({
-  id: '/optimize',
-  path: '/optimize',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MeasurementRoute = MeasurementRouteImport.update({
-  id: '/measurement',
-  path: '/measurement',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const McpRoute = McpRouteImport.update({
-  id: '/mcp',
-  path: '/mcp',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MarketplaceRoute = MarketplaceRouteImport.update({
-  id: '/marketplace',
-  path: '/marketplace',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LocationsRoute = LocationsRouteImport.update({
-  id: '/locations',
-  path: '/locations',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const LedgerRoute = LedgerRouteImport.update({
-  id: '/ledger',
-  path: '/ledger',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const InnovateRoute = InnovateRouteImport.update({
-  id: '/innovate',
-  path: '/innovate',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DisplayerRoute = DisplayerRouteImport.update({
-  id: '/displayer',
-  path: '/displayer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContractsRoute = ContractsRouteImport.update({
-  id: '/contracts',
-  path: '/contracts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CampaignsRoute = CampaignsRouteImport.update({
-  id: '/campaigns',
-  path: '/campaigns',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BookingsRoute = BookingsRouteImport.update({
-  id: '/bookings',
-  path: '/bookings',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AnalyticsRoute = AnalyticsRouteImport.update({
@@ -171,45 +76,131 @@ const AnalyticsRoute = AnalyticsRouteImport.update({
   path: '/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const BookingsRoute = BookingsRouteImport.update({
+  id: '/bookings',
+  path: '/bookings',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GuideIndexRoute = GuideIndexRouteImport.update({
-  id: '/guide/',
-  path: '/guide/',
+const CampaignsRoute = CampaignsRouteImport.update({
+  id: '/campaigns',
+  path: '/campaigns',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CitiesIndexRoute = CitiesIndexRouteImport.update({
-  id: '/cities/',
-  path: '/cities/',
+const ContractsRoute = ContractsRouteImport.update({
+  id: '/contracts',
+  path: '/contracts',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PartnersRegisterRoute = PartnersRegisterRouteImport.update({
-  id: '/partners/register',
-  path: '/partners/register',
+const DisplayerRoute = DisplayerRouteImport.update({
+  id: '/displayer',
+  path: '/displayer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LocationsSlugRoute = LocationsSlugRouteImport.update({
-  id: '/$slug',
-  path: '/$slug',
-  getParentRoute: () => LocationsRoute,
+const InnovateRoute = InnovateRouteImport.update({
+  id: '/innovate',
+  path: '/innovate',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const GuideStadiumAdvertisingCostsRoute =
-  GuideStadiumAdvertisingCostsRouteImport.update({
-    id: '/guide/stadium-advertising-costs',
-    path: '/guide/stadium-advertising-costs',
+const LedgerRoute = LedgerRouteImport.update({
+  id: '/ledger',
+  path: '/ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LocationsRoute = LocationsRouteImport.update({
+  id: '/locations',
+  path: '/locations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MeasurementRoute = MeasurementRouteImport.update({
+  id: '/measurement',
+  path: '/measurement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OptimizeRoute = OptimizeRouteImport.update({
+  id: '/optimize',
+  path: '/optimize',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnerRoute = PartnerRouteImport.update({
+  id: '/partner',
+  path: '/partner',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PayoutsRoute = PayoutsRouteImport.update({
+  id: '/payouts',
+  path: '/payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RfpsRoute = RfpsRouteImport.update({
+  id: '/rfps',
+  path: '/rfps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioRoute = StudioRouteImport.update({
+  id: '/studio',
+  path: '/studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudioDesignRoute = StudioDesignRouteImport.update({
+  id: '/studio-design',
+  path: '/studio-design',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Char91DotmcpChar93ListToolsRoute =
+  Char91DotmcpChar93ListToolsRouteImport.update({
+    id: '/.mcp/list-tools',
+    path: '/.mcp/list-tools',
     getParentRoute: () => rootRouteImport,
   } as any)
-const CitiesCityRoute = CitiesCityRouteImport.update({
-  id: '/cities/$city',
-  path: '/cities/$city',
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminPartnersRoute = AdminPartnersRouteImport.update({
+  id: '/admin/partners',
+  path: '/admin/partners',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiInnovateFeedRoute = ApiInnovateFeedRouteImport.update({
-  id: '/api/innovate-feed',
-  path: '/api/innovate-feed',
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiConciergeRoute = ApiConciergeRouteImport.update({
+  id: '/api/concierge',
+  path: '/api/concierge',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiGenerateBillboardImageRoute =
@@ -218,127 +209,45 @@ const ApiGenerateBillboardImageRoute =
     path: '/api/generate-billboard-image',
     getParentRoute: () => rootRouteImport,
   } as any)
-const ApiConciergeRoute = ApiConciergeRouteImport.update({
-  id: '/api/concierge',
-  path: '/api/concierge',
+const ApiInnovateFeedRoute = ApiInnovateFeedRouteImport.update({
+  id: '/api/innovate-feed',
+  path: '/api/innovate-feed',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiChatRoute = ApiChatRouteImport.update({
-  id: '/api/chat',
-  path: '/api/chat',
+const CitiesIndexRoute = CitiesIndexRouteImport.update({
+  id: '/cities/',
+  path: '/cities/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminPartnersRoute = AdminPartnersRouteImport.update({
-  id: '/admin/partners',
-  path: '/admin/partners',
+const CitiesCityRoute = CitiesCityRouteImport.update({
+  id: '/cities/$city',
+  path: '/cities/$city',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotwellKnownChar93OauthProtectedResourceRoute =
-  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
-    id: '/.well-known/oauth-protected-resource',
-    path: '/.well-known/oauth-protected-resource',
+const GuideIndexRoute = GuideIndexRouteImport.update({
+  id: '/guide/',
+  path: '/guide/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideStadiumAdvertisingCostsRoute =
+  GuideStadiumAdvertisingCostsRouteImport.update({
+    id: '/guide/stadium-advertising-costs',
+    path: '/guide/stadium-advertising-costs',
     getParentRoute: () => rootRouteImport,
   } as any)
-const Char91DotmcpChar93ListToolsRoute =
-  Char91DotmcpChar93ListToolsRouteImport.update({
-    id: '/.mcp/list-tools',
-    path: '/.mcp/list-tools',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicVerifyLedgerRoute = ApiPublicVerifyLedgerRouteImport.update({
-  id: '/api/public/verify-ledger',
-  path: '/api/public/verify-ledger',
+const LocationsSlugRoute = LocationsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => LocationsRoute,
+} as any)
+const PartnersRegisterRoute = PartnersRegisterRouteImport.update({
+  id: '/partners/register',
+  path: '/partners/register',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicScreenPlaylistRoute = ApiPublicScreenPlaylistRouteImport.update({
-  id: '/api/public/screen-playlist',
-  path: '/api/public/screen-playlist',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiScreensRoute = ApiPublicPiScreensRouteImport.update({
-  id: '/api/public/pi-screens',
-  path: '/api/public/pi-screens',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiRfpsRoute = ApiPublicPiRfpsRouteImport.update({
-  id: '/api/public/pi-rfps',
-  path: '/api/public/pi-rfps',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiPayoutsRoute = ApiPublicPiPayoutsRouteImport.update({
-  id: '/api/public/pi-payouts',
-  path: '/api/public/pi-payouts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiPartnersRoute = ApiPublicPiPartnersRouteImport.update({
-  id: '/api/public/pi-partners',
-  path: '/api/public/pi-partners',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiOptimizeCreativeRoute =
-  ApiPublicPiOptimizeCreativeRouteImport.update({
-    id: '/api/public/pi-optimize-creative',
-    path: '/api/public/pi-optimize-creative',
-    getParentRoute: () => rootRouteImport,
-  } as any)
-const ApiPublicPiOohServicesRoute = ApiPublicPiOohServicesRouteImport.update({
-  id: '/api/public/pi-ooh-services',
-  path: '/api/public/pi-ooh-services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiDeliveryRoute = ApiPublicPiDeliveryRouteImport.update({
-  id: '/api/public/pi-delivery',
-  path: '/api/public/pi-delivery',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiCreativesRoute = ApiPublicPiCreativesRouteImport.update({
-  id: '/api/public/pi-creatives',
-  path: '/api/public/pi-creatives',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiContractsRoute = ApiPublicPiContractsRouteImport.update({
-  id: '/api/public/pi-contracts',
-  path: '/api/public/pi-contracts',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
-  id: '/api/public/pi-complete',
-  path: '/api/public/pi-complete',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiCampaignsRoute = ApiPublicPiCampaignsRouteImport.update({
-  id: '/api/public/pi-campaigns',
-  path: '/api/public/pi-campaigns',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiBookingsRoute = ApiPublicPiBookingsRouteImport.update({
-  id: '/api/public/pi-bookings',
-  path: '/api/public/pi-bookings',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiBalanceRoute = ApiPublicPiBalanceRouteImport.update({
-  id: '/api/public/pi-balance',
-  path: '/api/public/pi-balance',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiAuthRoute = ApiPublicPiAuthRouteImport.update({
-  id: '/api/public/pi-auth',
-  path: '/api/public/pi-auth',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
-  id: '/api/public/pi-approve',
-  path: '/api/public/pi-approve',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicPiAdRewardRoute = ApiPublicPiAdRewardRouteImport.update({
-  id: '/api/public/pi-ad-reward',
-  path: '/api/public/pi-ad-reward',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicOohStandardsRoute = ApiPublicOohStandardsRouteImport.update({
-  id: '/api/public/ooh-standards',
-  path: '/api/public/ooh-standards',
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Char91DotmcpChar93InvokeToolToolRoute =
@@ -347,9 +256,100 @@ const Char91DotmcpChar93InvokeToolToolRoute =
     path: '/.mcp/invoke-tool/$tool',
     getParentRoute: () => rootRouteImport,
   } as any)
-const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
-  id: '/.lovable/oauth/consent',
-  path: '/.lovable/oauth/consent',
+const ApiPublicOohStandardsRoute = ApiPublicOohStandardsRouteImport.update({
+  id: '/api/public/ooh-standards',
+  path: '/api/public/ooh-standards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiAdRewardRoute = ApiPublicPiAdRewardRouteImport.update({
+  id: '/api/public/pi-ad-reward',
+  path: '/api/public/pi-ad-reward',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiApproveRoute = ApiPublicPiApproveRouteImport.update({
+  id: '/api/public/pi-approve',
+  path: '/api/public/pi-approve',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiAuthRoute = ApiPublicPiAuthRouteImport.update({
+  id: '/api/public/pi-auth',
+  path: '/api/public/pi-auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiBalanceRoute = ApiPublicPiBalanceRouteImport.update({
+  id: '/api/public/pi-balance',
+  path: '/api/public/pi-balance',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiBookingsRoute = ApiPublicPiBookingsRouteImport.update({
+  id: '/api/public/pi-bookings',
+  path: '/api/public/pi-bookings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiCampaignsRoute = ApiPublicPiCampaignsRouteImport.update({
+  id: '/api/public/pi-campaigns',
+  path: '/api/public/pi-campaigns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiCompleteRoute = ApiPublicPiCompleteRouteImport.update({
+  id: '/api/public/pi-complete',
+  path: '/api/public/pi-complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiContractsRoute = ApiPublicPiContractsRouteImport.update({
+  id: '/api/public/pi-contracts',
+  path: '/api/public/pi-contracts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiCreativesRoute = ApiPublicPiCreativesRouteImport.update({
+  id: '/api/public/pi-creatives',
+  path: '/api/public/pi-creatives',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiDeliveryRoute = ApiPublicPiDeliveryRouteImport.update({
+  id: '/api/public/pi-delivery',
+  path: '/api/public/pi-delivery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiOohServicesRoute = ApiPublicPiOohServicesRouteImport.update({
+  id: '/api/public/pi-ooh-services',
+  path: '/api/public/pi-ooh-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiOptimizeCreativeRoute =
+  ApiPublicPiOptimizeCreativeRouteImport.update({
+    id: '/api/public/pi-optimize-creative',
+    path: '/api/public/pi-optimize-creative',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicPiPartnersRoute = ApiPublicPiPartnersRouteImport.update({
+  id: '/api/public/pi-partners',
+  path: '/api/public/pi-partners',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiPayoutsRoute = ApiPublicPiPayoutsRouteImport.update({
+  id: '/api/public/pi-payouts',
+  path: '/api/public/pi-payouts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiRfpsRoute = ApiPublicPiRfpsRouteImport.update({
+  id: '/api/public/pi-rfps',
+  path: '/api/public/pi-rfps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPiScreensRoute = ApiPublicPiScreensRouteImport.update({
+  id: '/api/public/pi-screens',
+  path: '/api/public/pi-screens',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicScreenPlaylistRoute = ApiPublicScreenPlaylistRouteImport.update({
+  id: '/api/public/screen-playlist',
+  path: '/api/public/screen-playlist',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicVerifyLedgerRoute = ApiPublicVerifyLedgerRouteImport.update({
+  id: '/api/public/verify-ledger',
+  path: '/api/public/verify-ledger',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -765,144 +765,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/studio-design': {
-      id: '/studio-design'
-      path: '/studio-design'
-      fullPath: '/studio-design'
-      preLoaderRoute: typeof StudioDesignRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/studio': {
-      id: '/studio'
-      path: '/studio'
-      fullPath: '/studio'
-      preLoaderRoute: typeof StudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rfps': {
-      id: '/rfps'
-      path: '/rfps'
-      fullPath: '/rfps'
-      preLoaderRoute: typeof RfpsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/payouts': {
-      id: '/payouts'
-      path: '/payouts'
-      fullPath: '/payouts'
-      preLoaderRoute: typeof PayoutsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/partner': {
-      id: '/partner'
-      path: '/partner'
-      fullPath: '/partner'
-      preLoaderRoute: typeof PartnerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/optimize': {
-      id: '/optimize'
-      path: '/optimize'
-      fullPath: '/optimize'
-      preLoaderRoute: typeof OptimizeRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/measurement': {
-      id: '/measurement'
-      path: '/measurement'
-      fullPath: '/measurement'
-      preLoaderRoute: typeof MeasurementRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/mcp': {
-      id: '/mcp'
-      path: '/mcp'
-      fullPath: '/mcp'
-      preLoaderRoute: typeof McpRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/marketplace': {
-      id: '/marketplace'
-      path: '/marketplace'
-      fullPath: '/marketplace'
-      preLoaderRoute: typeof MarketplaceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/locations': {
-      id: '/locations'
-      path: '/locations'
-      fullPath: '/locations'
-      preLoaderRoute: typeof LocationsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ledger': {
-      id: '/ledger'
-      path: '/ledger'
-      fullPath: '/ledger'
-      preLoaderRoute: typeof LedgerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/innovate': {
-      id: '/innovate'
-      path: '/innovate'
-      fullPath: '/innovate'
-      preLoaderRoute: typeof InnovateRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/displayer': {
-      id: '/displayer'
-      path: '/displayer'
-      fullPath: '/displayer'
-      preLoaderRoute: typeof DisplayerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contracts': {
-      id: '/contracts'
-      path: '/contracts'
-      fullPath: '/contracts'
-      preLoaderRoute: typeof ContractsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/campaigns': {
-      id: '/campaigns'
-      path: '/campaigns'
-      fullPath: '/campaigns'
-      preLoaderRoute: typeof CampaignsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/bookings': {
-      id: '/bookings'
-      path: '/bookings'
-      fullPath: '/bookings'
-      preLoaderRoute: typeof BookingsRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/analytics': {
@@ -912,95 +779,144 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/bookings': {
+      id: '/bookings'
+      path: '/bookings'
+      fullPath: '/bookings'
+      preLoaderRoute: typeof BookingsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/guide/': {
-      id: '/guide/'
-      path: '/guide'
-      fullPath: '/guide/'
-      preLoaderRoute: typeof GuideIndexRouteImport
+    '/campaigns': {
+      id: '/campaigns'
+      path: '/campaigns'
+      fullPath: '/campaigns'
+      preLoaderRoute: typeof CampaignsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cities/': {
-      id: '/cities/'
-      path: '/cities'
-      fullPath: '/cities/'
-      preLoaderRoute: typeof CitiesIndexRouteImport
+    '/contracts': {
+      id: '/contracts'
+      path: '/contracts'
+      fullPath: '/contracts'
+      preLoaderRoute: typeof ContractsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/partners/register': {
-      id: '/partners/register'
-      path: '/partners/register'
-      fullPath: '/partners/register'
-      preLoaderRoute: typeof PartnersRegisterRouteImport
+    '/displayer': {
+      id: '/displayer'
+      path: '/displayer'
+      fullPath: '/displayer'
+      preLoaderRoute: typeof DisplayerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/locations/$slug': {
-      id: '/locations/$slug'
-      path: '/$slug'
-      fullPath: '/locations/$slug'
-      preLoaderRoute: typeof LocationsSlugRouteImport
-      parentRoute: typeof LocationsRoute
-    }
-    '/guide/stadium-advertising-costs': {
-      id: '/guide/stadium-advertising-costs'
-      path: '/guide/stadium-advertising-costs'
-      fullPath: '/guide/stadium-advertising-costs'
-      preLoaderRoute: typeof GuideStadiumAdvertisingCostsRouteImport
+    '/innovate': {
+      id: '/innovate'
+      path: '/innovate'
+      fullPath: '/innovate'
+      preLoaderRoute: typeof InnovateRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/cities/$city': {
-      id: '/cities/$city'
-      path: '/cities/$city'
-      fullPath: '/cities/$city'
-      preLoaderRoute: typeof CitiesCityRouteImport
+    '/ledger': {
+      id: '/ledger'
+      path: '/ledger'
+      fullPath: '/ledger'
+      preLoaderRoute: typeof LedgerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/innovate-feed': {
-      id: '/api/innovate-feed'
-      path: '/api/innovate-feed'
-      fullPath: '/api/innovate-feed'
-      preLoaderRoute: typeof ApiInnovateFeedRouteImport
+    '/locations': {
+      id: '/locations'
+      path: '/locations'
+      fullPath: '/locations'
+      preLoaderRoute: typeof LocationsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/generate-billboard-image': {
-      id: '/api/generate-billboard-image'
-      path: '/api/generate-billboard-image'
-      fullPath: '/api/generate-billboard-image'
-      preLoaderRoute: typeof ApiGenerateBillboardImageRouteImport
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/concierge': {
-      id: '/api/concierge'
-      path: '/api/concierge'
-      fullPath: '/api/concierge'
-      preLoaderRoute: typeof ApiConciergeRouteImport
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/chat': {
-      id: '/api/chat'
-      path: '/api/chat'
-      fullPath: '/api/chat'
-      preLoaderRoute: typeof ApiChatRouteImport
+    '/measurement': {
+      id: '/measurement'
+      path: '/measurement'
+      fullPath: '/measurement'
+      preLoaderRoute: typeof MeasurementRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/partners': {
-      id: '/admin/partners'
-      path: '/admin/partners'
-      fullPath: '/admin/partners'
-      preLoaderRoute: typeof AdminPartnersRouteImport
+    '/optimize': {
+      id: '/optimize'
+      path: '/optimize'
+      fullPath: '/optimize'
+      preLoaderRoute: typeof OptimizeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.well-known/oauth-protected-resource': {
-      id: '/.well-known/oauth-protected-resource'
-      path: '/.well-known/oauth-protected-resource'
-      fullPath: '/.well-known/oauth-protected-resource'
-      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+    '/partner': {
+      id: '/partner'
+      path: '/partner'
+      fullPath: '/partner'
+      preLoaderRoute: typeof PartnerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payouts': {
+      id: '/payouts'
+      path: '/payouts'
+      fullPath: '/payouts'
+      preLoaderRoute: typeof PayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rfps': {
+      id: '/rfps'
+      path: '/rfps'
+      fullPath: '/rfps'
+      preLoaderRoute: typeof RfpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio': {
+      id: '/studio'
+      path: '/studio'
+      fullPath: '/studio'
+      preLoaderRoute: typeof StudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/studio-design': {
+      id: '/studio-design'
+      path: '/studio-design'
+      fullPath: '/studio-design'
+      preLoaderRoute: typeof StudioDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/list-tools': {
@@ -1010,137 +926,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/verify-ledger': {
-      id: '/api/public/verify-ledger'
-      path: '/api/public/verify-ledger'
-      fullPath: '/api/public/verify-ledger'
-      preLoaderRoute: typeof ApiPublicVerifyLedgerRouteImport
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/screen-playlist': {
-      id: '/api/public/screen-playlist'
-      path: '/api/public/screen-playlist'
-      fullPath: '/api/public/screen-playlist'
-      preLoaderRoute: typeof ApiPublicScreenPlaylistRouteImport
+    '/admin/partners': {
+      id: '/admin/partners'
+      path: '/admin/partners'
+      fullPath: '/admin/partners'
+      preLoaderRoute: typeof AdminPartnersRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-screens': {
-      id: '/api/public/pi-screens'
-      path: '/api/public/pi-screens'
-      fullPath: '/api/public/pi-screens'
-      preLoaderRoute: typeof ApiPublicPiScreensRouteImport
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-rfps': {
-      id: '/api/public/pi-rfps'
-      path: '/api/public/pi-rfps'
-      fullPath: '/api/public/pi-rfps'
-      preLoaderRoute: typeof ApiPublicPiRfpsRouteImport
+    '/api/concierge': {
+      id: '/api/concierge'
+      path: '/api/concierge'
+      fullPath: '/api/concierge'
+      preLoaderRoute: typeof ApiConciergeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-payouts': {
-      id: '/api/public/pi-payouts'
-      path: '/api/public/pi-payouts'
-      fullPath: '/api/public/pi-payouts'
-      preLoaderRoute: typeof ApiPublicPiPayoutsRouteImport
+    '/api/generate-billboard-image': {
+      id: '/api/generate-billboard-image'
+      path: '/api/generate-billboard-image'
+      fullPath: '/api/generate-billboard-image'
+      preLoaderRoute: typeof ApiGenerateBillboardImageRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-partners': {
-      id: '/api/public/pi-partners'
-      path: '/api/public/pi-partners'
-      fullPath: '/api/public/pi-partners'
-      preLoaderRoute: typeof ApiPublicPiPartnersRouteImport
+    '/api/innovate-feed': {
+      id: '/api/innovate-feed'
+      path: '/api/innovate-feed'
+      fullPath: '/api/innovate-feed'
+      preLoaderRoute: typeof ApiInnovateFeedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-optimize-creative': {
-      id: '/api/public/pi-optimize-creative'
-      path: '/api/public/pi-optimize-creative'
-      fullPath: '/api/public/pi-optimize-creative'
-      preLoaderRoute: typeof ApiPublicPiOptimizeCreativeRouteImport
+    '/cities/': {
+      id: '/cities/'
+      path: '/cities'
+      fullPath: '/cities/'
+      preLoaderRoute: typeof CitiesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-ooh-services': {
-      id: '/api/public/pi-ooh-services'
-      path: '/api/public/pi-ooh-services'
-      fullPath: '/api/public/pi-ooh-services'
-      preLoaderRoute: typeof ApiPublicPiOohServicesRouteImport
+    '/cities/$city': {
+      id: '/cities/$city'
+      path: '/cities/$city'
+      fullPath: '/cities/$city'
+      preLoaderRoute: typeof CitiesCityRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-delivery': {
-      id: '/api/public/pi-delivery'
-      path: '/api/public/pi-delivery'
-      fullPath: '/api/public/pi-delivery'
-      preLoaderRoute: typeof ApiPublicPiDeliveryRouteImport
+    '/guide/': {
+      id: '/guide/'
+      path: '/guide'
+      fullPath: '/guide/'
+      preLoaderRoute: typeof GuideIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-creatives': {
-      id: '/api/public/pi-creatives'
-      path: '/api/public/pi-creatives'
-      fullPath: '/api/public/pi-creatives'
-      preLoaderRoute: typeof ApiPublicPiCreativesRouteImport
+    '/guide/stadium-advertising-costs': {
+      id: '/guide/stadium-advertising-costs'
+      path: '/guide/stadium-advertising-costs'
+      fullPath: '/guide/stadium-advertising-costs'
+      preLoaderRoute: typeof GuideStadiumAdvertisingCostsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-contracts': {
-      id: '/api/public/pi-contracts'
-      path: '/api/public/pi-contracts'
-      fullPath: '/api/public/pi-contracts'
-      preLoaderRoute: typeof ApiPublicPiContractsRouteImport
+    '/locations/$slug': {
+      id: '/locations/$slug'
+      path: '/$slug'
+      fullPath: '/locations/$slug'
+      preLoaderRoute: typeof LocationsSlugRouteImport
+      parentRoute: typeof LocationsRoute
+    }
+    '/partners/register': {
+      id: '/partners/register'
+      path: '/partners/register'
+      fullPath: '/partners/register'
+      preLoaderRoute: typeof PartnersRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/pi-complete': {
-      id: '/api/public/pi-complete'
-      path: '/api/public/pi-complete'
-      fullPath: '/api/public/pi-complete'
-      preLoaderRoute: typeof ApiPublicPiCompleteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/pi-campaigns': {
-      id: '/api/public/pi-campaigns'
-      path: '/api/public/pi-campaigns'
-      fullPath: '/api/public/pi-campaigns'
-      preLoaderRoute: typeof ApiPublicPiCampaignsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/pi-bookings': {
-      id: '/api/public/pi-bookings'
-      path: '/api/public/pi-bookings'
-      fullPath: '/api/public/pi-bookings'
-      preLoaderRoute: typeof ApiPublicPiBookingsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/pi-balance': {
-      id: '/api/public/pi-balance'
-      path: '/api/public/pi-balance'
-      fullPath: '/api/public/pi-balance'
-      preLoaderRoute: typeof ApiPublicPiBalanceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/pi-auth': {
-      id: '/api/public/pi-auth'
-      path: '/api/public/pi-auth'
-      fullPath: '/api/public/pi-auth'
-      preLoaderRoute: typeof ApiPublicPiAuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/pi-approve': {
-      id: '/api/public/pi-approve'
-      path: '/api/public/pi-approve'
-      fullPath: '/api/public/pi-approve'
-      preLoaderRoute: typeof ApiPublicPiApproveRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/pi-ad-reward': {
-      id: '/api/public/pi-ad-reward'
-      path: '/api/public/pi-ad-reward'
-      fullPath: '/api/public/pi-ad-reward'
-      preLoaderRoute: typeof ApiPublicPiAdRewardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/ooh-standards': {
-      id: '/api/public/ooh-standards'
-      path: '/api/public/ooh-standards'
-      fullPath: '/api/public/ooh-standards'
-      preLoaderRoute: typeof ApiPublicOohStandardsRouteImport
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/.mcp/invoke-tool/$tool': {
@@ -1150,11 +1024,137 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.lovable/oauth/consent': {
-      id: '/.lovable/oauth/consent'
-      path: '/.lovable/oauth/consent'
-      fullPath: '/.lovable/oauth/consent'
-      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+    '/api/public/ooh-standards': {
+      id: '/api/public/ooh-standards'
+      path: '/api/public/ooh-standards'
+      fullPath: '/api/public/ooh-standards'
+      preLoaderRoute: typeof ApiPublicOohStandardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-ad-reward': {
+      id: '/api/public/pi-ad-reward'
+      path: '/api/public/pi-ad-reward'
+      fullPath: '/api/public/pi-ad-reward'
+      preLoaderRoute: typeof ApiPublicPiAdRewardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-approve': {
+      id: '/api/public/pi-approve'
+      path: '/api/public/pi-approve'
+      fullPath: '/api/public/pi-approve'
+      preLoaderRoute: typeof ApiPublicPiApproveRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-auth': {
+      id: '/api/public/pi-auth'
+      path: '/api/public/pi-auth'
+      fullPath: '/api/public/pi-auth'
+      preLoaderRoute: typeof ApiPublicPiAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-balance': {
+      id: '/api/public/pi-balance'
+      path: '/api/public/pi-balance'
+      fullPath: '/api/public/pi-balance'
+      preLoaderRoute: typeof ApiPublicPiBalanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-bookings': {
+      id: '/api/public/pi-bookings'
+      path: '/api/public/pi-bookings'
+      fullPath: '/api/public/pi-bookings'
+      preLoaderRoute: typeof ApiPublicPiBookingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-campaigns': {
+      id: '/api/public/pi-campaigns'
+      path: '/api/public/pi-campaigns'
+      fullPath: '/api/public/pi-campaigns'
+      preLoaderRoute: typeof ApiPublicPiCampaignsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-complete': {
+      id: '/api/public/pi-complete'
+      path: '/api/public/pi-complete'
+      fullPath: '/api/public/pi-complete'
+      preLoaderRoute: typeof ApiPublicPiCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-contracts': {
+      id: '/api/public/pi-contracts'
+      path: '/api/public/pi-contracts'
+      fullPath: '/api/public/pi-contracts'
+      preLoaderRoute: typeof ApiPublicPiContractsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-creatives': {
+      id: '/api/public/pi-creatives'
+      path: '/api/public/pi-creatives'
+      fullPath: '/api/public/pi-creatives'
+      preLoaderRoute: typeof ApiPublicPiCreativesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-delivery': {
+      id: '/api/public/pi-delivery'
+      path: '/api/public/pi-delivery'
+      fullPath: '/api/public/pi-delivery'
+      preLoaderRoute: typeof ApiPublicPiDeliveryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-ooh-services': {
+      id: '/api/public/pi-ooh-services'
+      path: '/api/public/pi-ooh-services'
+      fullPath: '/api/public/pi-ooh-services'
+      preLoaderRoute: typeof ApiPublicPiOohServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-optimize-creative': {
+      id: '/api/public/pi-optimize-creative'
+      path: '/api/public/pi-optimize-creative'
+      fullPath: '/api/public/pi-optimize-creative'
+      preLoaderRoute: typeof ApiPublicPiOptimizeCreativeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-partners': {
+      id: '/api/public/pi-partners'
+      path: '/api/public/pi-partners'
+      fullPath: '/api/public/pi-partners'
+      preLoaderRoute: typeof ApiPublicPiPartnersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-payouts': {
+      id: '/api/public/pi-payouts'
+      path: '/api/public/pi-payouts'
+      fullPath: '/api/public/pi-payouts'
+      preLoaderRoute: typeof ApiPublicPiPayoutsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-rfps': {
+      id: '/api/public/pi-rfps'
+      path: '/api/public/pi-rfps'
+      fullPath: '/api/public/pi-rfps'
+      preLoaderRoute: typeof ApiPublicPiRfpsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pi-screens': {
+      id: '/api/public/pi-screens'
+      path: '/api/public/pi-screens'
+      fullPath: '/api/public/pi-screens'
+      preLoaderRoute: typeof ApiPublicPiScreensRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/screen-playlist': {
+      id: '/api/public/screen-playlist'
+      path: '/api/public/screen-playlist'
+      fullPath: '/api/public/screen-playlist'
+      preLoaderRoute: typeof ApiPublicScreenPlaylistRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/verify-ledger': {
+      id: '/api/public/verify-ledger'
+      path: '/api/public/verify-ledger'
+      fullPath: '/api/public/verify-ledger'
+      preLoaderRoute: typeof ApiPublicVerifyLedgerRouteImport
       parentRoute: typeof rootRouteImport
     }
   }

@@ -504,6 +504,44 @@ export type Database = {
           },
         ]
       }
+      auction_bids: {
+        Row: {
+          amount_pi: number
+          auction_id: string
+          bidder_pi_uid: string
+          bidder_pi_username: string | null
+          created_at: string
+          id: string
+          ledger_hash: string | null
+        }
+        Insert: {
+          amount_pi: number
+          auction_id: string
+          bidder_pi_uid: string
+          bidder_pi_username?: string | null
+          created_at?: string
+          id?: string
+          ledger_hash?: string | null
+        }
+        Update: {
+          amount_pi?: number
+          auction_id?: string
+          bidder_pi_uid?: string
+          bidder_pi_username?: string | null
+          created_at?: string
+          id?: string
+          ledger_hash?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "auction_bids_auction_id_fkey"
+            columns: ["auction_id"]
+            isOneToOne: false
+            referencedRelation: "live_auctions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       billboard_locations: {
         Row: {
           active: boolean
@@ -1331,6 +1369,66 @@ export type Database = {
           ref_id?: string | null
           ref_table?: string
           seq?: number
+        }
+        Relationships: []
+      }
+      live_auctions: {
+        Row: {
+          bid_count: number
+          created_at: string
+          current_bid_pi: number | null
+          current_bidder_username: string | null
+          ends_at: string
+          est_impressions: number
+          event_name: string
+          id: string
+          min_increment_pi: number
+          reserve_pi: number
+          seller_pi_uid: string
+          seller_pi_username: string | null
+          slot_label: string
+          slot_seconds: number
+          status: string
+          updated_at: string
+          venue_name: string
+        }
+        Insert: {
+          bid_count?: number
+          created_at?: string
+          current_bid_pi?: number | null
+          current_bidder_username?: string | null
+          ends_at: string
+          est_impressions?: number
+          event_name: string
+          id?: string
+          min_increment_pi?: number
+          reserve_pi: number
+          seller_pi_uid: string
+          seller_pi_username?: string | null
+          slot_label: string
+          slot_seconds?: number
+          status?: string
+          updated_at?: string
+          venue_name: string
+        }
+        Update: {
+          bid_count?: number
+          created_at?: string
+          current_bid_pi?: number | null
+          current_bidder_username?: string | null
+          ends_at?: string
+          est_impressions?: number
+          event_name?: string
+          id?: string
+          min_increment_pi?: number
+          reserve_pi?: number
+          seller_pi_uid?: string
+          seller_pi_username?: string | null
+          slot_label?: string
+          slot_seconds?: number
+          status?: string
+          updated_at?: string
+          venue_name?: string
         }
         Relationships: []
       }
@@ -2212,6 +2310,120 @@ export type Database = {
           },
         ]
       }
+      sponsorship_deals: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          annual_fee_pi: number
+          created_at: string
+          est_media_value_pi: number
+          exclusivity: string
+          id: string
+          notes: string | null
+          property_name: string
+          property_type: string
+          rights_package: string
+          status: string
+          term_end: string
+          term_start: string
+          total_fee_pi: number
+          updated_at: string
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          annual_fee_pi: number
+          created_at?: string
+          est_media_value_pi?: number
+          exclusivity?: string
+          id?: string
+          notes?: string | null
+          property_name: string
+          property_type: string
+          rights_package: string
+          status?: string
+          term_end: string
+          term_start: string
+          total_fee_pi: number
+          updated_at?: string
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          annual_fee_pi?: number
+          created_at?: string
+          est_media_value_pi?: number
+          exclusivity?: string
+          id?: string
+          notes?: string | null
+          property_name?: string
+          property_type?: string
+          rights_package?: string
+          status?: string
+          term_end?: string
+          term_start?: string
+          total_fee_pi?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      transit_placements: {
+        Row: {
+          advertiser_pi_uid: string
+          advertiser_pi_username: string | null
+          city: string
+          created_at: string
+          format: string
+          id: string
+          notes: string | null
+          route_or_site: string
+          start_date: string
+          status: string
+          total_pi: number
+          unit_week_rate_pi: number
+          units: number
+          updated_at: string
+          weekly_impressions: number
+          weeks: number
+        }
+        Insert: {
+          advertiser_pi_uid: string
+          advertiser_pi_username?: string | null
+          city: string
+          created_at?: string
+          format: string
+          id?: string
+          notes?: string | null
+          route_or_site: string
+          start_date: string
+          status?: string
+          total_pi: number
+          unit_week_rate_pi: number
+          units: number
+          updated_at?: string
+          weekly_impressions?: number
+          weeks: number
+        }
+        Update: {
+          advertiser_pi_uid?: string
+          advertiser_pi_username?: string | null
+          city?: string
+          created_at?: string
+          format?: string
+          id?: string
+          notes?: string | null
+          route_or_site?: string
+          start_date?: string
+          status?: string
+          total_pi?: number
+          unit_week_rate_pi?: number
+          units?: number
+          updated_at?: string
+          weekly_impressions?: number
+          weeks?: number
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -2604,6 +2816,18 @@ export type Database = {
         }
         Returns: {
           plays_created: number
+        }[]
+      }
+      place_auction_bid: {
+        Args: {
+          p_amount: number
+          p_auction_id: string
+          p_pi_uid: string
+          p_pi_username: string
+        }
+        Returns: {
+          bid_id: string
+          current_bid: number
         }[]
       }
       purchase_ad_campaign: {

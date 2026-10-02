@@ -1,11 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, Store, Radio, Blocks, Wand2, Gauge, Wallet, PlayCircle, Briefcase, type LucideIcon } from "lucide-react";
+import { Globe2, Sparkles, Megaphone, BarChart3, Bot, FileCheck2, Palette, Building2, FileText, MapPin, Receipt, Store, Radio, Blocks, Wand2, Gauge, Wallet, PlayCircle, Briefcase, Trophy, type LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { SettingsMenu } from "./SettingsMenu";
 import { ScrollControls } from "./ScrollControls";
 import { AssistantDock } from "./AssistantDock";
 import { PiAuthGate } from "./PiAuthGate";
 import { PiComplianceFooter } from "./PiComplianceFooter";
+import { LanguageProvider, useI18n } from "@/lib/i18n";
 
 
 
@@ -34,6 +35,7 @@ const navGroups: { id: string; label: string; items: NavItem[] }[] = [
       { to: "/contracts", label: "Smart Contracts", icon: FileCheck2 },
       { to: "/campaigns", label: "Campaigns", icon: Megaphone },
       { to: "/services", label: "OOH Services", icon: Briefcase },
+      { to: "/live", label: "Live & Sponsorship", icon: Trophy },
     ],
   },
   {
@@ -69,6 +71,15 @@ const navGroups: { id: string; label: string; items: NavItem[] }[] = [
 
 
 export function AppShell({ children }: { children: ReactNode }) {
+  return (
+    <LanguageProvider>
+      <Shell>{children}</Shell>
+    </LanguageProvider>
+  );
+}
+
+function Shell({ children }: { children: ReactNode }) {
+  const { t } = useI18n();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
@@ -82,7 +93,7 @@ export function AppShell({ children }: { children: ReactNode }) {
           {navGroups.map((group) => (
             <div key={group.id} className="flex flex-col gap-2 items-center">
               <span className="text-[8px] uppercase tracking-widest text-muted-foreground/70">
-                {group.label.slice(0, 4)}
+                {t(group.label).slice(0, 4)}
               </span>
               {group.items.map(({ to, label, icon: Icon }) => {
                 const active = pathname === to;
@@ -90,8 +101,8 @@ export function AppShell({ children }: { children: ReactNode }) {
                   <Link
                     key={to}
                     to={to}
-                    aria-label={label}
-                    title={`${group.label} — ${label}`}
+                    aria-label={t(label)}
+                    title={`${t(group.label)} — ${t(label)}`}
                     className={`size-10 rounded-lg flex items-center justify-center transition-colors ${
                       active
                         ? "bg-surface-elevated text-brand"

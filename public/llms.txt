@@ -14,3 +14,4 @@ Pi Billboard lets advertisers generate stadium-ready creative with AI and deploy
 - [Campaigns](/campaigns): Live and scheduled ad campaigns running on the network.
 - [Analytics](/analytics): Network-wide impressions, spend, reach, and venue performance.
 - [OOH Services](/services): Traditional billboard services — media planning (GRP/reach/frequency), avails & holds, print & installation, proof of posting, site audits, permits, cancellations.
+- [Live & Sponsorship](/live): Sponsorship and naming rights, transit and street furniture ads, and live screen-time auctions during matches.

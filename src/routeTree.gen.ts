@@ -17,6 +17,7 @@ import { Route as ContractsRouteImport } from './routes/contracts'
 import { Route as DisplayerRouteImport } from './routes/displayer'
 import { Route as InnovateRouteImport } from './routes/innovate'
 import { Route as LedgerRouteImport } from './routes/ledger'
+import { Route as LiveRouteImport } from './routes/live'
 import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as McpRouteImport } from './routes/mcp'
@@ -105,6 +106,11 @@ const InnovateRoute = InnovateRouteImport.update({
 const LedgerRoute = LedgerRouteImport.update({
   id: '/ledger',
   path: '/ledger',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveRoute = LiveRouteImport.update({
+  id: '/live',
+  path: '/live',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LocationsRoute = LocationsRouteImport.update({
@@ -368,6 +374,7 @@ export interface FileRoutesByFullPath {
   '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
   '/ledger': typeof LedgerRoute
+  '/live': typeof LiveRoute
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
@@ -427,6 +434,7 @@ export interface FileRoutesByTo {
   '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
   '/ledger': typeof LedgerRoute
+  '/live': typeof LiveRoute
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
@@ -487,6 +495,7 @@ export interface FileRoutesById {
   '/displayer': typeof DisplayerRoute
   '/innovate': typeof InnovateRoute
   '/ledger': typeof LedgerRoute
+  '/live': typeof LiveRoute
   '/locations': typeof LocationsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
@@ -548,6 +557,7 @@ export interface FileRouteTypes {
     | '/displayer'
     | '/innovate'
     | '/ledger'
+    | '/live'
     | '/locations'
     | '/marketplace'
     | '/mcp'
@@ -607,6 +617,7 @@ export interface FileRouteTypes {
     | '/displayer'
     | '/innovate'
     | '/ledger'
+    | '/live'
     | '/locations'
     | '/marketplace'
     | '/mcp'
@@ -666,6 +677,7 @@ export interface FileRouteTypes {
     | '/displayer'
     | '/innovate'
     | '/ledger'
+    | '/live'
     | '/locations'
     | '/marketplace'
     | '/mcp'
@@ -726,6 +738,7 @@ export interface RootRouteChildren {
   DisplayerRoute: typeof DisplayerRoute
   InnovateRoute: typeof InnovateRoute
   LedgerRoute: typeof LedgerRoute
+  LiveRoute: typeof LiveRoute
   LocationsRoute: typeof LocationsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
@@ -832,6 +845,13 @@ declare module '@tanstack/react-router' {
       path: '/ledger'
       fullPath: '/ledger'
       preLoaderRoute: typeof LedgerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live': {
+      id: '/live'
+      path: '/live'
+      fullPath: '/live'
+      preLoaderRoute: typeof LiveRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/locations': {
@@ -1201,6 +1221,7 @@ const rootRouteChildren: RootRouteChildren = {
   DisplayerRoute: DisplayerRoute,
   InnovateRoute: InnovateRoute,
   LedgerRoute: LedgerRoute,
+  LiveRoute: LiveRoute,
   LocationsRoute: LocationsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,

@@ -113,8 +113,50 @@ export async function approvePiPayment(paymentId: string): Promise<boolean> {
   return res.ok;
 }
 
+/** Public Pi Mainnet blockchain API (Horizon-compatible). */
+export const PI_HORIZON_BASE = "https://api.mainnet.minepi.com";
+
+export type ChainCheck = "verified" | "rejected" | "unavailable";
+
+/**
+ * Independently looks up a transaction on the Pi blockchain.
+ * "rejected" = definitively bad (not found after retries, failed, or the memo
+ * doesn't match this payment). "unavailable" = the chain API couldn't be
+ * reached; callers then rely on the Pi Platform's own verification.
+ */
+export async function verifyTxOnChain(txid: string, paymentId: string): Promise<ChainCheck> {
+  if (!SAFE_PI_ID_RE.test(txid)) return "rejected";
+  // A fresh transaction can take a ledger close (~5s) to appear.
+  for (let attempt = 0; attempt < 4; attempt++) {
+    try {
+      const res = await fetch(`${PI_HORIZON_BASE}/transactions/${txid}`, {
+        headers: { Accept: "application/json" },
+      });
+      if (res.status === 404) {
+        await new Promise((r) => setTimeout(r, 2000));
+        continue;
+      }
+      if (!res.ok) return "unavailable";
+      const tx = (await res.json()) as { successful?: boolean; memo?: string; memo_type?: string };
+      if (tx.successful !== true) return "rejected";
+      // Pi U2A payments carry the payment identifier as the text memo.
+      if (tx.memo_type === "text" && tx.memo && tx.memo !== paymentId) return "rejected";
+      return "verified";
+    } catch {
+      return "unavailable";
+    }
+  }
+  return "rejected";
+}
+
 export async function completePiPayment(paymentId: string, txid: string): Promise<boolean> {
   if (!SAFE_PI_ID_RE.test(paymentId) || !SAFE_PI_ID_RE.test(txid)) return false;
+  const chain = await verifyTxOnChain(txid, paymentId);
+  if (chain === "rejected") {
+    console.error("[pi-platform] on-chain check rejected tx", txid.slice(0, 8));
+    return false;
+  }
+  if (chain === "unavailable") console.warn("[pi-platform] chain API unavailable; relying on Pi Platform verification");
   const res = await keyedFetch(`/payments/${paymentId}/complete`, {
     method: "POST",
     body: JSON.stringify({ txid }),

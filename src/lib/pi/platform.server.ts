@@ -116,6 +116,56 @@ export async function approvePiPayment(paymentId: string): Promise<boolean> {
 /** Public Pi Mainnet blockchain API (Horizon-compatible). */
 export const PI_HORIZON_BASE = "https://api.mainnet.minepi.com";
 
+/** Lowest protocol version the app's payment flows are verified against. */
+export const PI_MIN_SUPPORTED_PROTOCOL = 27;
+
+export interface PiNetworkStatus {
+  reachable: boolean;
+  currentProtocol: number | null;
+  supportedProtocol: number | null;
+  coreVersion: string | null;
+  horizonVersion: string | null;
+  /** True when the chain runs at least PI_MIN_SUPPORTED_PROTOCOL. */
+  protocolReady: boolean;
+}
+
+/**
+ * Reads the live Pi Mainnet state from the blockchain's root endpoint.
+ * Protocol 27 (CAP-0071 auth delegation) is the baseline this app targets;
+ * the result lets the UI warn if the network ever reports something older.
+ */
+export async function getPiNetworkStatus(): Promise<PiNetworkStatus> {
+  const empty: PiNetworkStatus = {
+    reachable: false,
+    currentProtocol: null,
+    supportedProtocol: null,
+    coreVersion: null,
+    horizonVersion: null,
+    protocolReady: false,
+  };
+  try {
+    const res = await fetch(`${PI_HORIZON_BASE}/`, { headers: { Accept: "application/json" } });
+    if (!res.ok) return empty;
+    const data = (await res.json()) as {
+      current_protocol_version?: number;
+      supported_protocol_version?: number;
+      core_version?: string;
+      horizon_version?: string;
+    };
+    const current = typeof data.current_protocol_version === "number" ? data.current_protocol_version : null;
+    return {
+      reachable: true,
+      currentProtocol: current,
+      supportedProtocol: typeof data.supported_protocol_version === "number" ? data.supported_protocol_version : null,
+      coreVersion: data.core_version ?? null,
+      horizonVersion: data.horizon_version ?? null,
+      protocolReady: current != null && current >= PI_MIN_SUPPORTED_PROTOCOL,
+    };
+  } catch {
+    return empty;
+  }
+}
+
 export type ChainCheck = "verified" | "rejected" | "unavailable";
 
 /**

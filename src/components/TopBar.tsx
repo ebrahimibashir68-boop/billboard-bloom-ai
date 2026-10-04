@@ -2,6 +2,7 @@ import { Plus, LogIn, LogOut } from "lucide-react";
 import { useState } from "react";
 import { DepositPiDialog } from "./DepositPiDialog";
 import { WalletConnectButton } from "./WalletConnectButton";
+import { PiNetworkBadge } from "./PiNetworkBadge";
 import { LanguageSwitcher } from "@/lib/i18n";
 import { useBalance } from "@/lib/pi/BalanceContext";
 import { usePi } from "@/lib/pi/usePi";
@@ -83,6 +84,7 @@ export function TopBar({
           </button>
         )}
 
+        <PiNetworkBadge />
         <LanguageSwitcher />
         <WalletConnectButton />
 

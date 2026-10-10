@@ -32,7 +32,6 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as StudioRouteImport } from './routes/studio'
 import { Route as StudioDesignRouteImport } from './routes/studio-design'
 import { Route as TermsRouteImport } from './routes/terms'
-import { Route as Char91DotmcpChar93ListToolsRouteImport } from './routes/[.mcp]/list-tools'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AdminPartnersRouteImport } from './routes/admin.partners'
 import { Route as ApiChatRouteImport } from './routes/api/chat'
@@ -46,7 +45,6 @@ import { Route as GuideStadiumAdvertisingCostsRouteImport } from './routes/guide
 import { Route as LocationsSlugRouteImport } from './routes/locations.$slug'
 import { Route as PartnersRegisterRouteImport } from './routes/partners.register'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
-import { Route as Char91DotmcpChar93InvokeToolToolRouteImport } from './routes/[.mcp]/invoke-tool/$tool'
 import { Route as ApiPublicOohStandardsRouteImport } from './routes/api/public/ooh-standards'
 import { Route as ApiPublicPiAdRewardRouteImport } from './routes/api/public/pi-ad-reward'
 import { Route as ApiPublicPiApproveRouteImport } from './routes/api/public/pi-approve'
@@ -184,12 +182,6 @@ const TermsRoute = TermsRouteImport.update({
   path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotmcpChar93ListToolsRoute =
-  Char91DotmcpChar93ListToolsRouteImport.update({
-    id: '/.mcp/list-tools',
-    path: '/.mcp/list-tools',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const Char91DotwellKnownChar93OauthProtectedResourceRoute =
   Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
     id: '/.well-known/oauth-protected-resource',
@@ -258,12 +250,6 @@ const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
   path: '/.lovable/oauth/consent',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Char91DotmcpChar93InvokeToolToolRoute =
-  Char91DotmcpChar93InvokeToolToolRouteImport.update({
-    id: '/.mcp/invoke-tool/$tool',
-    path: '/.mcp/invoke-tool/$tool',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiPublicOohStandardsRoute = ApiPublicOohStandardsRouteImport.update({
   id: '/api/public/ooh-standards',
   path: '/api/public/ooh-standards',
@@ -396,7 +382,6 @@ export interface FileRoutesByFullPath {
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
   '/terms': typeof TermsRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/api/chat': typeof ApiChatRoute
@@ -410,7 +395,6 @@ export interface FileRoutesByFullPath {
   '/cities/': typeof CitiesIndexRoute
   '/guide/': typeof GuideIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
   '/api/public/pi-ad-reward': typeof ApiPublicPiAdRewardRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -457,7 +441,6 @@ export interface FileRoutesByTo {
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
   '/terms': typeof TermsRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/api/chat': typeof ApiChatRoute
@@ -471,7 +454,6 @@ export interface FileRoutesByTo {
   '/cities': typeof CitiesIndexRoute
   '/guide': typeof GuideIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
   '/api/public/pi-ad-reward': typeof ApiPublicPiAdRewardRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -519,7 +501,6 @@ export interface FileRoutesById {
   '/studio': typeof StudioRoute
   '/studio-design': typeof StudioDesignRoute
   '/terms': typeof TermsRoute
-  '/.mcp/list-tools': typeof Char91DotmcpChar93ListToolsRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/admin/partners': typeof AdminPartnersRoute
   '/api/chat': typeof ApiChatRoute
@@ -533,7 +514,6 @@ export interface FileRoutesById {
   '/cities/': typeof CitiesIndexRoute
   '/guide/': typeof GuideIndexRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
-  '/.mcp/invoke-tool/$tool': typeof Char91DotmcpChar93InvokeToolToolRoute
   '/api/public/ooh-standards': typeof ApiPublicOohStandardsRoute
   '/api/public/pi-ad-reward': typeof ApiPublicPiAdRewardRoute
   '/api/public/pi-approve': typeof ApiPublicPiApproveRoute
@@ -582,7 +562,6 @@ export interface FileRouteTypes {
     | '/studio'
     | '/studio-design'
     | '/terms'
-    | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/partners'
     | '/api/chat'
@@ -596,7 +575,6 @@ export interface FileRouteTypes {
     | '/cities/'
     | '/guide/'
     | '/.lovable/oauth/consent'
-    | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
     | '/api/public/pi-ad-reward'
     | '/api/public/pi-approve'
@@ -643,7 +621,6 @@ export interface FileRouteTypes {
     | '/studio'
     | '/studio-design'
     | '/terms'
-    | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/partners'
     | '/api/chat'
@@ -657,7 +634,6 @@ export interface FileRouteTypes {
     | '/cities'
     | '/guide'
     | '/.lovable/oauth/consent'
-    | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
     | '/api/public/pi-ad-reward'
     | '/api/public/pi-approve'
@@ -704,7 +680,6 @@ export interface FileRouteTypes {
     | '/studio'
     | '/studio-design'
     | '/terms'
-    | '/.mcp/list-tools'
     | '/.well-known/oauth-protected-resource'
     | '/admin/partners'
     | '/api/chat'
@@ -718,7 +693,6 @@ export interface FileRouteTypes {
     | '/cities/'
     | '/guide/'
     | '/.lovable/oauth/consent'
-    | '/.mcp/invoke-tool/$tool'
     | '/api/public/ooh-standards'
     | '/api/public/pi-ad-reward'
     | '/api/public/pi-approve'
@@ -766,7 +740,6 @@ export interface RootRouteChildren {
   StudioRoute: typeof StudioRoute
   StudioDesignRoute: typeof StudioDesignRoute
   TermsRoute: typeof TermsRoute
-  Char91DotmcpChar93ListToolsRoute: typeof Char91DotmcpChar93ListToolsRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   AdminPartnersRoute: typeof AdminPartnersRoute
   ApiChatRoute: typeof ApiChatRoute
@@ -779,7 +752,6 @@ export interface RootRouteChildren {
   CitiesIndexRoute: typeof CitiesIndexRoute
   GuideIndexRoute: typeof GuideIndexRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
-  Char91DotmcpChar93InvokeToolToolRoute: typeof Char91DotmcpChar93InvokeToolToolRoute
   ApiPublicOohStandardsRoute: typeof ApiPublicOohStandardsRoute
   ApiPublicPiAdRewardRoute: typeof ApiPublicPiAdRewardRoute
   ApiPublicPiApproveRoute: typeof ApiPublicPiApproveRoute
@@ -966,13 +938,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/.mcp/list-tools': {
-      id: '/.mcp/list-tools'
-      path: '/.mcp/list-tools'
-      fullPath: '/.mcp/list-tools'
-      preLoaderRoute: typeof Char91DotmcpChar93ListToolsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/.well-known/oauth-protected-resource': {
       id: '/.well-known/oauth-protected-resource'
       path: '/.well-known/oauth-protected-resource'
@@ -1062,13 +1027,6 @@ declare module '@tanstack/react-router' {
       path: '/.lovable/oauth/consent'
       fullPath: '/.lovable/oauth/consent'
       preLoaderRoute: typeof DotlovableOauthConsentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/.mcp/invoke-tool/$tool': {
-      id: '/.mcp/invoke-tool/$tool'
-      path: '/.mcp/invoke-tool/$tool'
-      fullPath: '/.mcp/invoke-tool/$tool'
-      preLoaderRoute: typeof Char91DotmcpChar93InvokeToolToolRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/ooh-standards': {
@@ -1257,7 +1215,6 @@ const rootRouteChildren: RootRouteChildren = {
   StudioRoute: StudioRoute,
   StudioDesignRoute: StudioDesignRoute,
   TermsRoute: TermsRoute,
-  Char91DotmcpChar93ListToolsRoute: Char91DotmcpChar93ListToolsRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
   AdminPartnersRoute: AdminPartnersRoute,
@@ -1271,7 +1228,6 @@ const rootRouteChildren: RootRouteChildren = {
   CitiesIndexRoute: CitiesIndexRoute,
   GuideIndexRoute: GuideIndexRoute,
   DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
-  Char91DotmcpChar93InvokeToolToolRoute: Char91DotmcpChar93InvokeToolToolRoute,
   ApiPublicOohStandardsRoute: ApiPublicOohStandardsRoute,
   ApiPublicPiAdRewardRoute: ApiPublicPiAdRewardRoute,
   ApiPublicPiApproveRoute: ApiPublicPiApproveRoute,

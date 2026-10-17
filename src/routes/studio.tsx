@@ -8,6 +8,8 @@ import { Sparkles, Wand2 } from "lucide-react";
 export const Route = createFileRoute("/studio")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "AI Creative Studio — Pi Billboard" },
       { name: "description", content: "Compose ad creatives with AI and preview them on real stadium billboard mockups." },
       { property: "og:title", content: "AI Creative Studio — Pi Billboard" },

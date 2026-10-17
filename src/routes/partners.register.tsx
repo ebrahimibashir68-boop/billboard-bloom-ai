@@ -9,6 +9,10 @@ import { usePi } from "@/lib/pi/usePi";
 export const Route = createFileRoute("/partners/register")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Register as a Billboard Partner \u00b7 Pi Billboard" },
+      { property: "og:description", content: "Real billboard operators can register their venues with Pi Billboard to receive and review AI-distributed ad contracts." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Register as a Billboard Partner · Pi Billboard" },
       {
         name: "description",

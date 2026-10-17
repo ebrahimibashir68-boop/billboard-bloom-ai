@@ -8,7 +8,12 @@ import { usePi } from "@/lib/pi/usePi";
 
 export const Route = createFileRoute("/admin/partners")({
   head: () => ({
-    meta: [{ title: "Admin · Partner Applications · Pi Billboard" }],
+    meta: [
+      { name: "description", content: "Review billboard partner applications and manage operator approvals for Pi Billboard." },
+      { property: "og:title", content: "Admin \u00b7 Partner Applications \u00b7 Pi Billboard" },
+      { property: "og:description", content: "Review billboard partner applications and manage operator approvals for Pi Billboard." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },{ title: "Admin · Partner Applications · Pi Billboard" }],
   }),
   component: AdminPage,
   errorComponent: ({ error }) => <div className="p-8 text-destructive">{error instanceof Error ? error.message : String(error)}</div>,

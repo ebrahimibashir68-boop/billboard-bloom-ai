@@ -10,6 +10,8 @@ import { PLACEMENTS } from "@/lib/pi/pricing";
 export const Route = createFileRoute("/campaigns")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Campaigns — Pi Billboard" },
       { name: "description", content: "Live and scheduled advertising campaigns across the Pi Billboard network." },
       { property: "og:title", content: "Campaigns — Pi Billboard" },

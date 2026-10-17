@@ -10,6 +10,10 @@ import { supabase } from "@/integrations/supabase/client";
 export const Route = createFileRoute("/displayer")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Displayer Console \u00b7 Pi Billboard" },
+      { property: "og:description", content: "Register your billboard screen, pull the live playlist over HTTP, and earn \u03c0 per verified play." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Displayer Console · Pi Billboard" },
       { name: "description", content: "Register your billboard screen, pull the live playlist over HTTP, and earn π per verified play." },
     ],

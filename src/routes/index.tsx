@@ -9,6 +9,12 @@ import { Sparkles } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { title: "Pi Billboard — Global Advertising Network" },
+      { name: "description", content: "Create AI advertisements and manage Pi-powered billboard campaigns across sports venues and live locations worldwide." },
+      { property: "og:title", content: "Pi Billboard — Global Advertising Network" },
+      { property: "og:description", content: "Create AI advertisements and manage Pi-powered billboard campaigns across sports venues and live locations worldwide." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { property: "og:url", content: "https://billboard-bloom-ai.lovable.app/" },
     ],
     links: [

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { PiAuthResult, PiPaymentDTO, PiSDK, PiScope } from "./types";
+import { initializePiSdk } from "./sdk";
 
 const SDK_URL = "https://sdk.minepi.com/pi-sdk.js";
 export const PI_BROWSER_UNAVAILABLE_MESSAGE = "Pi SDK not available. Open this app inside Pi Browser to sign in.";
@@ -61,14 +62,8 @@ function scopesFromAuthResult(result: PiAuthResult, requested: PiScope[]): PiSco
 
 function loadPiSdk(): Promise<PiSDK> {
   if (typeof window === "undefined") return Promise.reject(new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
-  if (window.Pi) return Promise.resolve(window.Pi);
+  if (window.Pi) return initializePiSdk(window.Pi);
   if (sdkPromise) return sdkPromise;
-
-  // Mainnet only. This app settles real Pi, so sandbox/testnet mode is never
-  // enabled — no env flag can turn it on.
-  const sandbox = false;
-
-
 
   sdkPromise = new Promise<PiSDK>((resolve, reject) => {
     const existing = document.querySelector<HTMLScriptElement>(`script[src="${SDK_URL}"]`);
@@ -79,8 +74,7 @@ function loadPiSdk(): Promise<PiSDK> {
       }
       try {
         // Pi.init may return a Promise — await it fully before any authenticate call.
-        await Promise.resolve(window.Pi.init({ version: "2.0", sandbox }));
-        resolve(window.Pi);
+        resolve(await initializePiSdk(window.Pi));
       } catch (err) {
         reject(err instanceof Error ? err : new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
       }
@@ -88,6 +82,7 @@ function loadPiSdk(): Promise<PiSDK> {
     if (existing) {
       if (window.Pi) void handle();
       else existing.addEventListener("load", () => void handle(), { once: true });
+      existing.addEventListener("error", () => reject(new Error(PI_BROWSER_UNAVAILABLE_MESSAGE)), { once: true });
       return;
     }
     const s = document.createElement("script");
@@ -96,6 +91,9 @@ function loadPiSdk(): Promise<PiSDK> {
     s.onload = () => void handle();
     s.onerror = () => reject(new Error(PI_BROWSER_UNAVAILABLE_MESSAGE));
     document.head.appendChild(s);
+  }).catch((error: unknown) => {
+    sdkPromise = null;
+    throw error;
   });
 
   return sdkPromise;

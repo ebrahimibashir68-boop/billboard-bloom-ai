@@ -89,8 +89,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "twitter:title", content: "Pi Billboard — Global Network Command" },
       { name: "twitter:description", content: "Prepare and deploy AI-generated advertisements across stadiums and live venues worldwide, powered by the Pi ecosystem." },
       { name: "google-site-verification", content: "XPIwI92E0qc6n1t0heXo1wFtDKitHDE6v0-SuUtmKNA" },
-      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/35ffc284-a0ea-4026-9e37-468b2d616baf" },
-      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/35ffc284-a0ea-4026-9e37-468b2d616baf" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

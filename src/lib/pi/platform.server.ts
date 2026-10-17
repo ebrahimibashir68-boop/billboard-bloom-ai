@@ -10,6 +10,10 @@
 //   - GET  /v2/ads_network/status/{adId}           verify a rewarded ad
 //
 // The app runs on Pi Mainnet only — there is no sandbox/testnet branch here.
+import { parsePiNetworkStatus, type PiNetworkStatus } from "./network";
+export { PI_MIN_SUPPORTED_PROTOCOL, PI_CURRENT_PROTOCOL_TARGET } from "./network";
+export type { PiNetworkStatus } from "./network";
+
 export const PI_API_BASE = "https://api.minepi.com/v2";
 export const PI_NETWORK = "Pi Network" as const;
 
@@ -116,53 +120,21 @@ export async function approvePiPayment(paymentId: string): Promise<boolean> {
 /** Public Pi Mainnet blockchain API (Horizon-compatible). */
 export const PI_HORIZON_BASE = "https://api.mainnet.minepi.com";
 
-/** Lowest protocol version the app's payment flows are verified against. */
-export const PI_MIN_SUPPORTED_PROTOCOL = 27;
-
-export interface PiNetworkStatus {
-  reachable: boolean;
-  currentProtocol: number | null;
-  supportedProtocol: number | null;
-  coreVersion: string | null;
-  horizonVersion: string | null;
-  /** True when the chain runs at least PI_MIN_SUPPORTED_PROTOCOL. */
-  protocolReady: boolean;
-}
-
 /**
  * Reads the live Pi Mainnet state from the blockchain's root endpoint.
- * Protocol 27 (CAP-0071 auth delegation) is the baseline this app targets;
- * the result lets the UI warn if the network ever reports something older.
+ * Track the latest observed protocol separately from SDK compatibility.
+ * This does not assert support for custom on-chain smart contracts.
  */
 export async function getPiNetworkStatus(): Promise<PiNetworkStatus> {
-  const empty: PiNetworkStatus = {
-    reachable: false,
-    currentProtocol: null,
-    supportedProtocol: null,
-    coreVersion: null,
-    horizonVersion: null,
-    protocolReady: false,
-  };
   try {
-    const res = await fetch(`${PI_HORIZON_BASE}/`, { headers: { Accept: "application/json" } });
-    if (!res.ok) return empty;
-    const data = (await res.json()) as {
-      current_protocol_version?: number;
-      supported_protocol_version?: number;
-      core_version?: string;
-      horizon_version?: string;
-    };
-    const current = typeof data.current_protocol_version === "number" ? data.current_protocol_version : null;
-    return {
-      reachable: true,
-      currentProtocol: current,
-      supportedProtocol: typeof data.supported_protocol_version === "number" ? data.supported_protocol_version : null,
-      coreVersion: data.core_version ?? null,
-      horizonVersion: data.horizon_version ?? null,
-      protocolReady: current != null && current >= PI_MIN_SUPPORTED_PROTOCOL,
-    };
+    const res = await fetch(`${PI_HORIZON_BASE}/`, {
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return parsePiNetworkStatus(null);
+    return parsePiNetworkStatus(await res.json());
   } catch {
-    return empty;
+    return parsePiNetworkStatus(null);
   }
 }
 

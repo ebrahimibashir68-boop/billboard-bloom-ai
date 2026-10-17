@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LogIn, RefreshCw, Smartphone } from "lucide-react";
 import { usePi, PI_BROWSER_UNAVAILABLE_MESSAGE } from "@/lib/pi/usePi";
+import { PiNetworkBadge } from "./PiNetworkBadge";
 
 export function PiAuthGate({ children }: { children: React.ReactNode }) {
   const { status, user, authenticate } = usePi();
@@ -70,6 +71,9 @@ export function PiAuthGate({ children }: { children: React.ReactNode }) {
       <p className="text-[10px] text-muted-foreground mt-8 max-w-xs">
         All payments settle on the Pi Network Mainnet. No fiat, no simulated currency, no custodial balances.
       </p>
+      <div className="mt-4">
+        <PiNetworkBadge />
+      </div>
     </div>
   );
 }

@@ -12,6 +12,10 @@ type Aspect = "16:9" | "9:16" | "1:1";
 export const Route = createFileRoute("/studio-design")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "Design Studio \u00b7 Pi Billboard" },
+      { property: "og:description", content: "Design text, image, and video billboard creatives for global venues \u2014 save reusable creatives and attach them to smart contracts." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Design Studio · Pi Billboard" },
       {
         name: "description",

@@ -9,6 +9,10 @@ import { usePi } from "@/lib/pi/usePi";
 export const Route = createFileRoute("/optimize")({
   head: () => ({
     meta: [
+      { property: "og:title", content: "AI Creative Optimizer \u00b7 Pi Billboard" },
+      { property: "og:description", content: "Get AI-powered scoring, headline variants, and audience targeting for your billboard creatives." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "AI Creative Optimizer · Pi Billboard" },
       { name: "description", content: "Get AI-powered scoring, headline variants, and audience targeting for your billboard creatives." },
     ],

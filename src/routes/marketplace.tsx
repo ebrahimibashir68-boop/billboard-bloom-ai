@@ -9,6 +9,8 @@ import { usePi } from "@/lib/pi/usePi";
 export const Route = createFileRoute("/marketplace")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Global Marketplace · Pi Billboard" },
       { name: "description", content: "Discover billboards, partners, RFPs, and AI-ranked opportunities worldwide, powered by Pi and blockchain proof-of-play." },
       { property: "og:title", content: "Pi Billboard Marketplace" },

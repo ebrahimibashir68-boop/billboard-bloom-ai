@@ -30,6 +30,8 @@ interface Play {
 export const Route = createFileRoute("/bookings")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "My Bookings · Pi Billboard" },
       { name: "description", content: "Your billboard bookings, invoices, and proof-of-play." },
       { property: "og:title", content: "My Bookings — Pi Billboard" },

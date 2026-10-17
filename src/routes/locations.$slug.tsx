@@ -37,6 +37,8 @@ export const Route = createFileRoute("/locations/$slug")({
     const description = `Book the ${name} digital billboard by the hour and pay in Pi, with live impressions and on-chain proof-of-play.`;
     return {
       meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
         { title: `Book ${name} — Pi Billboard` },
         { name: "description", content: description },
         { property: "og:title", content: `Book ${name} — Pi Billboard` },

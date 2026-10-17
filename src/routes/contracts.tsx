@@ -11,6 +11,8 @@ import { FileCheck2, MapPin, Sparkles } from "lucide-react";
 export const Route = createFileRoute("/contracts")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Smart Contracts — Pi Billboard" },
       {
         name: "description",

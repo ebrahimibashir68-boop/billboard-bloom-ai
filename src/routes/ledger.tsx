@@ -7,6 +7,8 @@ import { TopBar } from "@/components/TopBar";
 export const Route = createFileRoute("/ledger")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "On-Chain Ledger · Pi Billboard" },
       { name: "description", content: "Publicly verifiable, tamper-evident hash-chain of every billboard play, booking, and π payment." },
       { property: "og:title", content: "Pi Billboard Ledger" },

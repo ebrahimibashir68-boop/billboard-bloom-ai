@@ -28,6 +28,8 @@ import { Bot, RefreshCw, Sparkles, TrendingUp, Zap } from "lucide-react";
 export const Route = createFileRoute("/innovate")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Innovation Bot — Pi Billboard" },
       {
         name: "description",

@@ -9,6 +9,8 @@ import { usePi } from "@/lib/pi/usePi";
 export const Route = createFileRoute("/partner")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Partner Console · Pi Billboard" },
       {
         name: "description",

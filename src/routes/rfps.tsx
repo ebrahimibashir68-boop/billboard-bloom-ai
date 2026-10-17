@@ -25,6 +25,8 @@ type Rfp = {
 export const Route = createFileRoute("/rfps")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Billboard RFP Marketplace · Pi Billboard" },
       {
         name: "description",

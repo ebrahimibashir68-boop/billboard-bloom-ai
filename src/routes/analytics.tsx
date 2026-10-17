@@ -6,6 +6,8 @@ import { TrendingUp, Eye, Globe2, Coins } from "lucide-react";
 export const Route = createFileRoute("/analytics")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Analytics — Pi Billboard" },
       { name: "description", content: "Network-wide performance, spend, and reach for Pi Billboard campaigns." },
       { property: "og:title", content: "Analytics — Pi Billboard" },

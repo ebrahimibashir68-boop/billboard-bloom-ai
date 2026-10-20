@@ -22,6 +22,7 @@ import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MeasurementRouteImport } from './routes/measurement'
+import { Route as OperationsRouteImport } from './routes/operations'
 import { Route as OptimizeRouteImport } from './routes/optimize'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PayoutsRouteImport } from './routes/payouts'
@@ -131,6 +132,11 @@ const McpRoute = McpRouteImport.update({
 const MeasurementRoute = MeasurementRouteImport.update({
   id: '/measurement',
   path: '/measurement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperationsRoute = OperationsRouteImport.update({
+  id: '/operations',
+  path: '/operations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OptimizeRoute = OptimizeRouteImport.update({
@@ -378,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/measurement': typeof MeasurementRoute
+  '/operations': typeof OperationsRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
@@ -438,6 +445,7 @@ export interface FileRoutesByTo {
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/measurement': typeof MeasurementRoute
+  '/operations': typeof OperationsRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
@@ -499,6 +507,7 @@ export interface FileRoutesById {
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/measurement': typeof MeasurementRoute
+  '/operations': typeof OperationsRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
@@ -561,6 +570,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/mcp'
     | '/measurement'
+    | '/operations'
     | '/optimize'
     | '/partner'
     | '/payouts'
@@ -621,6 +631,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/mcp'
     | '/measurement'
+    | '/operations'
     | '/optimize'
     | '/partner'
     | '/payouts'
@@ -681,6 +692,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/mcp'
     | '/measurement'
+    | '/operations'
     | '/optimize'
     | '/partner'
     | '/payouts'
@@ -742,6 +754,7 @@ export interface RootRouteChildren {
   MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
   MeasurementRoute: typeof MeasurementRoute
+  OperationsRoute: typeof OperationsRoute
   OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
   PayoutsRoute: typeof PayoutsRoute
@@ -879,6 +892,13 @@ declare module '@tanstack/react-router' {
       path: '/measurement'
       fullPath: '/measurement'
       preLoaderRoute: typeof MeasurementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operations': {
+      id: '/operations'
+      path: '/operations'
+      fullPath: '/operations'
+      preLoaderRoute: typeof OperationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/optimize': {
@@ -1225,6 +1245,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,
   MeasurementRoute: MeasurementRoute,
+  OperationsRoute: OperationsRoute,
   OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
   PayoutsRoute: PayoutsRoute,

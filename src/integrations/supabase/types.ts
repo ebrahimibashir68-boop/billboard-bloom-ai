@@ -639,6 +639,113 @@ export type Database = {
           },
         ]
       }
+      billboard_work_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          evidence_url: string | null
+          from_status: string | null
+          id: string
+          ledger_hash: string
+          note: string
+          pi_uid: string
+          to_status: string
+          work_order_id: string
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          evidence_url?: string | null
+          from_status?: string | null
+          id?: string
+          ledger_hash: string
+          note?: string
+          pi_uid: string
+          to_status: string
+          work_order_id: string
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          evidence_url?: string | null
+          from_status?: string | null
+          id?: string
+          ledger_hash?: string
+          note?: string
+          pi_uid?: string
+          to_status?: string
+          work_order_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "billboard_work_events_work_order_id_fkey"
+            columns: ["work_order_id"]
+            isOneToOne: false
+            referencedRelation: "billboard_work_orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      billboard_work_orders: {
+        Row: {
+          budget_pi: number
+          category: string
+          created_at: string
+          description: string
+          due_on: string
+          id: string
+          ledger_hash: string | null
+          market: string
+          pi_uid: string
+          pi_username: string
+          reference: string | null
+          site_name: string
+          status: string
+          supplier: string | null
+          title: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          budget_pi?: number
+          category: string
+          created_at?: string
+          description?: string
+          due_on: string
+          id?: string
+          ledger_hash?: string | null
+          market: string
+          pi_uid: string
+          pi_username: string
+          reference?: string | null
+          site_name: string
+          status?: string
+          supplier?: string | null
+          title: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          budget_pi?: number
+          category?: string
+          created_at?: string
+          description?: string
+          due_on?: string
+          id?: string
+          ledger_hash?: string | null
+          market?: string
+          pi_uid?: string
+          pi_username?: string
+          reference?: string | null
+          site_name?: string
+          status?: string
+          supplier?: string | null
+          title?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           advertiser_pi_uid: string
@@ -2759,6 +2866,21 @@ export type Database = {
       }
     }
     Functions: {
+      advance_billboard_work_order: {
+        Args: {
+          p_evidence_url?: string
+          p_id: string
+          p_note: string
+          p_status: string
+          p_uid: string
+          p_version: number
+        }
+        Returns: number
+      }
+      create_billboard_work_order: {
+        Args: { p_details: Json; p_uid: string; p_username: string }
+        Returns: string
+      }
       create_booking: {
         Args: {
           p_campaign_id: string

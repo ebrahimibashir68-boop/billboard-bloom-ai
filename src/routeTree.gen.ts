@@ -22,6 +22,7 @@ import { Route as LocationsRouteImport } from './routes/locations'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MeasurementRouteImport } from './routes/measurement'
+import { Route as OperationsRouteImport } from './routes/operations'
 import { Route as OptimizeRouteImport } from './routes/optimize'
 import { Route as PartnerRouteImport } from './routes/partner'
 import { Route as PayoutsRouteImport } from './routes/payouts'
@@ -59,6 +60,7 @@ import { Route as ApiPublicPiDeliveryRouteImport } from './routes/api/public/pi-
 import { Route as ApiPublicPiLiveServicesRouteImport } from './routes/api/public/pi-live-services'
 import { Route as ApiPublicPiNetworkStatusRouteImport } from './routes/api/public/pi-network-status'
 import { Route as ApiPublicPiOohServicesRouteImport } from './routes/api/public/pi-ooh-services'
+import { Route as ApiPublicPiOperationsRouteImport } from './routes/api/public/pi-operations'
 import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
 import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
@@ -130,6 +132,11 @@ const McpRoute = McpRouteImport.update({
 const MeasurementRoute = MeasurementRouteImport.update({
   id: '/measurement',
   path: '/measurement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperationsRoute = OperationsRouteImport.update({
+  id: '/operations',
+  path: '/operations',
   getParentRoute: () => rootRouteImport,
 } as any)
 const OptimizeRoute = OptimizeRouteImport.update({
@@ -321,6 +328,11 @@ const ApiPublicPiOohServicesRoute = ApiPublicPiOohServicesRouteImport.update({
   path: '/api/public/pi-ooh-services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiOperationsRoute = ApiPublicPiOperationsRouteImport.update({
+  id: '/api/public/pi-operations',
+  path: '/api/public/pi-operations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiOptimizeCreativeRoute =
   ApiPublicPiOptimizeCreativeRouteImport.update({
     id: '/api/public/pi-optimize-creative',
@@ -372,6 +384,7 @@ export interface FileRoutesByFullPath {
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/measurement': typeof MeasurementRoute
+  '/operations': typeof OperationsRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
@@ -409,6 +422,7 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-live-services': typeof ApiPublicPiLiveServicesRoute
   '/api/public/pi-network-status': typeof ApiPublicPiNetworkStatusRoute
   '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
+  '/api/public/pi-operations': typeof ApiPublicPiOperationsRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -431,6 +445,7 @@ export interface FileRoutesByTo {
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/measurement': typeof MeasurementRoute
+  '/operations': typeof OperationsRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
@@ -468,6 +483,7 @@ export interface FileRoutesByTo {
   '/api/public/pi-live-services': typeof ApiPublicPiLiveServicesRoute
   '/api/public/pi-network-status': typeof ApiPublicPiNetworkStatusRoute
   '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
+  '/api/public/pi-operations': typeof ApiPublicPiOperationsRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -491,6 +507,7 @@ export interface FileRoutesById {
   '/marketplace': typeof MarketplaceRoute
   '/mcp': typeof McpRoute
   '/measurement': typeof MeasurementRoute
+  '/operations': typeof OperationsRoute
   '/optimize': typeof OptimizeRoute
   '/partner': typeof PartnerRoute
   '/payouts': typeof PayoutsRoute
@@ -528,6 +545,7 @@ export interface FileRoutesById {
   '/api/public/pi-live-services': typeof ApiPublicPiLiveServicesRoute
   '/api/public/pi-network-status': typeof ApiPublicPiNetworkStatusRoute
   '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
+  '/api/public/pi-operations': typeof ApiPublicPiOperationsRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -552,6 +570,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/mcp'
     | '/measurement'
+    | '/operations'
     | '/optimize'
     | '/partner'
     | '/payouts'
@@ -589,6 +608,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-live-services'
     | '/api/public/pi-network-status'
     | '/api/public/pi-ooh-services'
+    | '/api/public/pi-operations'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -611,6 +631,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/mcp'
     | '/measurement'
+    | '/operations'
     | '/optimize'
     | '/partner'
     | '/payouts'
@@ -648,6 +669,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-live-services'
     | '/api/public/pi-network-status'
     | '/api/public/pi-ooh-services'
+    | '/api/public/pi-operations'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -670,6 +692,7 @@ export interface FileRouteTypes {
     | '/marketplace'
     | '/mcp'
     | '/measurement'
+    | '/operations'
     | '/optimize'
     | '/partner'
     | '/payouts'
@@ -707,6 +730,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-live-services'
     | '/api/public/pi-network-status'
     | '/api/public/pi-ooh-services'
+    | '/api/public/pi-operations'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -730,6 +754,7 @@ export interface RootRouteChildren {
   MarketplaceRoute: typeof MarketplaceRoute
   McpRoute: typeof McpRoute
   MeasurementRoute: typeof MeasurementRoute
+  OperationsRoute: typeof OperationsRoute
   OptimizeRoute: typeof OptimizeRoute
   PartnerRoute: typeof PartnerRoute
   PayoutsRoute: typeof PayoutsRoute
@@ -766,6 +791,7 @@ export interface RootRouteChildren {
   ApiPublicPiLiveServicesRoute: typeof ApiPublicPiLiveServicesRoute
   ApiPublicPiNetworkStatusRoute: typeof ApiPublicPiNetworkStatusRoute
   ApiPublicPiOohServicesRoute: typeof ApiPublicPiOohServicesRoute
+  ApiPublicPiOperationsRoute: typeof ApiPublicPiOperationsRoute
   ApiPublicPiOptimizeCreativeRoute: typeof ApiPublicPiOptimizeCreativeRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
   ApiPublicPiPayoutsRoute: typeof ApiPublicPiPayoutsRoute
@@ -866,6 +892,13 @@ declare module '@tanstack/react-router' {
       path: '/measurement'
       fullPath: '/measurement'
       preLoaderRoute: typeof MeasurementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operations': {
+      id: '/operations'
+      path: '/operations'
+      fullPath: '/operations'
+      preLoaderRoute: typeof OperationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/optimize': {
@@ -1127,6 +1160,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiOohServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-operations': {
+      id: '/api/public/pi-operations'
+      path: '/api/public/pi-operations'
+      fullPath: '/api/public/pi-operations'
+      preLoaderRoute: typeof ApiPublicPiOperationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-optimize-creative': {
       id: '/api/public/pi-optimize-creative'
       path: '/api/public/pi-optimize-creative'
@@ -1205,6 +1245,7 @@ const rootRouteChildren: RootRouteChildren = {
   MarketplaceRoute: MarketplaceRoute,
   McpRoute: McpRoute,
   MeasurementRoute: MeasurementRoute,
+  OperationsRoute: OperationsRoute,
   OptimizeRoute: OptimizeRoute,
   PartnerRoute: PartnerRoute,
   PayoutsRoute: PayoutsRoute,
@@ -1242,6 +1283,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiLiveServicesRoute: ApiPublicPiLiveServicesRoute,
   ApiPublicPiNetworkStatusRoute: ApiPublicPiNetworkStatusRoute,
   ApiPublicPiOohServicesRoute: ApiPublicPiOohServicesRoute,
+  ApiPublicPiOperationsRoute: ApiPublicPiOperationsRoute,
   ApiPublicPiOptimizeCreativeRoute: ApiPublicPiOptimizeCreativeRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
   ApiPublicPiPayoutsRoute: ApiPublicPiPayoutsRoute,

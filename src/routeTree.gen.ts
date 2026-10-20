@@ -59,6 +59,7 @@ import { Route as ApiPublicPiDeliveryRouteImport } from './routes/api/public/pi-
 import { Route as ApiPublicPiLiveServicesRouteImport } from './routes/api/public/pi-live-services'
 import { Route as ApiPublicPiNetworkStatusRouteImport } from './routes/api/public/pi-network-status'
 import { Route as ApiPublicPiOohServicesRouteImport } from './routes/api/public/pi-ooh-services'
+import { Route as ApiPublicPiOperationsRouteImport } from './routes/api/public/pi-operations'
 import { Route as ApiPublicPiOptimizeCreativeRouteImport } from './routes/api/public/pi-optimize-creative'
 import { Route as ApiPublicPiPartnersRouteImport } from './routes/api/public/pi-partners'
 import { Route as ApiPublicPiPayoutsRouteImport } from './routes/api/public/pi-payouts'
@@ -321,6 +322,11 @@ const ApiPublicPiOohServicesRoute = ApiPublicPiOohServicesRouteImport.update({
   path: '/api/public/pi-ooh-services',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicPiOperationsRoute = ApiPublicPiOperationsRouteImport.update({
+  id: '/api/public/pi-operations',
+  path: '/api/public/pi-operations',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicPiOptimizeCreativeRoute =
   ApiPublicPiOptimizeCreativeRouteImport.update({
     id: '/api/public/pi-optimize-creative',
@@ -409,6 +415,7 @@ export interface FileRoutesByFullPath {
   '/api/public/pi-live-services': typeof ApiPublicPiLiveServicesRoute
   '/api/public/pi-network-status': typeof ApiPublicPiNetworkStatusRoute
   '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
+  '/api/public/pi-operations': typeof ApiPublicPiOperationsRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -468,6 +475,7 @@ export interface FileRoutesByTo {
   '/api/public/pi-live-services': typeof ApiPublicPiLiveServicesRoute
   '/api/public/pi-network-status': typeof ApiPublicPiNetworkStatusRoute
   '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
+  '/api/public/pi-operations': typeof ApiPublicPiOperationsRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -528,6 +536,7 @@ export interface FileRoutesById {
   '/api/public/pi-live-services': typeof ApiPublicPiLiveServicesRoute
   '/api/public/pi-network-status': typeof ApiPublicPiNetworkStatusRoute
   '/api/public/pi-ooh-services': typeof ApiPublicPiOohServicesRoute
+  '/api/public/pi-operations': typeof ApiPublicPiOperationsRoute
   '/api/public/pi-optimize-creative': typeof ApiPublicPiOptimizeCreativeRoute
   '/api/public/pi-partners': typeof ApiPublicPiPartnersRoute
   '/api/public/pi-payouts': typeof ApiPublicPiPayoutsRoute
@@ -589,6 +598,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-live-services'
     | '/api/public/pi-network-status'
     | '/api/public/pi-ooh-services'
+    | '/api/public/pi-operations'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -648,6 +658,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-live-services'
     | '/api/public/pi-network-status'
     | '/api/public/pi-ooh-services'
+    | '/api/public/pi-operations'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -707,6 +718,7 @@ export interface FileRouteTypes {
     | '/api/public/pi-live-services'
     | '/api/public/pi-network-status'
     | '/api/public/pi-ooh-services'
+    | '/api/public/pi-operations'
     | '/api/public/pi-optimize-creative'
     | '/api/public/pi-partners'
     | '/api/public/pi-payouts'
@@ -766,6 +778,7 @@ export interface RootRouteChildren {
   ApiPublicPiLiveServicesRoute: typeof ApiPublicPiLiveServicesRoute
   ApiPublicPiNetworkStatusRoute: typeof ApiPublicPiNetworkStatusRoute
   ApiPublicPiOohServicesRoute: typeof ApiPublicPiOohServicesRoute
+  ApiPublicPiOperationsRoute: typeof ApiPublicPiOperationsRoute
   ApiPublicPiOptimizeCreativeRoute: typeof ApiPublicPiOptimizeCreativeRoute
   ApiPublicPiPartnersRoute: typeof ApiPublicPiPartnersRoute
   ApiPublicPiPayoutsRoute: typeof ApiPublicPiPayoutsRoute
@@ -1127,6 +1140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicPiOohServicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/pi-operations': {
+      id: '/api/public/pi-operations'
+      path: '/api/public/pi-operations'
+      fullPath: '/api/public/pi-operations'
+      preLoaderRoute: typeof ApiPublicPiOperationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/pi-optimize-creative': {
       id: '/api/public/pi-optimize-creative'
       path: '/api/public/pi-optimize-creative'
@@ -1242,6 +1262,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicPiLiveServicesRoute: ApiPublicPiLiveServicesRoute,
   ApiPublicPiNetworkStatusRoute: ApiPublicPiNetworkStatusRoute,
   ApiPublicPiOohServicesRoute: ApiPublicPiOohServicesRoute,
+  ApiPublicPiOperationsRoute: ApiPublicPiOperationsRoute,
   ApiPublicPiOptimizeCreativeRoute: ApiPublicPiOptimizeCreativeRoute,
   ApiPublicPiPartnersRoute: ApiPublicPiPartnersRoute,
   ApiPublicPiPayoutsRoute: ApiPublicPiPayoutsRoute,

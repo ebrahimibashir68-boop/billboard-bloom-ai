@@ -39,7 +39,7 @@ export function TopBar({
   };
 
   return (
-    <header className="h-16 border-b border-border flex items-center justify-between px-6 bg-background/60 backdrop-blur-md z-10 shrink-0">
+    <header className="min-h-16 border-b border-border flex flex-wrap items-center justify-between gap-3 px-3 py-3 md:px-6 bg-background/60 backdrop-blur-md z-10 shrink-0">
       <div className="flex items-center gap-4 min-w-0">
         <TitleTag className="text-lg font-semibold tracking-tight truncate">{title}</TitleTag>
         {status && (
@@ -52,7 +52,7 @@ export function TopBar({
         )}
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex flex-wrap items-center justify-end gap-2 min-w-0 max-w-full md:gap-4">
         <div className="flex flex-col items-end">
           <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-medium">
             Available Balance
